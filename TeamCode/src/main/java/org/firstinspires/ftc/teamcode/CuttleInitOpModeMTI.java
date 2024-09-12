@@ -76,8 +76,8 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
 
 
         //Initialize and set the direction of the encoders
-        CuttleEncoder leftEncoder  = ctrlHub.getEncoder(1,2000);
-        CuttleEncoder sideEncoder  = ctrlHub.getEncoder(2,2000);
+        CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
+        CuttleEncoder sideEncoder = ctrlHub.getEncoder(2,2000);
         CuttleEncoder rightEncoder = ctrlHub.getEncoder(0,2000);
         rightEncoder.setDirection(Direction.REVERSE);
         sideEncoder.setDirection(Direction.REVERSE);
@@ -128,8 +128,8 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         //[p-expHub.pullBulkData();
 
         // Update the localizer
-        //encoderLocalizer.update();
-        encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h));
+        encoderLocalizer.update(); //using odometry
+        //encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h));//using otos
 
         // Update the queue
         queue.update();
