@@ -42,8 +42,8 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
 
     // Declare the task queue
     public TaskQueue queue;
+    SparkFunOTOS.Pose2D pos;
     SparkFunOTOS myOtos;
-
 
     @Override
     public void onInit()
@@ -121,8 +121,8 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
     public void mainLoop()
     {
         super.mainLoop();
-        SparkFunOTOS.Pose2D pos = myOtos.getPosition();
 
+        pos = myOtos.getPosition();
         // Pull bulk data from both hubs
         ctrlHub.pullBulkData();
         //[p-expHub.pullBulkData();
@@ -130,6 +130,7 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         // Update the localizer
         encoderLocalizer.update(); //using odometry
         //encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h));//using otos
+
 
         // Update the queue
         queue.update();
@@ -213,10 +214,13 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         SparkFunOTOS.Version fwVersion = new SparkFunOTOS.Version();
         myOtos.getVersionInfo(hwVersion, fwVersion);
 
+        pos = myOtos.getPosition();
+
         telemetry.addLine("OTOS configured! Press start to get position data!");
         telemetry.addLine();
         telemetry.addLine(String.format("OTOS Hardware Version: v%d.%d", hwVersion.major, hwVersion.minor));
         telemetry.addLine(String.format("OTOS Firmware Version: v%d.%d", fwVersion.major, fwVersion.minor));
+        telemetry.addData("Heading", pos.h);
         telemetry.update();
     }
 }
