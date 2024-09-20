@@ -10,7 +10,7 @@ import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 @TeleOp
-public class FowardDrivingTest extends CuttleInitOpModeMTI {
+public class ForwardDrivingTest extends CuttleInitOpModeMTI {
     public void onInit() {
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
