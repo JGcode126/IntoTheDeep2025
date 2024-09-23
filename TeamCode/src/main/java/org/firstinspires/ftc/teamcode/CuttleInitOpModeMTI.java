@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import static java.lang.Math.PI;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MecanumController;
 import com.roboctopi.cuttlefish.controller.PTPController;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
+import com.roboctopi.cuttlefish.utils.PID;
 import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
@@ -98,13 +101,13 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
 
         // Initialize the PTP Controller
         ptpController = new PTPController(chassis, encoderLocalizer);
-        /*
+
         ptpController.setTranslational_PD_ctrlr(new PID(
-                0.03,0, 0.0005,0,1
+                0.02,0, 0.0005,2.0/1000.0,0
         ));
-        ptpController.setRotational_PID_ctrlr(new PID(3.14,0.0,0.3,0,1));
+        ptpController.setRotational_PID_ctrlr(new PID(PI * 1,0.0,0.2,0.0,0.35));
 
-
+        /*
         ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.025);
         ptpController.getAntistallParams().setMoveSpeedAntistallThreshold(0.01);
         ptpController.getAntistallParams().setRotatePowerAntistallThreshold(0.025);
@@ -128,14 +131,31 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         //[p-expHub.pullBulkData();
 
         // Update the localizer
-        encoderLocalizer.update(); //using odometry
+        //encoderLocalizer.update(); //using odometry
         //encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h));//using otos
+        double[] fusion = sensorFusion(0.5, 0.5);//using sensor fusion
+        encoderLocalizer.setPos(new Pose(fusion[0], fusion[1], fusion[2]));
 
 
         // Update the queue
         queue.update();
     }
 
+    public double[] sensorFusion(double otosChange, double odoChange){
+        double otosR = myOtos.getPosition().h;
+        double otosX = myOtos.getPosition().x;
+        double otosY = myOtos.getPosition().y;
+
+        double odometryR = encoderLocalizer.getPos().getR();
+        double odometryX = encoderLocalizer.getPos().getX();
+        double odometryY = encoderLocalizer.getPos().getY();
+
+        double fusionR = (otosR * otosChange) + (odometryR * odoChange);
+        double fusionX = (otosX * otosChange) + (odometryX * odoChange);
+        double fusionY = (otosY * otosChange) + (odometryY * odoChange);
+
+        return new double[]{fusionX,fusionY,fusionR};
+    }
 
 
 
