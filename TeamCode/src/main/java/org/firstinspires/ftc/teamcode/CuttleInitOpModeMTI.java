@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Math.PI;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MecanumController;
 import com.roboctopi.cuttlefish.controller.PTPController;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 //@Disabled
+@Config
 public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
     // Declare the rev hubs. If you only have one hub connected you can delete one of these
     public CuttleRevHub ctrlHub;
@@ -47,6 +49,16 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
     public TaskQueue queue;
     SparkFunOTOS.Pose2D pos;
     SparkFunOTOS myOtos;
+
+    public static double p;
+    public static double i;
+    public static double d;
+
+    public static double pRotation;
+    public static double iRotation;
+    public static double dRotation;
+
+    public static int method;
 
     @Override
     public void onInit()
@@ -103,9 +115,10 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         ptpController = new PTPController(chassis, encoderLocalizer);
 
         ptpController.setTranslational_PD_ctrlr(new PID(
-                0.02,0, 0.0005,2.0/1000.0,0
-        ));
-        ptpController.setRotational_PID_ctrlr(new PID(PI * 1,0.0,0.2,0.0,0.35));
+                p,i, d,2.0/1000.0,0
+        ));//0.02, 0, 0.0005
+        ptpController.setRotational_PID_ctrlr(new PID(pRotation,iRotation,dRotation,0.0,0.35));
+        //PI * 1, 0, 0.2
 
         /*
         ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.025);
@@ -131,10 +144,16 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         //[p-expHub.pullBulkData();
 
         // Update the localizer
-        //encoderLocalizer.update(); //using odometry
-        //encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h));//using otos
-        double[] fusion = sensorFusion(0.5, 0.5);//using sensor fusion
-        encoderLocalizer.setPos(new Pose(fusion[0], fusion[1], fusion[2]));
+        if(method == 1) {
+            encoderLocalizer.update(); //using odometry
+        }
+        else if(method == 2){
+            encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h));//using otos
+        }
+        else{
+            double[] fusion = sensorFusion(0.5, 0.5);//using sensor fusion
+            encoderLocalizer.setPos(new Pose(fusion[0], fusion[1], fusion[2]));
+        }
 
 
         // Update the queue
