@@ -1,7 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Testing;
 
-
-import static java.lang.Math.PI;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -19,6 +17,7 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 
 //@Disabled
@@ -89,7 +88,6 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         rightFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-
         //Initialize and set the direction of the encoders
         CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
         CuttleEncoder sideEncoder = ctrlHub.getEncoder(2,2000);
@@ -114,18 +112,25 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         // Initialize the PTP Controller
         ptpController = new PTPController(chassis, encoderLocalizer);
 
-        ptpController.setTranslational_PD_ctrlr(new PID(
+        /*ptpController.setTranslational_PD_ctrlr(new PID(
                 p,i, d,2.0/1000.0,0
-        ));//0.02, 0, 0.0005
-        ptpController.setRotational_PID_ctrlr(new PID(pRotation,iRotation,dRotation,0.0,0.35));
+        ));//0.02, 0, 0.0005*/
+        //ptpController.setRotational_PID_ctrlr(new PID(pRotation,iRotation,dRotation,0.0,0.35));
         //PI * 1, 0, 0.2
 
-        /*
-        ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.025);
-        ptpController.getAntistallParams().setMoveSpeedAntistallThreshold(0.01);
-        ptpController.getAntistallParams().setRotatePowerAntistallThreshold(0.025);
-        ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.01);
-        */
+        ptpController.setTranslational_PD_ctrlr(new PID(
+                0.002,0, 0.0002,2.0/1000.0,0
+        ));//0.02, 0, 0.0005
+        ptpController.setRotational_PID_ctrlr(new PID(0.9,0,0.25,0.0,0.35));
+        //PI * 1, 0, 0.2
+        //50%-50% = 2,0,0.2
+        //20%-80% = 0.9,0, 0.25
+
+        ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.2);
+        ptpController.getAntistallParams().setMoveSpeedAntistallThreshold(.05);
+        ptpController.getAntistallParams().setRotatePowerAntistallThreshold(0.05);
+        ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.05);
+
         // Initialize the queue
         queue = new TaskQueue();
         configureOtos();
@@ -151,7 +156,9 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
             encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h));//using otos
         }
         else{
-            double[] fusion = sensorFusion(0.5, 0.5);//using sensor fusion
+            double[] fusion = sensorFusion(0.2, 0.8);//using sensor fusion
+            //0.2, 0.8
+            //20%, 80%
             encoderLocalizer.setPos(new Pose(fusion[0], fusion[1], fusion[2]));
         }
 

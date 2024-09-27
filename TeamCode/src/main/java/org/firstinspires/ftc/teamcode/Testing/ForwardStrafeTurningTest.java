@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Testing;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.queue.CustomTask;
@@ -9,8 +10,9 @@ import com.roboctopi.cuttlefish.queue.DelayTask;
 import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.utils.Pose;
 
+@Disabled
 @TeleOp
-public class ForwardStrafeTurningTest extends CuttleInitOpModeMTI{
+public class ForwardStrafeTurningTest extends CuttleInitOpModeMTI {
     public void onInit() {
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
