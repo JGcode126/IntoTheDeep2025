@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Testing;
+package org.firstinspires.ftc.teamcode.IntoTheDeep.Init;
 
 
 import com.acmerobotics.dashboard.config.Config;
@@ -22,17 +22,21 @@ import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 //@Disabled
 @Config
-public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
+public abstract class CuttleInitOpMode extends GamepadOpMode {
     // Declare the rev hubs. If you only have one hub connected you can delete one of these
     public CuttleRevHub ctrlHub;
     //public CuttleRevHub expHub;
 
 
     // Declare the chassis motors
-    public CuttleMotor leftFrontMotor ;
+    public CuttleMotor leftFrontMotor;
     public CuttleMotor rightFrontMotor;
-    public CuttleMotor rightBackMotor ;
-    public CuttleMotor leftBackMotor  ;
+    public CuttleMotor rightBackMotor;
+    public CuttleMotor leftBackMotor;
+
+    public CuttleMotor leftbackSlides;
+    public CuttleMotor rightBackSlides;
+    public CuttleMotor frontSlides;
 
 
     // Declare the mecanum controller
@@ -87,6 +91,9 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
         rightBackMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //leftbackSlides  = ctrlHub.getMotor(2);
+        //rightBackSlides = ctrlHub.getMotor(0);
+        //frontSlides  = ctrlHub.getMotor(1);
 
         //Initialize and set the direction of the encoders
         CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
@@ -156,7 +163,7 @@ public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
             encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h));//using otos
         }
         else{
-            double[] fusion = sensorFusion(0.8, 0.2);//using sensor fusion
+            double[] fusion = sensorFusion(0.2, 0.8);//using sensor fusion
             //0.2, 0.8
             //20%, 80%
             encoderLocalizer.setPos(new Pose(fusion[0], fusion[1], fusion[2]));

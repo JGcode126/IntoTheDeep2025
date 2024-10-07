@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Outreach;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.utils.Pose;
 
@@ -7,7 +8,8 @@ import org.firstinspires.ftc.teamcode.Testing.CuttleInitOpModeMTI;
 
 
 @TeleOp
-public class DemoMode extends CuttleInitOpModeMTI {
+@Disabled
+public class FastMode extends CuttleInitOpModeMTI {
     public void onInit() {
         super.onInit();
     }
@@ -17,6 +19,6 @@ public class DemoMode extends CuttleInitOpModeMTI {
     public void mainLoop()
     {
         super.mainLoop();
-        chassis.setVec(new Pose(gamepad1.left_stick_x*0.4,-gamepad1.left_stick_y*0.4,-gamepad1.right_stick_x*0.4));
+        chassis.setVec(new Pose(gamepad1.left_stick_x,-gamepad1.left_stick_y,-gamepad1.right_stick_x));
     }
 }
