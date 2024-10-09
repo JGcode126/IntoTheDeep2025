@@ -10,7 +10,7 @@ import com.roboctopi.cuttlefish.queue.DelayTask;
 import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.utils.Pose;
 
-//@Disabled
+@Disabled
 @TeleOp
 public class ForwardDrivingTest extends CuttleInitOpModeMTI {
     public void onInit() {

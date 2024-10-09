@@ -11,6 +11,7 @@ import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 @TeleOp
+@Disabled
 public class ForwardStrafeTurningTest extends CuttleInitOpModeMTI {
     public void onInit() {
         super.onInit();
