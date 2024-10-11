@@ -17,6 +17,7 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 
@@ -27,6 +28,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleRevHub ctrlHub;
     public CuttleRevHub expHub;
 
+    public CuttleDT dt;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -36,7 +38,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
     public CuttleMotor leftbackSlides;
     public CuttleMotor rightBackSlides;
-    public CuttleMotor frontSlides;
+    public CuttleMotor extendoMotor;
 
 
     // Declare the mecanum controller
@@ -93,9 +95,10 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         rightBackMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //leftbackSlides  = ctrlHub.getMotor(2);
+        //leftbackSlides  = ctrlHub.getMotor(0);
         //rightBackSlides = ctrlHub.getMotor(0);
-        //frontSlides  = ctrlHub.getMotor(1);
+        extendoMotor = ctrlHub.getMotor(2);
+
 
         //Initialize and set the direction of the encoders
         CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
@@ -142,6 +145,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         // Initialize the queue
         queue = new TaskQueue();
+        dt = new CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
 
     }
     @Override
