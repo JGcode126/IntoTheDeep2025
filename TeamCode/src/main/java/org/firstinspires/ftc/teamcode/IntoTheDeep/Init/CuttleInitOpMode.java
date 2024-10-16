@@ -17,7 +17,7 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 
 
 //@Disabled
@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 public abstract class CuttleInitOpMode extends GamepadOpMode {
     // Declare the rev hubs. If you only have one hub connected you can delete one of these
     public CuttleRevHub ctrlHub;
-    public CuttleRevHub expHub;
+    //public CuttleRevHub expHub;
 
 
     // Declare the chassis motors
@@ -50,8 +50,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
     // Declare the task queue
     public TaskQueue queue;
-    SparkFunOTOS.Pose2D pos;
-    SparkFunOTOS myOtos;
+    //SparkFunOTOS.Pose2D pos;
+    //SparkFunOTOS myOtos;
 
     public static double p;
     public static double i;
@@ -63,6 +63,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
     public static int method;
 
+    public CuttleDT dt;
+
     @Override
     public void onInit()
     {
@@ -72,7 +74,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         You can find the name of the hubs in the config file
         */
         ctrlHub = new CuttleRevHub(hardwareMap,CuttleRevHub.HubTypes.CONTROL_HUB);
-        expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
+        //expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
         //myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
 
         //expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
@@ -81,10 +83,10 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         Get the chassis motors
         Make sure to replace the ports and hubs of each motor with the corresponding ports and hubs on your robot
          */
-        leftFrontMotor  = ctrlHub.getMotor(1);
-        leftBackMotor   = ctrlHub.getMotor(0);
-        rightFrontMotor = expHub.getMotor(1);
-        rightBackMotor  = expHub.getMotor(0);
+        leftFrontMotor  = ctrlHub.getMotor(2);
+        leftBackMotor   = ctrlHub.getMotor(3);
+        rightFrontMotor = ctrlHub.getMotor(0);
+        rightBackMotor  = ctrlHub.getMotor(1);
 
         leftFrontMotor.setDirection(Direction.REVERSE);
         leftBackMotor.setDirection(Direction.REVERSE);
@@ -141,6 +143,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.05);*/
 
         // Initialize the queue
+        dt = new CuttleDT(leftBackMotor, leftFrontMotor, rightBackMotor, rightFrontMotor, ctrlHub);
         queue = new TaskQueue();
 
     }
@@ -154,7 +157,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         //pos = myOtos.getPosition();
         // Pull bulk data from both hubs
         ctrlHub.pullBulkData();
-        expHub.pullBulkData();
+        //expHub.pullBulkData();
 
         // Update the localizer
         encoderLocalizer.update();
@@ -163,7 +166,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         // Update the queue
         queue.update();
     }
-
+    /*
     public double[] sensorFusion(double otosChange, double odoChange){
         double otosR = myOtos.getPosition().h;
         double otosX = myOtos.getPosition().x;
@@ -179,4 +182,6 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         return new double[]{fusionX,fusionY,fusionR};
     }
+
+     */
 }

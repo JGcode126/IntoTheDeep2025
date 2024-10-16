@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.utils.Pose;
 
-import org.firstinspires.ftc.teamcode.Testing.CuttleInitOpModeMTI;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 
 @TeleOp
 @Disabled
-public class DemoMode extends CuttleInitOpModeMTI {
+public class DemoMode extends CuttleInitOpMode {
     public void onInit() {
         super.onInit();
     }

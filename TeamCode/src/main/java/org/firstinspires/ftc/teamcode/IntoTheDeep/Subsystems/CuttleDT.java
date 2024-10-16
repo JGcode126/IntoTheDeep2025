@@ -37,8 +37,22 @@ public class CuttleDT{
         rightFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void drive(double drive, double strafe, double turn){
+    public CuttleDT(CuttleMotor motor1, CuttleMotor motor2, CuttleMotor motor3, CuttleMotor motor4, CuttleRevHub chub){
+        leftBackMotor = motor1;
+        leftFrontMotor = motor2;
+        rightBackMotor = motor3;
+        rightFrontMotor = motor4;
+        leftBackMotor .setDirection(Direction.REVERSE);
+        leftFrontMotor.setDirection(Direction.REVERSE);
+        control = chub;
 
+        leftBackMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    public void drive(double drive, double strafe, double turn){
         leftFrontMotor.setPower((drive+strafe+turn)*-1);
         rightFrontMotor.setPower((drive-strafe-turn)*-1);
         leftBackMotor.setPower((drive-strafe+turn)*-1);
