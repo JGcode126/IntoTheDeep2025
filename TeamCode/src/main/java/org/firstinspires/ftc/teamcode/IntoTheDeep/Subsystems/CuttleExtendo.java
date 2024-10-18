@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems;
 
+import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
@@ -13,10 +15,10 @@ public class CuttleExtendo {
     CuttleEncoder motorEncoder;
     MotorPositionController slidePosController;
 
-    //private PDFL controller;
+    private PIDController controller;
     private final double ticks_in_degree = 384.5/360.0;
     private static final double JOYSTICK_SCALE = 1;  // Adjust as needed make higher for less sensitive
-    public static double p = 0.6, i = 0.0, d = 0.008;
+    public static double p = 3.56, i = 0.0, d = 0.01;
     public static double f = -0.06;
     public static int target = 0;
 
@@ -25,17 +27,55 @@ public class CuttleExtendo {
         controlHub = hub;
         slidePosController = motorpos;
         motorEncoder = encoder;
-
-        //controller = new PIDController(p, i, d);
+        extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        controller = new PIDController(p, i, d);
     }
 
     public double getPos(){
         return slidePosController.getHomedEncoderPosition();
     }
 
-
-
     public void resetSlides(){
         slidePosController.setHome();
     }
+    public boolean isInRange(double target){
+        boolean answer = false;
+        answer= extendoMotor.power < 0.1; //getPos() > target - 0.3 && getPos() < target + 0.3;
+        return answer;
+    }
+
+    public void setSlidePosition(double position){
+        //7.3 is max
+
+        double NewPosition = position;
+        if (position > 7.3){
+            NewPosition = 7.3;
+        }
+        controller.setPID(p, i, d);
+        double pid = controller.calculate(getPos(), NewPosition);
+        extendoMotor.setPower(pid);
+
+    }
+
+    public void moveSlides(double left_stick_y){
+        double slidePower = -left_stick_y / JOYSTICK_SCALE; // Reverse the sign if needed
+
+        // Update target position based on joystick input
+        target += (int) (slidePower / JOYSTICK_SCALE);  // Adjust multiplier as needed
+
+        // Ensure the target position is not below x
+        //target = Math.max(target, 0);
+
+        controller.setPID(p, i, d);
+        double armPos = slidePosController.getHomedEncoderPosition();
+        double pid = controller.calculate(armPos, target);
+        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+
+        double power = pid + ff;
+
+        extendoMotor.setPower(power);
+    }
+
+
+
 }

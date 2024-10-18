@@ -19,6 +19,7 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleTestSlides;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
@@ -32,6 +33,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
     public CuttleDT dt;
     public CuttleTestSlides ts;
+    public CuttleExtendo extendo;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -53,6 +55,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public ThreeEncoderLocalizer encoderLocalizer;
 
     public MotorPositionController slidePosController;
+    public MotorPositionController extendoPosController;
 
     // Declare the PTPController
     public PTPController ptpController;
@@ -105,6 +108,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         //leftbackSlides  = ctrlHub.getMotor(0);
         //rightBackSlides = ctrlHub.getMotor(0);
         extendoMotor = ctrlHub.getMotor(2);
+        CuttleEncoder extendoEncoder = ctrlHub.getEncoder(2, 141.1*4);
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         testSlides = expHub.getMotor(2);
@@ -135,6 +139,12 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         slidePosController = new MotorPositionController(0, testSlides, testEncoder, true);
 
+        extendoPosController = new MotorPositionController(0,extendoMotor, extendoEncoder, true);
+        extendoMotor.enablePositionPID(true);
+        extendoPosController.setPid(new PID(3.5,0,0.01, 0,1));
+
+
+
         // Initialize the PTP Controller
         ptpController = new PTPController(chassis, encoderLocalizer);
 
@@ -161,6 +171,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         queue = new TaskQueue();
         dt = new CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
         ts = new CuttleTestSlides(testSlides, testEncoder, slidePosController, expHub);
+        extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
 
     }
     @Override

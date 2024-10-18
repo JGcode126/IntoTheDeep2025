@@ -19,5 +19,7 @@ dependencies {
     implementation 'com.roboctopi:CuttlefishFTCBridge:1.0.0'
 
     implementation 'com.acmerobotics.dashboard:dashboard:0.4.15'
+
+    implementation 'org.ftclib.ftclib:core:2.1.1'
 }
 
