@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.IntoTheDeep.Init;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MecanumController;
+import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
@@ -18,6 +19,7 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleTestSlides;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 
@@ -29,6 +31,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleRevHub expHub;
 
     public CuttleDT dt;
+    public CuttleTestSlides ts;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -40,12 +43,16 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleMotor rightBackSlides;
     public CuttleMotor extendoMotor;
 
+    public CuttleMotor testSlides;
+
 
     // Declare the mecanum controller
     public MecanumController chassis;
 
     // Declare the localizer
     public ThreeEncoderLocalizer encoderLocalizer;
+
+    public MotorPositionController slidePosController;
 
     // Declare the PTPController
     public PTPController ptpController;
@@ -98,7 +105,13 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         //leftbackSlides  = ctrlHub.getMotor(0);
         //rightBackSlides = ctrlHub.getMotor(0);
         extendoMotor = ctrlHub.getMotor(2);
+        extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        testSlides = expHub.getMotor(2);
+        testSlides.setDirection(Direction.REVERSE);
+        testSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        CuttleEncoder testEncoder = expHub.getEncoder(2, 384.5);
 
         //Initialize and set the direction of the encoders
         CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
@@ -120,6 +133,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
                 0.988
         );
 
+        slidePosController = new MotorPositionController(0, testSlides, testEncoder, true);
 
         // Initialize the PTP Controller
         ptpController = new PTPController(chassis, encoderLocalizer);
@@ -146,6 +160,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         // Initialize the queue
         queue = new TaskQueue();
         dt = new CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
+        ts = new CuttleTestSlides(testSlides, testEncoder, slidePosController, expHub);
 
     }
     @Override

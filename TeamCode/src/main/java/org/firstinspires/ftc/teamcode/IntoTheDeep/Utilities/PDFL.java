@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Utilities;
 
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.utils.RingBuffer;
 
 import java.util.Timer;
@@ -11,9 +12,13 @@ public class PDFL{
     private double homedConstant;
     private boolean homed = false;
 
-    private Timer timer = new Timer();
-    private RingBuffer<Double> timeBuffer = new RingBuffer<Double>(3, 0.0);
-    private RingBuffer<Double> errorBuffer = new RingBuffer<Double>(3, 0.0);
+    private ElapsedTime timer = new ElapsedTime();
+
+    //private RingBuffer<Double> timeBuffer = new RingBuffer<Double>(3, 0.0);
+    //private RingBuffer<Double> errorBuffer = new RingBuffer<Double>(3, 0.0);
+
+    private RingBuffer timeBuffer = new RingBuffer(3);
+    private RingBuffer errorBuffer = new RingBuffer(3);
 
 
     public PDFL(double kP, double kD, double kF, double kL){
@@ -43,29 +48,33 @@ public class PDFL{
     }
 
     public void reset(){
-        timeBuffer.fill(0.0);
-        errorBuffer.fill(0.0);
+        timeBuffer.set(0,0);
+        errorBuffer.set(0,0);
+        timeBuffer.set(0,1);
+        errorBuffer.set(0,1);
+        timeBuffer.set(0,2);
+        errorBuffer.set(0,2);
         timer.reset();
     }
 
     //function takes in error and gives back response
-    public double run(double error){
+    public double run(int error){
         if(homed){
             return homedConstant;//id friving motor incorrectly can cause to motors burning out or robot restarting
         }
 
-        double time = timer.getTime();
-        double previousTime = timeBuffer.getValue(time);
-        double previousError = errorBuffer.getValue(error);
+        double time = timer.milliseconds();
+        double previousTime = timeBuffer.get((int)Math.round(time));
+        double previousError = errorBuffer.get(Math.abs(error));
+
+        double deltaTime = time - previousTime;
+        double deltaError = error - previousError;
 
         //if PDFL hasn't been updated, reset
         if(deltaTime > 200){//if delta time greater than 200 milliseconds
             reset();
             return run(error);
         }
-
-        double deltaTime = time - previousTime;
-        double deltaError = error - previousError;
 
         double p = pComponent(error);
         double d = dComponent(deltaError, deltaTime);

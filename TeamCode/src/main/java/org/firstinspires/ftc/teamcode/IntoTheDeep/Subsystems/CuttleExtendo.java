@@ -5,13 +5,15 @@ import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
 
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Utilities.PDFL;
+
 public class CuttleExtendo {
     CuttleMotor extendoMotor;
     CuttleRevHub controlHub;
     CuttleEncoder motorEncoder;
     MotorPositionController slidePosController;
 
-    //private PIDController controller;
+    //private PDFL controller;
     private final double ticks_in_degree = 384.5/360.0;
     private static final double JOYSTICK_SCALE = 1;  // Adjust as needed make higher for less sensitive
     public static double p = 0.6, i = 0.0, d = 0.008;
