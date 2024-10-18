@@ -140,8 +140,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         slidePosController = new MotorPositionController(0, testSlides, testEncoder, true);
 
         extendoPosController = new MotorPositionController(0,extendoMotor, extendoEncoder, true);
-        extendoMotor.enablePositionPID(true);
-        extendoPosController.setPid(new PID(3.5,0,0.01, 0,1));
+        //extendoMotor.enablePositionPID(true);
+        //extendoPosController.setPid(new PID(3.5,0,0.01, 0,1));
 
 
 

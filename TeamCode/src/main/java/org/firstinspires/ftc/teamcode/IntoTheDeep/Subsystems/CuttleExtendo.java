@@ -53,28 +53,12 @@ public class CuttleExtendo {
         }
         controller.setPID(p, i, d);
         double pid = controller.calculate(getPos(), NewPosition);
-        extendoMotor.setPower(pid);
+
+        extendoMotor.setPower(pid-0.1);
 
     }
 
-    public void moveSlides(double left_stick_y){
-        double slidePower = -left_stick_y / JOYSTICK_SCALE; // Reverse the sign if needed
 
-        // Update target position based on joystick input
-        target += (int) (slidePower / JOYSTICK_SCALE);  // Adjust multiplier as needed
-
-        // Ensure the target position is not below x
-        //target = Math.max(target, 0);
-
-        controller.setPID(p, i, d);
-        double armPos = slidePosController.getHomedEncoderPosition();
-        double pid = controller.calculate(armPos, target);
-        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
-
-        double power = pid + ff;
-
-        extendoMotor.setPower(power);
-    }
 
 
 
