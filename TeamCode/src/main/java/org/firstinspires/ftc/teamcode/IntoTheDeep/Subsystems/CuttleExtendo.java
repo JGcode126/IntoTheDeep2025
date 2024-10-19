@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems;
 
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.State.DOWN;
+
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
@@ -14,6 +16,7 @@ public class CuttleExtendo {
     CuttleRevHub controlHub;
     CuttleEncoder motorEncoder;
     MotorPositionController slidePosController;
+    private CuttleExtendo.State currentState = DOWN;
 
     private PIDController controller;
     private final double ticks_in_degree = 384.5/360.0;
@@ -46,18 +49,34 @@ public class CuttleExtendo {
 
     public void setSlidePosition(double position){
         //7.3 is max
-
         double NewPosition = position;
         if (position > 7.3){
             NewPosition = 7.3;
         }
+
         controller.setPID(p, i, d);
         double pid = controller.calculate(getPos(), NewPosition);
-
         extendoMotor.setPower(pid-0.1);
-
     }
 
+    public void liftMachine(double buttona, double buttonb, boolean buttonc, boolean buttond, boolean buttone){
+        //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
+        switch (currentState){
+            case DOWN:
+                setSlidePosition(0);
+                break;
+            case MIDDLE:
+                setSlidePosition(3.5);
+                break;
+            case UP:
+                setSlidePosition(7.3);
+                break;
+        }
+    }
+
+    public enum State {
+        DOWN, MIDDLE, UP
+    }
 
 
 

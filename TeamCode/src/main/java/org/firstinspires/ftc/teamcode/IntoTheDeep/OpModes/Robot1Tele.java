@@ -35,8 +35,9 @@ public class Robot1Tele extends CuttleInitOpMode{
         super.mainLoop();
 
 
-        extendo.setSlidePosition(SlidePos);
-
+        //extendo.setSlidePosition(SlidePos);
+        //intake.intakePos(0.5);
+        intake.initPos();
 
         telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
         telemetry.addData("Cuttle Y:",encoderLocalizer.getPos().getY());

@@ -14,12 +14,14 @@ import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
+import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleTestSlides;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
@@ -34,6 +36,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleDT dt;
     public CuttleTestSlides ts;
     public CuttleExtendo extendo;
+    public  CuttleIntake intake;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -78,21 +81,11 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     @Override
     public void onInit()
     {
-        /*
-        Define the rev hubs
-        If this throws an error, try getting the hubs by name
-        You can find the name of the hubs in the config file
-        */
+
         ctrlHub = new CuttleRevHub(hardwareMap,CuttleRevHub.HubTypes.CONTROL_HUB);
         expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
         //myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
 
-        //expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
-
-        /*
-        Get the chassis motors
-        Make sure to replace the ports and hubs of each motor with the corresponding ports and hubs on your robot
-         */
         leftFrontMotor  = ctrlHub.getMotor(1);
         leftBackMotor   = ctrlHub.getMotor(0);
         rightFrontMotor = expHub.getMotor(1);
@@ -111,11 +104,11 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         CuttleEncoder extendoEncoder = ctrlHub.getEncoder(2, 141.1*4);
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        testSlides = expHub.getMotor(2);
-        testSlides.setDirection(Direction.REVERSE);
-        testSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        CuttleEncoder testEncoder = expHub.getEncoder(2, 384.5);
+        //CuttleEncoder testEncoder = expHub.getEncoder(2, 384.5);
+        CuttleServo left = expHub.getServo(0);
+        CuttleServo right = ctrlHub.getServo(5);
+        CuttleServo claw = ctrlHub.getServo(0);
+        CuttleServo turntable = ctrlHub.getServo(1);
 
         //Initialize and set the direction of the encoders
         CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
@@ -136,8 +129,6 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
                 395,
                 0.988
         );
-
-        slidePosController = new MotorPositionController(0, testSlides, testEncoder, true);
 
         extendoPosController = new MotorPositionController(0,extendoMotor, extendoEncoder, true);
         //extendoMotor.enablePositionPID(true);
@@ -170,9 +161,9 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         // Initialize the queue
         queue = new TaskQueue();
         dt = new CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
-        ts = new CuttleTestSlides(testSlides, testEncoder, slidePosController, expHub);
+        //ts = new CuttleTestSlides(testSlides, testEncoder, slidePosController, expHub);
         extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
-
+        intake = new CuttleIntake(left, right, claw, turntable, hardwareMap);
     }
     @Override
     public void main() {
