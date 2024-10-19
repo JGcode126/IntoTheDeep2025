@@ -21,7 +21,7 @@ public class CuttleExtendo {
     private PIDController controller;
     private final double ticks_in_degree = 384.5/360.0;
     private static final double JOYSTICK_SCALE = 1;  // Adjust as needed make higher for less sensitive
-    public static double p = 3.56, i = 0.0, d = 0.01;
+    public static double p = 3, i = 0.0, d = 0.01;
     public static double f = -0.06;
     public static int target = 0;
 
@@ -41,11 +41,7 @@ public class CuttleExtendo {
     public void resetSlides(){
         slidePosController.setHome();
     }
-    public boolean isInRange(double target){
-        boolean answer = false;
-        answer= extendoMotor.power < 0.1; //getPos() > target - 0.3 && getPos() < target + 0.3;
-        return answer;
-    }
+
 
     public void setSlidePosition(double position){
         //7.3 is max
@@ -53,10 +49,13 @@ public class CuttleExtendo {
         if (position > 7.3){
             NewPosition = 7.3;
         }
+        if (position < 0){
+            NewPosition = 0;
+        }
 
         controller.setPID(p, i, d);
         double pid = controller.calculate(getPos(), NewPosition);
-        extendoMotor.setPower(pid-0.1);
+        extendoMotor.setPower(pid);
     }
 
     public void liftMachine(double buttona, double buttonb, boolean buttonc, boolean buttond, boolean buttone){

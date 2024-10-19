@@ -77,6 +77,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public static double dRotation;
 
     public static int method;
+    public static double position;
 
     @Override
     public void onInit()
@@ -179,6 +180,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         // Update the localizer
         encoderLocalizer.update();
+
+        extendo.setSlidePosition(position);
 
 
         // Update the queue

@@ -10,18 +10,17 @@ import com.roboctopi.cuttlefish.queue.SetMotorPositionTask;
 import com.roboctopi.cuttlefish.queue.Task;
 import com.roboctopi.cuttlefishftcbridge.tasks.MotorPositionTask;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @TeleOp
 @Config
 public class Robot1Tele extends CuttleInitOpMode{
-    public static double SlidePos = 0;
+    double targetPos = 0;
     public void onInit() {
         super.onInit();
 
-        //extendoPosController.enable();
-        //extendoMotor.enablePositionPID(true);
-        //extendoPosController.setHome();
+        intake.initPos();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     }
@@ -34,15 +33,26 @@ public class Robot1Tele extends CuttleInitOpMode{
     public void mainLoop() {
         super.mainLoop();
 
+        if(gamepad1.right_bumper){
+            targetPos += 0.3;
+        }
+        if (gamepad1.left_bumper){
+            targetPos -= 0.3;
+        }
 
-        //extendo.setSlidePosition(SlidePos);
-        //intake.intakePos(0.5);
-        intake.initPos();
+        position = targetPos;
+
+        intake.intakeMachine(gamepad1.dpad_down, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_left);
+
 
         telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
         telemetry.addData("Cuttle Y:",encoderLocalizer.getPos().getY());
         telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());
         telemetry.addData("slides", extendoPosController.getPosition());
+        telemetry.addData("color", intake.getColor());
+        telemetry.addData("intake state", intake.currentState);
         telemetry.update();
     }
+
+
 }
