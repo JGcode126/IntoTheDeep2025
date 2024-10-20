@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Testing.CuttleInitOpModeMTI;
 
 
 @TeleOp
-@Disabled
+//@Disabled
 public class DemoMode extends CuttleInitOpModeMTI {
     public void onInit() {
         super.onInit();
