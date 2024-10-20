@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 
 //@Disabled
-@Config
+
 public abstract class CuttleInitOpModeMTI extends GamepadOpMode {
     // Declare the rev hubs. If you only have one hub connected you can delete one of these
     public CuttleRevHub ctrlHub;

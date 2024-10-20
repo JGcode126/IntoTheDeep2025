@@ -9,19 +9,16 @@ import com.roboctopi.cuttlefish.controller.PTPController;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
-import com.roboctopi.cuttlefish.utils.PID;
-import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleTestSlides;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
@@ -37,6 +34,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleTestSlides ts;
     public CuttleExtendo extendo;
     public  CuttleIntake intake;
+    public CuttleSlides lift;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -57,7 +55,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     // Declare the localizer
     public ThreeEncoderLocalizer encoderLocalizer;
 
-    public MotorPositionController slidePosController;
+    public MotorPositionController liftPosController;
     public MotorPositionController extendoPosController;
 
     // Declare the PTPController
@@ -67,7 +65,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public TaskQueue queue;
     SparkFunOTOS.Pose2D pos;
     SparkFunOTOS myOtos;
-
+/*
     public static double p;
     public static double i;
     public static double d;
@@ -76,8 +74,11 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public static double iRotation;
     public static double dRotation;
 
-    public static int method;
-    public static double position;
+ */
+
+    //public static int method;
+    public static double extendoPosition;
+    public static double liftPosition;
 
     @Override
     public void onInit()
@@ -99,16 +100,19 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         rightBackMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //leftbackSlides  = ctrlHub.getMotor(0);
-        //rightBackSlides = ctrlHub.getMotor(0);
+        leftbackSlides  = ctrlHub.getMotor(3);
+        rightBackSlides = expHub.getMotor(3);
+        leftbackSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        CuttleEncoder liftEncoder = expHub.getEncoder(3, 141.1*4);
         extendoMotor = ctrlHub.getMotor(2);
         CuttleEncoder extendoEncoder = ctrlHub.getEncoder(2, 141.1*4);
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //CuttleEncoder testEncoder = expHub.getEncoder(2, 384.5);
-        CuttleServo left = expHub.getServo(0);
-        CuttleServo right = ctrlHub.getServo(5);
-        CuttleServo claw = ctrlHub.getServo(0);
+        CuttleServo intakeLeft = expHub.getServo(0);
+        CuttleServo intakeRight = ctrlHub.getServo(5);
+        CuttleServo intakeClaw = ctrlHub.getServo(0);
         CuttleServo turntable = ctrlHub.getServo(1);
 
         //Initialize and set the direction of the encoders
@@ -132,8 +136,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         );
 
         extendoPosController = new MotorPositionController(0,extendoMotor, extendoEncoder, true);
-        //extendoMotor.enablePositionPID(true);
-        //extendoPosController.setPid(new PID(3.5,0,0.01, 0,1));
+        liftPosController = new MotorPositionController(0, rightBackSlides, liftEncoder, true);
 
 
 
@@ -162,9 +165,9 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         // Initialize the queue
         queue = new TaskQueue();
         dt = new CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
-        //ts = new CuttleTestSlides(testSlides, testEncoder, slidePosController, expHub);
         extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
-        intake = new CuttleIntake(left, right, claw, turntable, hardwareMap);
+        intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap);
+        lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
     }
     @Override
     public void main() {
@@ -181,7 +184,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         // Update the localizer
         encoderLocalizer.update();
 
-        extendo.setSlidePosition(position);
+        extendo.setSlidePosition(extendoPosition);
+        lift.setLiftPosition(liftPosition);
 
 
         // Update the queue
