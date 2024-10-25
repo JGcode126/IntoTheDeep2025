@@ -38,6 +38,7 @@ public class CuttleExtendo {
     public double getPos(){
         return slidePosController.getHomedEncoderPosition();
     }
+
     public void setSlidePosition(double position){
         //7.3 is max
         double NewPosition = position;
