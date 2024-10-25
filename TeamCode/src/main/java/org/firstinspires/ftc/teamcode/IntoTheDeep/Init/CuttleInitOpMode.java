@@ -21,6 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
@@ -36,6 +37,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleExtendo extendo;
     public CuttleIntake intake;
     public CuttleSlides lift;
+    public CuttleOutake outake;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -81,15 +83,18 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     @Override
     public void onInit()
     {
+        //rev hubs
         ctrlHub = new CuttleRevHub(hardwareMap,CuttleRevHub.HubTypes.CONTROL_HUB);
         expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
+
+        //otos
         myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
 
+        //drivetrain
         leftFrontMotor  = ctrlHub.getMotor(1);
         leftBackMotor   = ctrlHub.getMotor(0);
         rightFrontMotor = expHub.getMotor(1);
         rightBackMotor  = expHub.getMotor(0);
-
         leftFrontMotor.setDirection(Direction.REVERSE);
         leftBackMotor.setDirection(Direction.REVERSE);
         leftFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -97,21 +102,31 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         rightBackMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //lift slides
         leftbackSlides  = ctrlHub.getMotor(3);
         rightBackSlides = expHub.getMotor(3);
         leftbackSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         CuttleEncoder liftEncoder = expHub.getEncoder(3, 141.1*4);
+
+        //extendo
         extendoMotor = ctrlHub.getMotor(2);
         CuttleEncoder extendoEncoder = ctrlHub.getEncoder(2, 141.1*4);
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //intake
         CuttleServo intakeLeft = expHub.getServo(0);
         CuttleServo intakeRight = ctrlHub.getServo(5);
         CuttleServo intakeClaw = ctrlHub.getServo(0);
         CuttleServo turntable = ctrlHub.getServo(1);
 
-        //Initialize and set the direction of the encoders
+        //outake
+        CuttleServo driveServo = expHub.getServo(3);
+        CuttleServo clawServo = expHub.getServo(5);
+        CuttleServo wristServo = expHub.getServo(4);
+
+
+        //Odometry
         CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
         CuttleEncoder sideEncoder = expHub.getEncoder(0,2000);
         CuttleEncoder rightEncoder = expHub.getEncoder(1,2000);
@@ -161,6 +176,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
         intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap);
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
+        outake = new CuttleOutake(driveServo, wristServo, clawServo);
         configureOtos();
     }
     @Override

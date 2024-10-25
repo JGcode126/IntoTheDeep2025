@@ -15,6 +15,7 @@ import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
 
 public class CuttleSlides {
 
+    public CuttleSlides.LiftState LiftState;
     CuttleMotor liftMotorLeft;
     CuttleMotor liftMotorRight;
     CuttleRevHub controlHub;
