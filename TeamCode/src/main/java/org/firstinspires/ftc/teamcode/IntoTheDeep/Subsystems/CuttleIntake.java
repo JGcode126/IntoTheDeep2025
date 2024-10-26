@@ -34,7 +34,6 @@ public class CuttleIntake{
         colorSensor = hardwareMap.get(ColorRangeSensor.class, "color");
     }
 
-
     public void initPos(){
         leftServo.setPosition(0.965);
         rightServo.setPosition(0.035);
@@ -55,6 +54,13 @@ public class CuttleIntake{
         rightServo.setPosition(1);
         turntable.setPosition(turntableAngle);
         clawServo.setPosition(0.8);
+    }
+
+    public void in(){
+        intakeMotor.setPower(1);
+    }
+    public void off(){
+        intakeMotor.setPower(0);
     }
 
     public void nomnom (){

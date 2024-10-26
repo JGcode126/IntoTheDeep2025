@@ -63,7 +63,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
     // Declare the task queue
     public TaskQueue queue;
-    SparkFunOTOS.Pose2D pos;
+    public SparkFunOTOS.Pose2D pos;
     SparkFunOTOS myOtos;
 /*
     public static double p;
@@ -192,9 +192,9 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         expHub.pullBulkData();
 
         // Update the localizer
-        //encoderLocalizer.update();
+        encoderLocalizer.update();
 
-        encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
+        //encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
 
         extendo.setSlidePosition(extendoPosition);
         lift.setLiftPosition(liftPosition);
