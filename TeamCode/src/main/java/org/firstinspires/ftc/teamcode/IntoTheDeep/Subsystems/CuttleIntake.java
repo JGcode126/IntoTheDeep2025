@@ -24,6 +24,9 @@ public class CuttleIntake{
     CuttleServo leftServo, rightServo, turntable, clawServo;
     public CuttleIntake.IntakeState intakeState = UP;
 
+    double clawInit = 0, clawGrab = 0.45;
+
+
 
     public CuttleIntake(CuttleServo left, CuttleServo right, CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap){
         leftServo = left;
@@ -39,7 +42,7 @@ public class CuttleIntake{
         rightServo.setPosition(0.035);
         turntable.setPosition(0.5);
         intakeMotor.setPower(0);
-        clawServo.setPosition(0.8);
+        clawServo.setPosition(clawInit);
     }
 
     public void armUp(){
@@ -53,7 +56,7 @@ public class CuttleIntake{
         leftServo.setPosition(0);
         rightServo.setPosition(1);
         turntable.setPosition(turntableAngle);
-        clawServo.setPosition(0.8);
+        clawServo.setPosition(clawInit);
     }
 
     public void in(){
@@ -113,11 +116,11 @@ public class CuttleIntake{
                 break;
             case SECURED:
                 intakePos(0.5);
-                clawServo.setPosition(1);
+                clawServo.setPosition(clawGrab);
                 intakeState = TRANSFERED;
                 break;
             case TRANSFERED:
-                if (clawServo.getPosition() > 0.99) {
+                if (clawServo.getPosition() > clawGrab - 0.05) {
                     armUp();
                     Robot1Tele.extendoPosition = 0;
                 }
