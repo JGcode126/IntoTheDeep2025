@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems;
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.State.FULL;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.State.IN;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.State.MIDDLE;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.INE;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.FULL;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.MIDDLE;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,7 +17,7 @@ public class CuttleExtendo {
     CuttleRevHub controlHub;
     CuttleEncoder motorEncoder;
     MotorPositionController slidePosController;
-    private CuttleExtendo.State currentState = IN;
+    private ExtendoState currentState = INE;
     double slidePosition;
 
     private PIDController controller;
@@ -60,19 +60,19 @@ public class CuttleExtendo {
     public double extendoMachine(boolean buttona, boolean buttonb, boolean buttonc){
         //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
         switch (currentState){
-            case IN:
+            case INE:
                 slidePosition = 0;
                 if(buttonb){currentState = MIDDLE;}
                 if(buttonc){currentState = FULL;}
                 break;
             case MIDDLE:
                 slidePosition = 4;
-                if(buttona){currentState = IN;}
+                if(buttona){currentState = INE;}
                 if(buttonc){currentState = FULL;}
                 break;
             case FULL:
                 slidePosition = 7.5;
-                if(buttona){currentState = IN;}
+                if(buttona){currentState = INE;}
                 if(buttonb){currentState = MIDDLE;}
                 break;
 
@@ -80,8 +80,12 @@ public class CuttleExtendo {
         return slidePosition;
     }
 
-    public enum State {
-        IN, MIDDLE, FULL
+    public enum ExtendoState {
+        INE, MIDDLE, FULL
+    }
+
+    public void setExtendoState(ExtendoState state){
+        currentState = state;
     }
 
 

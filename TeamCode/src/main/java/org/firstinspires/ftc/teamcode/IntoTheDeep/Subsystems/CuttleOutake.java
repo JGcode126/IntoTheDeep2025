@@ -13,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARRIGHT;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BUCKET_BAR;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.GRIPPED;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.HOLD;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.PLACED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.READY;
 
@@ -36,28 +37,34 @@ public class CuttleOutake {
 
     public void readyPos(){
         wristCenter();
-        drive.setPosition(0.9);
+        drive.setPosition(0.65);
         openClaw();
+    }
+
+    public void midHolding(){
+        closeClaw();
+        drive.setPosition(0.3);
+        wristCenter();
     }
 
     public void transferPos(){
         wristCenter();
-        drive.setPosition(1);
+        drive.setPosition(0.8);
         openClaw();
     }
 
     public void grippedPos(){
         closeClaw();
-        drive.setPosition(1);
+        drive.setPosition(0.8);
         wristCenter();
     }
 
     public void closeClaw(){
-        claw.setPosition(0.08);
+        claw.setPosition(0.4);
     }
 
     public void openClaw(){
-        claw.setPosition(0.5);
+        claw.setPosition(0.7);
     }
 
     public void wristRight(){
@@ -71,21 +78,24 @@ public class CuttleOutake {
     public void wristCenter(){
         wrist.setPosition(0.5);
     }
+    public void wristDown(){
+        wrist.setPosition(0);
+    }
 
     public void scorePosMid(){
-        drive.setPosition(0.3);
+        drive.setPosition(0.25);
         closeClaw();
-        wristCenter();
+        wristDown();
     }
 
     public void scorePosRight(){
-        drive.setPosition(0.3);
+        drive.setPosition(0.25);
         closeClaw();
         wristRight();
     }
 
     public void scorePosLeft(){
-        drive.setPosition(0.3);
+        drive.setPosition(0.25);
         closeClaw();
         wristLeft();
     }
@@ -93,7 +103,7 @@ public class CuttleOutake {
 
 
 
-    public void outakeMachine(boolean ready, boolean place, boolean grip, boolean bucket_bar, boolean barLeft, boolean barRight){
+    public void outakeMachine(boolean ready, boolean place, boolean grip, boolean holding, boolean bucket_bar, boolean barLeft, boolean barRight){
         //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
         switch (outakeState){
             case READY:
@@ -112,6 +122,13 @@ public class CuttleOutake {
             case GRIPPED:
                 grippedPos();
                 if(ready){outakeState = READY;}
+                if(bucket_bar){outakeState = BUCKET_BAR;}
+                if(barLeft){outakeState = BARLEFT;}
+                if(barRight){outakeState = BARRIGHT;}
+                if(holding){outakeState = HOLD;}
+                break;
+            case HOLD:
+                midHolding();
                 if(bucket_bar){outakeState = BUCKET_BAR;}
                 if(barLeft){outakeState = BARLEFT;}
                 if(barRight){outakeState = BARRIGHT;}
@@ -153,7 +170,11 @@ public class CuttleOutake {
 
 
     public enum OutakeState {
-        READY, PLACED, GRIPPED, BUCKET_BAR, BARRIGHT, BARLEFT
+        READY, PLACED, GRIPPED, BUCKET_BAR, BARRIGHT, BARLEFT, HOLD
+    }
+
+    public void setScoreState(OutakeState state){
+        outakeState = state;
     }
 
 

@@ -21,7 +21,10 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.OpModes.Robot1Tele;
 public class CuttleIntake{
     public CRServo intakeMotor;
     public ColorRangeSensor colorSensor;
-    CuttleServo leftServo, rightServo, turntable, clawServo;
+    CuttleServo leftServo;
+    CuttleServo rightServo;
+    CuttleServo turntable;
+    public CuttleServo clawServo;
     public CuttleIntake.IntakeState intakeState = UP;
 
     double clawInit = 0, clawGrab = 0.45;
@@ -126,7 +129,7 @@ public class CuttleIntake{
                 }
                 if(buttona){intakeState = DOWN;}
                 if(buttonb){intakeState = LOOKING;}
-                //if(buttond){intakeState = REJECT;}
+                if(buttonc){intakeState = UP;}
                 break;
             case REJECT:
                 intakePos(0.5);
@@ -145,6 +148,10 @@ public class CuttleIntake{
 
     public enum Color {
         BLUE, RED, YELLOW
+    }
+
+    public void setIntakeState(IntakeState state){
+        intakeState = state;
     }
 
 
