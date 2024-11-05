@@ -201,6 +201,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         // Update the queue
         queue.update();
+
     }
 
     public double[] sensorFusion(double otosChange, double odoChange){

@@ -24,6 +24,7 @@ import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.OpModes.Robot1Tele;
+import org.firstinspires.ftc.teamcode.R;
 
 public class CuttleOutake {
     CuttleServo drive, claw, wrist;
@@ -109,6 +110,7 @@ public class CuttleOutake {
             case READY:
                 if (claw.getPosition() > 0.45) {
                     readyPos();
+                    //Robot1Tele.liftPosition = 0;
                 } else {
                     openClaw();
                 }

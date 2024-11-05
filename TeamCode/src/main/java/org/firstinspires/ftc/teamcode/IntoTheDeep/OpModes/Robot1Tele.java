@@ -1,14 +1,9 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.OpModes;
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.SECURED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.TRANSFERED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BUCKET_BAR;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.GRIPPED;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.HOLD;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.PLACED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.READY;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -16,10 +11,10 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.DelayTask;
+import com.roboctopi.cuttlefish.queue.TaskList;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 
 @TeleOp
 @Config
@@ -47,13 +42,13 @@ public class Robot1Tele extends CuttleInitOpMode{
 
         if (intake.intakeState == TRANSFERED && transfering == true){
             transferSequence();
-            transfering = false;
+            telemetry.addData("running", true);
         }
 
         if (transfering == false) {
             intake.intakeMachine(gamepad1.dpad_down, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_left);
-            outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right);
             finalSlidePos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y);
+            outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right);
         }
 
         extendoPosition = finalSlidePos;
@@ -80,45 +75,50 @@ public class Robot1Tele extends CuttleInitOpMode{
     }
 
 
-    public void transferSequence (){
-        queue.addTask(new CustomTask(()->{
+    void transferSequence(){
+        TaskList transfer = new TaskList();
+        System.out.println("yes");
+        intake.setIntakeState(UP);
+        transfer.addTask(new CustomTask(()->{
             counter += 1;
             intake.armUp();
             intake.clawServo.setPosition(0.45);
-            intake.setIntakeState(UP);
             outake.readyPos();
+            telemetry.addData("tranfer sequence running", true);
             return true;
         }));
-        queue.addTask(new DelayTask(300));
-        queue.addTask(new CustomTask(()->{
+        transfer.addTask(new DelayTask(300));
+        transfer.addTask(new CustomTask(()->{
             //finalSlidePos = extendo.extendoMachine(true, false, false);
             outake.transferPos();
             return true;
         }));
-        queue.addTask(new DelayTask(100));
-        queue.addTask(new CustomTask(()->{
+        transfer.addTask(new DelayTask(100));
+        transfer.addTask(new CustomTask(()->{
             outake.grippedPos();
             intake.initPos();
             intake.setIntakeState(UP);
             return true;
         }));
-
-        queue.addTask(new DelayTask(200));
-        queue.addTask(new CustomTask(()->{
+        transfer.addTask(new DelayTask(200));
+        transfer.addTask(new CustomTask(()->{
             outake.scorePosMid();
             finalSlidePos = 1;
             return true;
         }));
-        queue.addTask(new DelayTask(200));
-        queue.addTask(new CustomTask(()->{
+        transfer.addTask(new DelayTask(200));
+        transfer.addTask(new CustomTask(()->{
             finalSlidePos = 0;
-            intake.setIntakeState(UP);
+            //intake.setIntakeState(UP);
             outake.setScoreState(BUCKET_BAR);
             transfering = false;
             return true;
         }));
-
+        queue.addTask(transfer);
     }
+
+
+
 
 
 }
