@@ -57,23 +57,23 @@ public class CuttleExtendo {
         extendoMotor.setPower(pid + extraPower);
     }
 
-    public double extendoMachine(boolean buttona, boolean buttonb, boolean buttonc){
+    public double extendoMachine(boolean buttonIN, boolean buttonMIDDLE, boolean buttonFULLEXTEND){
         //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
         switch (currentState){
             case INE:
                 slidePosition = 0;
-                if(buttonb){currentState = MIDDLE;}
-                if(buttonc){currentState = FULL;}
+                if(buttonMIDDLE){currentState = MIDDLE;}
+                if(buttonFULLEXTEND){currentState = FULL;}
                 break;
             case MIDDLE:
                 slidePosition = 4;
-                if(buttona){currentState = INE;}
-                if(buttonc){currentState = FULL;}
+                if(buttonIN){currentState = INE;}
+                if(buttonFULLEXTEND){currentState = FULL;}
                 break;
             case FULL:
                 slidePosition = 7.5;
-                if(buttona){currentState = INE;}
-                if(buttonb){currentState = MIDDLE;}
+                if(buttonIN){currentState = INE;}
+                if(buttonMIDDLE){currentState = MIDDLE;}
                 break;
 
         }

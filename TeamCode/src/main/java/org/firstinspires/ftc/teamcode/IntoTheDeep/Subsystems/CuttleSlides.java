@@ -61,43 +61,42 @@ public class CuttleSlides {
         liftMotorRight.setPower((pid + extraPower + ff) * 1);
     }
 
-    public double liftMachine(boolean buttona, boolean buttonb, boolean buttonc, boolean buttond, boolean buttone){
-        //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
+    public double liftMachine(boolean buttonIN, boolean buttonLOWBUCKET, boolean buttonHIGHBUCKET, boolean buttonLOWSUB, boolean buttonHIGHSUB){
         switch (currentState){
             case IN:
-                liftPosition = 0;
-                if(buttonb){currentState = LOW_BUCKET;}
-                if(buttonc){currentState = HIGH_BUCKET;}
-                if(buttond){currentState = LOWSUB;}
-                if(buttone){currentState = HIGHSUB;}
+                liftPosition = 0; //good
+                if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
+                if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
+                if(buttonLOWSUB){currentState = LOWSUB;}
+                if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case LOW_BUCKET:
-                liftPosition = 4.5;
-                if(buttona){currentState = IN;}
-                if(buttonc){currentState = HIGH_BUCKET;}
-                if(buttond){currentState = LOWSUB;}
-                if(buttone){currentState = HIGHSUB;}
+                liftPosition = 6; //good
+                if(buttonIN){currentState = IN;}
+                if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
+                if(buttonLOWSUB){currentState = LOWSUB;}
+                if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case HIGH_BUCKET:
-                liftPosition = 12;
-                if(buttona){currentState = IN;}
-                if(buttonb){currentState = LOW_BUCKET;}
-                if(buttond){currentState = LOWSUB;}
-                if(buttone){currentState = HIGHSUB;}
+                liftPosition = 12.5;
+                if(buttonIN){currentState = IN;}
+                if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
+                if(buttonLOWSUB){currentState = LOWSUB;}
+                if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case LOWSUB:
                 liftPosition = 2.5;
-                if(buttona){currentState = IN;}
-                if(buttonb){currentState = LOW_BUCKET;}
-                if(buttonc){currentState = HIGH_BUCKET;}
-                if(buttone){currentState = HIGHSUB;}
+                if(buttonIN){currentState = IN;}
+                if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
+                if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
+                if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case HIGHSUB:
                 liftPosition = 7.5;
-                if(buttona){currentState = IN;}
-                if(buttonb){currentState = LOW_BUCKET;}
-                if(buttonc){currentState = HIGH_BUCKET;}
-                if(buttond){currentState = LOWSUB;}
+                if(buttonIN){currentState = IN;}
+                if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
+                if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
+                if(buttonLOWSUB){currentState = LOWSUB;}
                 break;
         }
         return liftPosition;
@@ -105,6 +104,10 @@ public class CuttleSlides {
 
     public enum LiftState {
         IN, HIGH_BUCKET, LOW_BUCKET, HIGHSUB, LOWSUB
+    }
+
+    public void setLiftState(LiftState state){
+        LiftState = state;
     }
 
 }

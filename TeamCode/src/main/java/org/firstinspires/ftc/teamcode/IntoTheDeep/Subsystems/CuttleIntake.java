@@ -91,31 +91,30 @@ public class CuttleIntake{
         return color;
     }
 
-    public void intakeMachine(boolean buttona, boolean buttonb, boolean buttonc, boolean buttond){
-        //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
+    public void intakeMachine(boolean down, boolean looking, boolean up, boolean reject){
         switch (intakeState){
             case UP:
                 initPos();
-                if(buttona){intakeState = DOWN;}
-                if(buttonb){intakeState = LOOKING;}
+                if(down){intakeState = DOWN;}
+                if(looking){intakeState = LOOKING;}
 
                 break;
             case DOWN:
                 intakePos(0.5);
                 intakeMotor.setPower(0);
-                if(buttonb){intakeState = LOOKING;}
-                if(buttonc){intakeState = UP;}
-                if(buttond){intakeState = REJECT;}
+                if(looking){intakeState = LOOKING;}
+                if(up){intakeState = UP;}
+                if(reject){intakeState = REJECT;}
                 break;
             case LOOKING:
                 intakePos(0.5);
                 intakeMotor.setPower(-1);
-                if(buttona){intakeState = DOWN;}
-                if(buttonc){intakeState = UP;}
+                if(down){intakeState = DOWN;}
+                if(up){intakeState = UP;}
                 if (getColor() == YELLOW || getColor() == RED || getColor() == BLUE){
                     intakeState = SECURED;
                 }
-                if(buttond){intakeState = REJECT;}
+                if(reject){intakeState = REJECT;}
                 break;
             case SECURED:
                 intakePos(0.5);
@@ -127,16 +126,16 @@ public class CuttleIntake{
                     armUp();
                     Robot1Tele.extendoPosition = 0;
                 }
-                if(buttona){intakeState = DOWN;}
-                if(buttonb){intakeState = LOOKING;}
-                if(buttonc){intakeState = UP;}
+                if(down){intakeState = DOWN;}
+                if(looking){intakeState = LOOKING;}
+                if(up){intakeState = UP;}
                 break;
             case REJECT:
                 intakePos(0.5);
                 intakeMotor.setPower(1);
-                if(buttonb){intakeState = LOOKING;}
-                if(buttonc){intakeState = UP;}
-                if(buttona){intakeState = DOWN;}
+                if(looking){intakeState = LOOKING;}
+                if(up){intakeState = UP;}
+                if(down){intakeState = DOWN;}
         }
     }
 
