@@ -36,6 +36,13 @@ public class CuttleOutake {
         wrist = wristServo;
     }
 
+    public void autoHighRungPos(){
+        drive.setPosition(0.19);
+    }
+    public void autoPos(){
+        drive.setPosition(0.70);
+    }
+
     public void readyPos(){
         wristCenter();
         drive.setPosition(0.65);

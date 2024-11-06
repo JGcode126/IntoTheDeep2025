@@ -33,9 +33,7 @@ public class Robot1Tele extends CuttleInitOpMode{
 
     public void main() {
         super.main();
-
         liftPosController.setHome();
-
     }
 
     public void mainLoop() {
