@@ -68,7 +68,7 @@ public class CuttleOutake {
     }
 
     public void closeClaw(){
-        claw.setPosition(0.4);
+        claw.setPosition(0.49);
     }
 
     public void openClaw(){
@@ -91,19 +91,19 @@ public class CuttleOutake {
     }
 
     public void scorePosMid(){
-        drive.setPosition(0.25);
+        drive.setPosition(0.3);
         closeClaw();
         wristDown();
     }
 
     public void scorePosRight(){
-        drive.setPosition(0.25);
+        drive.setPosition(0.19);
         closeClaw();
         wristRight();
     }
 
     public void scorePosLeft(){
-        drive.setPosition(0.25);
+        drive.setPosition(0.19);
         closeClaw();
         wristLeft();
     }

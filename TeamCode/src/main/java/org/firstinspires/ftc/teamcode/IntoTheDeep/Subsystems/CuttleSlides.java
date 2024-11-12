@@ -15,13 +15,13 @@ import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
 
 public class CuttleSlides {
 
-    public CuttleSlides.LiftState LiftState;
+    public CuttleSlides.LiftState currentState = IN;
     CuttleMotor liftMotorLeft;
     CuttleMotor liftMotorRight;
     CuttleRevHub controlHub;
     CuttleEncoder liftmotorEncoder;
     MotorPositionController liftPosController;
-    private LiftState currentState = IN;
+    //private LiftState currentState = IN;
     double liftPosition;
 
     private PIDController controller;
@@ -78,21 +78,21 @@ public class CuttleSlides {
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case HIGH_BUCKET:
-                liftPosition = 12.5;
+                liftPosition = 12.5; //good
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonLOWSUB){currentState = LOWSUB;}
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case LOWSUB:
-                liftPosition = 2.5;
+                liftPosition = 0.5; //kinda impossible...
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case HIGHSUB:
-                liftPosition = 7.5;
+                liftPosition = 5.1;
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
@@ -107,7 +107,7 @@ public class CuttleSlides {
     }
 
     public void setLiftState(LiftState state){
-        LiftState = state;
+        currentState = state;
     }
 
 }

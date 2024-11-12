@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode.IntoTheDeep.OpModes;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.INE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.TRANSFERED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARLEFT;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARRIGHT;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BUCKET_BAR;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.READY;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -47,9 +50,26 @@ public class Robot1Tele extends CuttleInitOpMode{
         if (transfering == false) {
             intake.intakeMachine(gamepad1.dpad_down, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_left);
             finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y);
-            outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right);
             finalLiftPos = lift.liftMachine(gamepad2.options, gamepad2.x, gamepad2.y, gamepad2.b, gamepad2.right_bumper);
+
+            if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
+                if(outake.outakeState == BARLEFT){
+                    outake.scorePosLeft();
+                    if (gamepad2.dpad_right){outake.setScoreState(BARRIGHT);}
+                }
+                if(outake.outakeState == BARRIGHT){
+                    outake.scorePosRight();
+                    if (gamepad2.dpad_left){outake.setScoreState(BARLEFT);}
+                }
+                if (gamepad2.a){
+                    specimenDropOffSequence();
+                }
+            } else{
+                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right);
+            }
         }
+
+
 
         liftPosition = finalLiftPos;
         extendoPosition = finalExtendoPos;
@@ -65,7 +85,7 @@ public class Robot1Tele extends CuttleInitOpMode{
         telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());
         telemetry.addData("intake state", intake.intakeState);
         telemetry.addData("outtake state", outake.outakeState);
-        telemetry.addData("lift state", lift.LiftState);
+        telemetry.addData("lift state", lift.currentState);
         telemetry.addData("extendo pose", extendoPosController.getPosition());
         telemetry.addData("lift pose", liftPosController.getPosition());
         telemetry.addData("color detected", intake.getColor());
@@ -77,7 +97,6 @@ public class Robot1Tele extends CuttleInitOpMode{
 
     void transferSequence(){
         TaskList transfer = new TaskList();
-        System.out.println("yes");
         intake.setIntakeState(UP);
         lift.setLiftState(IN);
         transfer.addTask(new CustomTask(()->{
@@ -119,6 +138,26 @@ public class Robot1Tele extends CuttleInitOpMode{
             return true;
         }));
         queue.addTask(transfer);
+    }
+
+    void specimenDropOffSequence(){
+        TaskList deliver = new TaskList();
+        System.out.println("yes");
+        lift.setLiftState(IN);
+        outake.setScoreState(READY);
+        deliver.addTask(new CustomTask(()->{
+            outake.wristCenter();
+            outake.openClaw();
+            return true;
+        }));
+        deliver.addTask(new DelayTask(400));
+        deliver.addTask(new CustomTask(()->{
+            outake.readyPos();
+            finalLiftPos = 0;
+            dt.drive(0,0,0);
+            return true;
+        }));
+        queue.addTask(deliver);
     }
 
 
