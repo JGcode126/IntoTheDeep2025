@@ -63,7 +63,7 @@ public class CuttleIntake{
     }
 
     public void in(){
-        intakeMotor.setPower(1);
+        intakeMotor.setPower(-1);
     }
     public void off(){
         intakeMotor.setPower(0);
