@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.DelayTask;
@@ -27,6 +28,9 @@ public class BlueSpecimen extends CuttleInitOpMode {
     double finalLiftPos = 0;
     double counter = 0;
     public boolean transfering = false;
+
+    private ElapsedTime timer = new ElapsedTime();
+
     public void onInit(){
         super.onInit();
         methods = new RegularlyUsed();
@@ -47,48 +51,27 @@ public class BlueSpecimen extends CuttleInitOpMode {
     }
     public void main() {
         super.main();
+        queue.addTask(new CustomTask(() -> {
+            scoringSpecimen();
+            return true;
+        }));
+
+        queue.addTask(new CustomTask(() -> {
+            intakingSample();
+            return true;
+        }));
+
+        queue.addTask(new CustomTask(() -> {
+            endIntaking();
+            return true;
+        }));
     }
     public void mainLoop(){
         super.mainLoop();
 
-        switch (currentState) {
-            case TO_SAMPLE:
-                queue.addTask(new CustomTask(() -> {
-                    scoringSpecimen();
-                    return true;
-                }));
-
-                queue.addTask(new CustomTask(() -> {
-                    intakingSample();
-                    return true;
-                }));
-
-                queue.addTask(new CustomTask(() -> {
-                    intaking();
-                    return true;
-                }));
-                currentState = State.INTAKING_SAMPLE;
-                break;
-
-            //idk if this will work
-            case INTAKING_SAMPLE:
-                if (intake.getColor() == CuttleIntake.Color.BLUE) {
-                    //run next things
-                    break;
-                } else {
-                    //keep intaking or something
-                }
-        }
-
-        /*queue.addTask(new CustomTask(() -> {
-            new DelayTask(1000);
-            transferSequence();
-            return true;
-        }));*/
-
-
         encoderLocalizer.update();
         System.out.println(encoderLocalizer.getPos());
+        telemetry.addData("Intake Color", intake.getColor());
         telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
         telemetry.addData("Cuttle Y:",encoderLocalizer.getPos().getY());
         telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());
@@ -96,11 +79,6 @@ public class BlueSpecimen extends CuttleInitOpMode {
         telemetry.addData("otos x", pos.x);
         telemetry.addData("otos y", pos.y);
         telemetry.update();
-    }
-
-    private enum State{
-        TO_SAMPLE,
-        INTAKING_SAMPLE
     }
 
     void transferSequence(){
@@ -149,17 +127,35 @@ public class BlueSpecimen extends CuttleInitOpMode {
         queue.addTask(transfer);
     }
 
-    void intaking(){
+    void endIntaking() {
+        TaskList endIntaking = new TaskList();
 
         if(intake.getColor() == CuttleIntake.Color.BLUE){
-
+            endIntaking.addTask(new CustomTask(()->{
+                detectingBlue(5);
+                return true;
+            }));
         }
 
         else{
-
+            endIntaking.addTask(new DelayTask(200));
         }
 
+        queue.addTask(endIntaking);
+    }
+
+    public void detectingBlue(double time){
+        timer.reset();
+        while (time > timer.seconds()) {
+            if (intake.getColor() == CuttleIntake.Color.BLUE) {
+                intake.off();
+            }
+            else{
+                intake.in();
+            }
         }
+    }
+
 
     void intakingSample(){
         TaskList intakingSample = new TaskList();
@@ -179,13 +175,6 @@ public class BlueSpecimen extends CuttleInitOpMode {
             return true;
         }));
 
-        intakingSample.addTask(new DelayTask(1000));
-
-        intakingSample.addTask(new CustomTask(()->{
-            intaking();
-            return true;
-        }));
-
         queue.addTask(intakingSample);
     }
 
@@ -198,7 +187,7 @@ public class BlueSpecimen extends CuttleInitOpMode {
             return true;
         }));
 
-        scoringSpecimen.addTask(new PointTask(new Waypoint(new Pose(0, -780, 0)), ptpController));
+        scoringSpecimen.addTask(new PointTask(new Waypoint(new Pose(0, -750, 0)), ptpController));
 
         scoringSpecimen.addTask(new DelayTask(500));
         scoringSpecimen.addTask(new CustomTask(() -> {
@@ -218,4 +207,9 @@ public class BlueSpecimen extends CuttleInitOpMode {
         queue.addTask(scoringSpecimen);
     }
 
+    private enum State{
+        TO_SAMPLE,
+        INTAKING_SAMPLE,
+        SPIT_OUT_SAMPLE
+    }
 }
