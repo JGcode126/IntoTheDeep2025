@@ -54,6 +54,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
     // Declare the localizer
     public ThreeEncoderLocalizer encoderLocalizer;
+    public ThreeEncoderLocalizer otosLocalizer;
 
     public MotorPositionController liftPosController;
     public MotorPositionController extendoPosController;
@@ -145,6 +146,15 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
                 0.9140322
         );
 
+        otosLocalizer = new ThreeEncoderLocalizer(
+                leftEncoder  , // Left
+                sideEncoder  , // Side
+                rightEncoder , // Right
+                17.5,
+                288.92500,
+                0.9140322
+        );
+
         extendoPosController = new MotorPositionController(0,extendoMotor, extendoEncoder, true);
         liftPosController = new MotorPositionController(0, rightBackSlides, liftEncoder, true);
 
@@ -192,9 +202,9 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         expHub.pullBulkData();
 
         // Update the localizer
-        //encoderLocalizer.update();
+        encoderLocalizer.update();
 
-        encoderLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
+        otosLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
 
         extendo.setSlidePosition(extendoPosition);
         lift.setLiftPosition(liftPosition);

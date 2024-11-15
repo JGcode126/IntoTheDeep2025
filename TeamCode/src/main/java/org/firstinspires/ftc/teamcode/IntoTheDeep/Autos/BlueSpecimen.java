@@ -36,7 +36,7 @@ public class BlueSpecimen extends CuttleInitOpMode {
         methods = new RegularlyUsed();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        encoderLocalizer.reset();
+        otosLocalizer.reset();
 
         liftPosition = 0;
         extendoPosition = 0;
@@ -69,12 +69,12 @@ public class BlueSpecimen extends CuttleInitOpMode {
     public void mainLoop(){
         super.mainLoop();
 
-        encoderLocalizer.update();
-        System.out.println(encoderLocalizer.getPos());
+        otosLocalizer.update();
+        System.out.println(otosLocalizer.getPos());
         telemetry.addData("Intake Color", intake.getColor());
-        telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
-        telemetry.addData("Cuttle Y:",encoderLocalizer.getPos().getY());
-        telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());
+        telemetry.addData("Cuttle X:",otosLocalizer.getPos().getX());
+        telemetry.addData("Cuttle Y:",otosLocalizer.getPos().getY());
+        telemetry.addData("Cuttle R:",otosLocalizer.getPos().getR());
         telemetry.addData("otos r", pos.h);
         telemetry.addData("otos x", pos.x);
         telemetry.addData("otos y", pos.y);

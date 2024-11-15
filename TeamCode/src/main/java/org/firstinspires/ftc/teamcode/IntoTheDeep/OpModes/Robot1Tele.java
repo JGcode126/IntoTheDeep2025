@@ -81,6 +81,10 @@ public class Robot1Tele extends CuttleInitOpMode{
             transfering = true;
         }
 
+        if (gamepad1.options){
+            encoderLocalizer.getPos().setR(0);
+        }
+
         telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
         telemetry.addData("Cuttle Y:",encoderLocalizer.getPos().getY());
         telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());

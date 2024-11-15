@@ -66,9 +66,8 @@ public class CuttleExtendo {
         //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
         switch (currentState){
             case INE:
-                slidePosition = 0 + slidePosOffset;
-                if(smallExtend){slidePosOffset += 0.25;}
-                if(smallRetract){slidePosOffset -= 0.25;}
+                slidePosition = 0;
+                slidePosOffset = 0;
                 if(buttonMIDDLE){currentState = MIDDLE;}
                 if(buttonFULLEXTEND){currentState = FULL;}
                 break;

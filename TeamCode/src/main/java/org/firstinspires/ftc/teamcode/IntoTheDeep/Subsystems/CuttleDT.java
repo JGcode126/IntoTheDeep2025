@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.utils.Direction;
+import com.roboctopi.cuttlefish.utils.Vector;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
 
-import org.firstinspires.ftc.teamcode.zLibraries.Utilities.Vector2d;
 
 public class CuttleDT{
     public CuttleMotor leftFrontMotor;
@@ -49,18 +49,18 @@ public class CuttleDT{
 
     public void driveDO(double drive, double strafe, double turn, double fast, double superslow, double rotation){
 
-        Vector2d driveVector = new Vector2d(strafe, drive);
-        Vector2d rotatedVector = driveVector.rotate(rotation);
+        double[] rotatedVector = rotateVector(strafe, drive, rotation);
 
-        drive = rotatedVector.y;
-        strafe = rotatedVector.x;
+        // Update strafe and drive with the rotated components
+        drive = rotatedVector[1];
+        strafe = rotatedVector[0];
 
         if(turn!= 0) {
             inputTurn = turn;
             releaseAngle = Math.toDegrees(rotation);
         } else{
             targetAngle = releaseAngle + 0.5;
-            inputTurn = PID(targetAngle-Math.toDegrees(rotation), 0.05,0,0);
+            inputTurn = PID(targetAngle-Math.toDegrees(rotation), 0.02,0,0.005);
         }
 
         if (fast > 0.02) {
@@ -101,5 +101,13 @@ public class CuttleDT{
         leftBackMotor.setPower(0);
         rightBackMotor.setPower(0);
     }
+
+    public static double[] rotateVector(double x, double y, double radians) {
+        double newX = x * Math.cos(radians) - y * Math.sin(radians);
+        double newY = x * Math.sin(radians) + y * Math.cos(radians);
+        return new double[]{newX, newY};
+    }
+
+
 }
 
