@@ -48,9 +48,9 @@ public class Robot1Tele extends CuttleInitOpMode{
         }
 
         if (transfering == false) {
-            intake.intakeMachine(gamepad1.dpad_down, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_left);
-            finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y);
-            finalLiftPos = lift.liftMachine(gamepad2.options, gamepad2.x, gamepad2.y, gamepad2.b, gamepad2.right_bumper);
+            intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad1.dpad_right, gamepad1.dpad_left);
+            finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
+            finalLiftPos = lift.liftMachine(gamepad2.options, gamepad2.x, gamepad2.y, gamepad2.b, gamepad2.right_bumper, gamepad1.dpad_up, gamepad1.dpad_down);
 
             if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
                 if(outake.outakeState == BARLEFT){
@@ -74,9 +74,10 @@ public class Robot1Tele extends CuttleInitOpMode{
         liftPosition = finalLiftPos;
         extendoPosition = finalExtendoPos;
 
-        dt.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
+        //dt.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
+        dt.driveDO(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x, gamepad1.right_trigger, gamepad1.left_trigger, -encoderLocalizer.getPos().getR());
 
-        if (gamepad1.left_bumper && intake.intakeState == TRANSFERED){
+        if (gamepad2.left_bumper && intake.intakeState == TRANSFERED){
             transfering = true;
         }
 
@@ -88,9 +89,8 @@ public class Robot1Tele extends CuttleInitOpMode{
         telemetry.addData("lift state", lift.currentState);
         telemetry.addData("extendo pose", extendoPosController.getPosition());
         telemetry.addData("lift pose", liftPosController.getPosition());
-        telemetry.addData("color detected", intake.getColor());
+        telemetry.addData("turntable pose", intake.turntable.getPosition());
         telemetry.addData("transfering?", transfering);
-        telemetry.addData("counter", counter);
         telemetry.update();
     }
 
@@ -115,7 +115,7 @@ public class Robot1Tele extends CuttleInitOpMode{
             outake.transferPos();
             return true;
         }));
-        transfer.addTask(new DelayTask(100));
+        transfer.addTask(new DelayTask(200));
         transfer.addTask(new CustomTask(()->{
             outake.grippedPos();
             intake.initPos();

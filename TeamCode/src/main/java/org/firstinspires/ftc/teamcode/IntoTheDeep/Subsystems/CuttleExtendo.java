@@ -18,12 +18,12 @@ public class CuttleExtendo {
     CuttleEncoder motorEncoder;
     MotorPositionController slidePosController;
     private ExtendoState currentState = INE;
-    double slidePosition;
+    double slidePosition, slidePosOffset;
 
     private PIDController controller;
     private final double ticks_in_degree = 384.5/360.0;
     private static final double JOYSTICK_SCALE = 1;  // Adjust as needed make higher for less sensitive
-    public static double p = 2, i = 0.0, d = 0.04;
+    public static double p = 1.9, i = 0.0, d = 0.01;
 
 
     public CuttleExtendo(CuttleMotor motor, CuttleEncoder encoder, MotorPositionController motorpos, CuttleRevHub hub){
@@ -57,21 +57,31 @@ public class CuttleExtendo {
         extendoMotor.setPower(pid + extraPower);
     }
 
-    public double extendoMachine(boolean buttonIN, boolean buttonMIDDLE, boolean buttonFULLEXTEND){
+    public void hardRetract(){
+        //work in progress
+        extendoMotor.setPower(-0.5);
+    }
+
+    public double extendoMachine(boolean buttonIN, boolean buttonMIDDLE, boolean buttonFULLEXTEND, boolean smallExtend, boolean smallRetract){
         //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
         switch (currentState){
             case INE:
-                slidePosition = 0;
+                slidePosition = 0 + slidePosOffset;
+                if(smallExtend){slidePosOffset += 0.25;}
+                if(smallRetract){slidePosOffset -= 0.25;}
                 if(buttonMIDDLE){currentState = MIDDLE;}
                 if(buttonFULLEXTEND){currentState = FULL;}
                 break;
             case MIDDLE:
-                slidePosition = 4;
+                slidePosition = 3 + slidePosOffset;
+                if(smallExtend){slidePosOffset += 0.25;}
+                if(smallRetract){slidePosOffset -= 0.25;}
                 if(buttonIN){currentState = INE;}
                 if(buttonFULLEXTEND){currentState = FULL;}
                 break;
             case FULL:
-                slidePosition = 7.5;
+                slidePosition = 6 + slidePosOffset;
+                if(smallRetract){slidePosOffset -= 0.25;}
                 if(buttonIN){currentState = INE;}
                 if(buttonMIDDLE){currentState = MIDDLE;}
                 break;

@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.Outreach;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
-import org.firstinspires.ftc.teamcode.Testing.CuttleInitOpModeMTI;
 
 
 @TeleOp

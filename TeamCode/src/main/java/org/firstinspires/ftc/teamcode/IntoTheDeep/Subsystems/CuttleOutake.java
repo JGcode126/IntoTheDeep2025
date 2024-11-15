@@ -45,7 +45,7 @@ public class CuttleOutake {
 
     public void readyPos(){
         wristCenter();
-        drive.setPosition(0.65);
+        drive.setPosition(0.60);
         openClaw();
     }
 
@@ -57,13 +57,13 @@ public class CuttleOutake {
 
     public void transferPos(){
         wristCenter();
-        drive.setPosition(0.8);
+        drive.setPosition(0.85);
         openClaw();
     }
 
     public void grippedPos(){
         closeClaw();
-        drive.setPosition(0.8);
+        drive.setPosition(0.85);
         wristCenter();
     }
 
@@ -76,7 +76,7 @@ public class CuttleOutake {
     }
 
     public void wristRight(){
-        wrist.setPosition(0.75);
+        wrist.setPosition(0.82);
     }
 
     public void wristLeft(){
@@ -84,7 +84,7 @@ public class CuttleOutake {
     }
 
     public void wristCenter(){
-        wrist.setPosition(0.5);
+        wrist.setPosition(0.52);
     }
     public void wristDown(){
         wrist.setPosition(0);

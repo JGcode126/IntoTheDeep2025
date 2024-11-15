@@ -5,6 +5,8 @@ import com.roboctopi.cuttlefish.utils.Direction;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
 
+import org.firstinspires.ftc.teamcode.zLibraries.Utilities.Vector2d;
+
 public class CuttleDT{
     public CuttleMotor leftFrontMotor;
     public CuttleMotor rightFrontMotor;
@@ -44,6 +46,55 @@ public class CuttleDT{
         leftBackMotor.setPower((drive-strafe+turn)*-1);
         rightBackMotor.setPower((drive+strafe-turn)*-1);
     }
+
+    public void driveDO(double drive, double strafe, double turn, double fast, double superslow, double rotation){
+
+        Vector2d driveVector = new Vector2d(strafe, drive);
+        Vector2d rotatedVector = driveVector.rotate(rotation);
+
+        drive = rotatedVector.y;
+        strafe = rotatedVector.x;
+
+        if(turn!= 0) {
+            inputTurn = turn;
+            releaseAngle = Math.toDegrees(rotation);
+        } else{
+            targetAngle = releaseAngle + 0.5;
+            inputTurn = PID(targetAngle-Math.toDegrees(rotation), 0.05,0,0);
+        }
+
+        if (fast > 0.02) {
+            leftFrontMotor.setPower((drive+strafe+(inputTurn))*-0.6);
+            rightFrontMotor.setPower((drive-strafe-(inputTurn))*-0.6);
+            leftBackMotor.setPower((drive-strafe+(inputTurn))*-0.6);
+            rightBackMotor.setPower((drive+strafe-(inputTurn))*-0.6);
+        } else if (superslow > 0.02) {
+            leftFrontMotor.setPower((drive+strafe*1.5+inputTurn)*-0.25);
+            rightFrontMotor.setPower((drive-strafe*1.5-inputTurn)*-0.25);
+            leftBackMotor  .setPower((drive-strafe*1.5+inputTurn)*-0.25);
+            rightBackMotor.setPower((drive+strafe*1.5-inputTurn)*-0.25);
+        } else{
+            leftFrontMotor.setPower((drive+strafe+inputTurn*0.9)*-1);
+            rightFrontMotor.setPower((drive-strafe-inputTurn*0.9)*-1);
+            leftBackMotor.setPower((drive-strafe+inputTurn*0.9)*-1);
+            rightBackMotor.setPower((drive+strafe-inputTurn*0.9)*-1);
+        }
+
+    }
+
+    public double PID (double error, double kp, double ki, double kd){
+
+        integral += error;
+        double derivative = error - last_error;
+        double preportional = error * kp;
+        double integral2 = integral * ki;
+        double derivative2 = derivative * kd;
+
+        double correction = preportional + integral2 + derivative2;
+        return correction;
+
+    }
+
     public void stop(){
         leftFrontMotor.setPower(0);
         rightFrontMotor.setPower(0);

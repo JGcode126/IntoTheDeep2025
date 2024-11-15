@@ -22,7 +22,7 @@ public class CuttleSlides {
     CuttleEncoder liftmotorEncoder;
     MotorPositionController liftPosController;
     //private LiftState currentState = IN;
-    double liftPosition;
+    double liftPosition, positionOffset = 0;
 
     private PIDController controller;
     public static double p = 1, i = 0.0, d = 0.04;
@@ -61,10 +61,11 @@ public class CuttleSlides {
         liftMotorRight.setPower((pid + extraPower + ff) * 1);
     }
 
-    public double liftMachine(boolean buttonIN, boolean buttonLOWBUCKET, boolean buttonHIGHBUCKET, boolean buttonLOWSUB, boolean buttonHIGHSUB){
+    public double liftMachine(boolean buttonIN, boolean buttonLOWBUCKET, boolean buttonHIGHBUCKET, boolean buttonLOWSUB, boolean buttonHIGHSUB, boolean upOffset, boolean downOffset){
         switch (currentState){
             case IN:
                 liftPosition = 0; //good
+                positionOffset = 0;
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
                 if(buttonLOWSUB){currentState = LOWSUB;}
@@ -85,14 +86,18 @@ public class CuttleSlides {
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case LOWSUB:
-                liftPosition = 0.5; //kinda impossible...
+                liftPosition = 0.5 +positionOffset; //kinda impossible...
+                if(upOffset){positionOffset += 0.25;}
+                if(downOffset){positionOffset -= 0.25;}
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case HIGHSUB:
-                liftPosition = 5.1;
+                liftPosition = 5.1 + positionOffset;
+                if(upOffset){positionOffset += 0.4;}
+                if(downOffset){positionOffset -= 0.25;}
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}

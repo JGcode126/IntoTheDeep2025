@@ -23,13 +23,13 @@ public class CuttleIntake{
     public ColorRangeSensor colorSensor;
     CuttleServo leftServo;
     CuttleServo rightServo;
-    CuttleServo turntable;
+    public CuttleServo turntable;
     public CuttleServo clawServo;
     public CuttleIntake.IntakeState intakeState = UP;
 
-    double clawInit = 0, clawGrab = 0.45;
+    double clawInit = 0, clawGrab = 0.45, triggerTrigger = 0.1;
 
-
+    double turntablePos = 0.5;
 
     public CuttleIntake(CuttleServo left, CuttleServo right, CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap){
         leftServo = left;
@@ -85,36 +85,46 @@ public class CuttleIntake{
             color = RED;
         } else if(colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green() && colorSensor.getDistance(DistanceUnit.CM) < 2.5){
             color = BLUE;
-        } else{
+        } else if(colorSensor.getDistance(DistanceUnit.CM) < 2.5){
+            color = BLUE;
+        }
+        /*
+        else{
             color = null;
         }
+
+         */
         return color;
     }
 
-    public void intakeMachine(boolean down, boolean looking, boolean up, boolean reject){
+    public void intakeMachine(boolean down, double looking, boolean up, double reject, boolean right, boolean left){
         switch (intakeState){
             case UP:
                 initPos();
+                turntablePos = 0.5;
                 if(down){intakeState = DOWN;}
-                if(looking){intakeState = LOOKING;}
-
+                if(looking > triggerTrigger){intakeState = LOOKING;}
                 break;
             case DOWN:
-                intakePos(0.5);
+                intakePos(turntablePos);
                 intakeMotor.setPower(0);
-                if(looking){intakeState = LOOKING;}
+                if(right && turntable.getPosition() < 0.6){turntablePos += 0.025;}
+                if(left && turntable.getPosition() > 0.4){turntablePos -= 0.025;}
+                if(looking > triggerTrigger){intakeState = LOOKING;}
                 if(up){intakeState = UP;}
-                if(reject){intakeState = REJECT;}
+                if(reject > triggerTrigger){intakeState = REJECT;}
                 break;
             case LOOKING:
-                intakePos(0.5);
+                intakePos(turntablePos);
                 intakeMotor.setPower(-1);
+                if(right && turntable.getPosition() < 0.55){turntablePos += 0.025;}
+                if(left && turntable.getPosition() > 0.45){turntablePos -= 0.025;}
                 if(down){intakeState = DOWN;}
                 if(up){intakeState = UP;}
                 if (getColor() == YELLOW || getColor() == RED || getColor() == BLUE){
                     intakeState = SECURED;
                 }
-                if(reject){intakeState = REJECT;}
+                if(reject > 0.1){intakeState = REJECT;}
                 break;
             case SECURED:
                 intakePos(0.5);
@@ -127,13 +137,13 @@ public class CuttleIntake{
                     Robot1Tele.extendoPosition = 0;
                 }
                 if(down){intakeState = DOWN;}
-                if(looking){intakeState = LOOKING;}
+                if(looking > triggerTrigger){intakeState = LOOKING;}
                 if(up){intakeState = UP;}
                 break;
             case REJECT:
                 intakePos(0.5);
                 intakeMotor.setPower(1);
-                if(looking){intakeState = LOOKING;}
+                if(looking > triggerTrigger){intakeState = LOOKING;}
                 if(up){intakeState = UP;}
                 if(down){intakeState = DOWN;}
         }

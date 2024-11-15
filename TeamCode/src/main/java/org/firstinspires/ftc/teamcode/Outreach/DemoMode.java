@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Outreach;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.utils.Pose;
 
