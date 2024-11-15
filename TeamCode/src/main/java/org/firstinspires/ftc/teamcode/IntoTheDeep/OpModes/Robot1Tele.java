@@ -28,17 +28,16 @@ public class Robot1Tele extends CuttleInitOpMode{
     public boolean transfering = false;
     public void onInit() {
         super.onInit();
-
-        intake.initPos();
-
+        //intake.initPos();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     }
-
     public void main() {
         super.main();
         liftPosController.setHome();
+        extendoPosController.setHome();
+        intake.initPos();
+        outake.readyPos();
     }
-
     public void mainLoop() {
         super.mainLoop();
 
@@ -83,6 +82,13 @@ public class Robot1Tele extends CuttleInitOpMode{
 
         if (gamepad1.options){
             encoderLocalizer.getPos().setR(0);
+        }
+
+        if(gamepad1.a){
+            hardResetExtendo();
+        }
+        if (gamepad1.b){
+            hardResetlift();
         }
 
         telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
@@ -162,6 +168,37 @@ public class Robot1Tele extends CuttleInitOpMode{
             return true;
         }));
         queue.addTask(deliver);
+    }
+
+    void hardResetExtendo(){
+        TaskList reset = new TaskList();
+        extendo.setExtendoState(INE);
+        reset.addTask(new CustomTask(()->{
+            extendo.hardRetract();
+            return extendoMotor.getCurrent() > 3300;
+        }));
+        reset.addTask(new CustomTask(()->{
+            extendoMotor.setPower(0);
+            extendoPosController.setHome();
+            return true;
+        }));
+        queue.addTask(reset);
+    }
+
+    void hardResetlift(){
+        TaskList liftReset = new TaskList();
+        lift.setLiftState(IN);
+        liftReset.addTask(new CustomTask(()->{
+            lift.hardReset();
+            return leftbackSlides.getCurrent() > 3300;
+        }));
+        liftReset.addTask(new CustomTask(()->{
+            leftbackSlides.setPower(0);
+            rightBackSlides.setPower(0);
+            liftPosController.setHome();
+            return true;
+        }));
+        queue.addTask(liftReset);
     }
 
 

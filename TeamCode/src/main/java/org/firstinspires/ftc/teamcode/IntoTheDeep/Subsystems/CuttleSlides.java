@@ -115,4 +115,9 @@ public class CuttleSlides {
         currentState = state;
     }
 
+    public void hardReset(){
+        liftMotorRight.setPower(-0.5);
+        liftMotorLeft.setPower(0.5);
+    }
+
 }
