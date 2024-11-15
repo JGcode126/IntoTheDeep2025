@@ -48,7 +48,11 @@ public class Robot1Tele extends CuttleInitOpMode{
 
         if (transfering == false) {
             intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad1.dpad_right, gamepad1.dpad_left);
-            finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
+            if(gamepad1.share){
+                hardResetExtendo();
+            } else {
+                finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
+            }
             finalLiftPos = lift.liftMachine(gamepad2.options, gamepad2.x, gamepad2.y, gamepad2.b, gamepad2.right_bumper, gamepad1.dpad_up, gamepad1.dpad_down);
 
             if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
@@ -84,12 +88,10 @@ public class Robot1Tele extends CuttleInitOpMode{
             encoderLocalizer.getPos().setR(0);
         }
 
-        if(gamepad1.a){
+        if(gamepad1.share){
             hardResetExtendo();
         }
-        if (gamepad1.b){
-            hardResetlift();
-        }
+
 
         telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
         telemetry.addData("Cuttle Y:",encoderLocalizer.getPos().getY());
