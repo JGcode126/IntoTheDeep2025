@@ -39,6 +39,11 @@ public class CuttleOutake {
     public void autoHighRungPos(){
         drive.setPosition(0.19);
     }
+
+    public void autoAutoHighRungPos(){
+        drive.setPosition(0.18);
+    }
+
     public void autoPos(){
         drive.setPosition(0.70);
     }

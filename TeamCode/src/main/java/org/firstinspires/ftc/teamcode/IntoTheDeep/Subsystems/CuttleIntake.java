@@ -40,6 +40,13 @@ public class CuttleIntake{
         colorSensor = hardwareMap.get(ColorRangeSensor.class, "color");
     }
 
+    public void intakeDown(){
+        intakePos(0.5);
+    }
+    public void turntableRight(){
+        intakePos(0.525);
+    }
+
     public void initPos(){
         leftServo.setPosition(0.965);
         rightServo.setPosition(0.035);
@@ -65,9 +72,8 @@ public class CuttleIntake{
     public void in(){
         intakeMotor.setPower(-1);
     }
-    public void off(){
-        intakeMotor.setPower(0);
-    }
+    public void off(){intakeMotor.setPower(0);}
+    public void out(){intakeMotor.setPower(1);}
 
     public void nomnom (){
         if (getColor() == YELLOW || getColor() == RED || getColor() == BLUE){
