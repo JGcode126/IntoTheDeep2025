@@ -53,7 +53,7 @@ public class Robot1Tele extends CuttleInitOpMode{
             } else {
                 finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
             }
-            finalLiftPos = lift.liftMachine(gamepad2.options, gamepad2.x, gamepad2.y, gamepad2.b, gamepad2.right_bumper, gamepad1.dpad_up, gamepad1.dpad_down);
+            finalLiftPos = lift.liftMachine(gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options, gamepad2.right_bumper, gamepad1.dpad_up, gamepad1.dpad_down);
 
             if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
                 if(outake.outakeState == BARLEFT){
