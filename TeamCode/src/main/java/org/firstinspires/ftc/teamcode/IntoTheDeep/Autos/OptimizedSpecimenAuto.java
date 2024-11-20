@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,11 +18,18 @@ import com.roboctopi.cuttlefish.utils.Pose;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous
+@Config
 public class OptimizedSpecimenAuto extends CuttleInitOpMode {
     RegularlyUsed methods;
     private State currentState;
     double counter = 0;
     public boolean transfering = false;
+
+    public static int x = -700;
+    public static int y = -600;
+    public static double rotation = 130;
+    public static double extendo = 5.7;
+    public static double out = 6;
 
     private ElapsedTime timer = new ElapsedTime();
 
@@ -46,12 +54,17 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
 
     public void main() {
         super.main();
-        addSequence(this::scoringSpecimen);
+        //----TESTING STUFF----
+        //addSequence(this::test);
+        //addSequence(this::testSample);
+
+        //-----ACTUAL RUNNING CODE-----
+        //addSequence(this::scoringSpecimen);
         addSequence(this::fistSample);
-        addSequence(this::secondSample);
-        addSequence(this::thirdSample);
-        addSequence(this::transferSequence);
-        addSequence(this::specimen);
+        //addSequence(this::secondSample);
+        //addSequence(this::thirdSample);
+        //addSequence(this::transferSequence);
+        //addSequence(this::specimen);
         addSequence(this::teleOpInit);
     }
 
@@ -98,10 +111,15 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
         TaskList init = new TaskList();
         addIntakeTask(init, () -> {
             outake.readyPos();
-            liftPosition = 0;
-            extendoPosition = 0;
+            intake.off();
             intake.initPos();
+            extendoPosition = 0;
+            liftPosition = 0;
         });
+
+        addWaypointTask(init, new Pose(0,0,0));
+
+        queue.addTask(init);
     }
 
     void specimen() {
@@ -113,6 +131,8 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
         });
         addDelayTask(specimen, 1500);
         prepareForScoring(specimen);
+
+        queue.addTask(specimen);
     }
 
     private void prepareForScoring(TaskList taskList) {
@@ -157,33 +177,44 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
     }
 
     void thirdSample() {
-        processSample(-1200, -580, 4.5, Math.toRadians(115), Math.toRadians(35));
+        processSample(-1200, -580, 4.5, 4.5, Math.toRadians(115), Math.toRadians(35));
     }
 
     void secondSample() {
-        processSample(-900, -580, 7.5, Math.toRadians(125), Math.toRadians(45));
+        processSample(-900, -580, 7.5, 7.5, Math.toRadians(125), Math.toRadians(45));
     }
 
     void fistSample() {
-        processSample(-700, -600, 5.8, Math.toRadians(126), Math.toRadians(45));
+        processSample(x, y, extendo, out, Math.toRadians(rotation), Math.toRadians(45));
+        //processSample(-700, -600, 5.8, Math.toRadians(126), Math.toRadians(45));
     }
 
-    private void processSample(int x, int y, double extendo, double initialAngle, double finalAngle) {
+    private void processSample(int x, int y, double extendo, double extendoOut, double initialAngle, double finalAngle) {
         TaskList sample = new TaskList();
         addWaypointTask(sample, new Pose(x, y, initialAngle));
 
         addIntakeTask(sample, () -> {
+            intake.intakeDown();
             intake.in();
+        });
+
+        addDelayTask(sample, 200);
+
+        addIntakeTask(sample, () -> {
             extendoPosition = extendo;
         });
 
         addDelayTask(sample, 1300);
         addWaypointTask(sample, new Pose(x, y, finalAngle));
         addIntakeTask(sample, () -> {
+            extendoPosition = extendoOut;
             intake.out();
+        });
+        addDelayTask(sample, 200);
+
+        addIntakeTask(sample, () -> {
             extendoPosition = 0;
         });
-        addDelayTask(sample, 100);
 
         queue.addTask(sample);
     }
@@ -209,6 +240,32 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
         });
 
         queue.addTask(scoringSpecimen);
+    }
+
+    //--------TESTING CODE---------
+    void test(){
+        TaskList test = new TaskList();
+        addDelayTask(test, 2000);
+
+        addIntakeTask(test, () -> {
+            outake.readyPos();
+            //liftPosition = 0;
+            extendoPosition = 7.5;
+            intake.intakeDown();
+        });
+
+        addDelayTask(test, 2000);
+
+        addIntakeTask(test, () -> {
+            intake.initPos();
+            extendoPosition = 0;
+        });
+
+        queue.addTask(test);
+    }
+
+    void testSample(){
+        processSample(0, 0, 2, 0,0 , 0);
     }
 
     private enum State {
