@@ -115,16 +115,16 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         CuttleEncoder extendoEncoder = ctrlHub.getEncoder(2, 141.1*4);
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //intake
+        //intake chub 4 and 5 are cooked
         CuttleServo intakeLeft = expHub.getServo(0);
-        CuttleServo intakeRight = ctrlHub.getServo(5);
+        CuttleServo intakeRight = ctrlHub.getServo(2);
         CuttleServo intakeClaw = ctrlHub.getServo(0);
         CuttleServo turntable = ctrlHub.getServo(1);
 
-        //outake
+        //outake exp hub servo 5 is cooked
         CuttleServo driveServo = expHub.getServo(3);
-        CuttleServo clawServo = expHub.getServo(5);
-        CuttleServo wristServo = expHub.getServo(4);
+        CuttleServo clawServo = expHub.getServo(4);
+        CuttleServo wristServo = expHub.getServo(2);
 
 
         //Odometry
