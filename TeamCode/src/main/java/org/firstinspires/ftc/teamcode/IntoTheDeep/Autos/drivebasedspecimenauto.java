@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.READY;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -18,12 +19,13 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 import org.opencv.core.Mat;
 
 @Autonomous
-public class DrivingSpecimenAuto extends CuttleInitOpMode {
+public class drivebasedspecimenauto extends CuttleInitOpMode {
     RegularlyUsed methods;
     private State currentState;
     double counter = 0;
     public boolean transfering = false;
-
+    boolean step = false;
+    boolean dropoff = false;
     private ElapsedTime timer = new ElapsedTime();
 
     public void onInit(){
@@ -54,30 +56,36 @@ public class DrivingSpecimenAuto extends CuttleInitOpMode {
             fistSample();
             return true;
         }));
-        queue.addTask(new CustomTask(() -> {
-            secondSample();
+        /*
+        queue.addTask(new CustomTask(()->{
+            intake.intakeDown();
+            extendoPosition = 6;
+            intake.in();
             return true;
         }));
-        queue.addTask(new CustomTask(() -> {
-            thirdSample();
-            return true;
-        }));
-        queue.addTask(new CustomTask(() -> {
-            scoringPose();
-            return true;
-        }));
-        queue.addTask(new CustomTask(() -> {
-            specimen();
-            return true;
-        }));
-        queue.addTask(new CustomTask(() -> {
+        queue.addTask(new DelayTask(1500));
+
+        queue.addTask(new CustomTask(()->{
             transferSequence();
+            return transferSequence();
+        }));
+
+        queue.addTask(new PointTask(new Waypoint(new Pose(-200, -390, Math.toRadians(0))), ptpController));
+
+        queue.addTask(new CustomTask(()->{
+            liftPosition = 5.1;
             return true;
         }));
-        queue.addTask(new CustomTask(() -> {
-            teleOpInit();
-            return true;
+        queue.addTask(new PointTask(new Waypoint(new Pose(0, -720, 0),1,0.010,30,false), ptpController));
+
+        queue.addTask(new CustomTask(()->{
+            specimenDropOffSequence();
+            return specimenDropOffSequence();
         }));
+        queue.addTask(new PointTask(new Waypoint(new Pose(-350, -350, Math.toRadians(45))), ptpController));
+
+         */
+
 
     }
     public void mainLoop(){
@@ -122,9 +130,7 @@ public class DrivingSpecimenAuto extends CuttleInitOpMode {
 
         specimen.addTask(new DelayTask(200));
         specimen.addTask(new CustomTask(()->{
-            outake.autoHighRungPos();
-            outake.wristLeft();
-            liftPosition = 5.1;
+            transferSequence();
             return true;
         }));
 
@@ -146,14 +152,22 @@ public class DrivingSpecimenAuto extends CuttleInitOpMode {
         specimen.addTask(new PointTask(new Waypoint(new Pose(-200, -390, Math.toRadians(0))), ptpController));
 
         specimen.addTask(new CustomTask(()->{
-            outake.readyPos();
-            liftPosition = 0;
+            liftPosition = 5.1;
             return true;
         }));
+        specimen.addTask(new PointTask(new Waypoint(new Pose(0, -720, 0),1,0.010,30,false), ptpController));
+
+        specimen.addTask(new CustomTask(()->{
+            specimenDropOffSequence();
+            return true;
+        }));
+        specimen.addTask(new PointTask(new Waypoint(new Pose(-350, -350, Math.toRadians(45))), ptpController));
+
+        queue.addTask(specimen);
 
     }
 
-    void transferSequence(){
+    boolean transferSequence(){
         TaskList transfer = new TaskList();
 
         intake.setIntakeState(UP);
@@ -181,45 +195,84 @@ public class DrivingSpecimenAuto extends CuttleInitOpMode {
             outake.grippedPos();
             intake.initPos();
             intake.setIntakeState(UP);
+            transfering = true;
             return true;
         }));
 
         queue.addTask(transfer);
+        return transfering;
     }
 
-
-
-    void thirdSample() {
-        TaskList third = new TaskList();
-
-        third.addTask(new PointTask(new Waypoint(new Pose(-1500, -1450, Math.PI),1,0.010,150,true), ptpController));
-        third.addTask(new PointTask(new Waypoint(new Pose(-1650, -1400, Math.PI),1,0.010,150,true), ptpController));
-        third.addTask(new PointTask(new Waypoint(new Pose(-1650, -400, Math.PI),1,0.010,150,true), ptpController));
-        queue.addTask(third);
-    }
-
-    void secondSample(){
-        TaskList second = new TaskList();
-
-        second.addTask(new PointTask(new Waypoint(new Pose(-1250, -1450, Math.PI),1,0.010,150,true), ptpController));
-        second.addTask(new PointTask(new Waypoint(new Pose(-1500, -1400, Math.PI),1,0.010,150,true), ptpController));
-        second.addTask(new PointTask(new Waypoint(new Pose(-1500, -400, Math.PI),1,0.010,150,true), ptpController));
-        queue.addTask(second);
-
+    boolean specimenDropOffSequence(){
+        TaskList deliver = new TaskList();
+        System.out.println("yes");
+        lift.setLiftState(IN);
+        outake.setScoreState(READY);
+        deliver.addTask(new CustomTask(()->{
+            outake.wristCenter();
+            outake.openClaw();
+            return true;
+        }));
+        deliver.addTask(new DelayTask(400));
+        deliver.addTask(new CustomTask(()->{
+            outake.readyPos();
+            liftPosition = 0;
+            dt.drive(0,0,0);
+            dropoff = true;
+            return true;
+        }));
+        queue.addTask(deliver);
+        return dropoff;
     }
 
 
     void fistSample(){
         TaskList intakingSample = new TaskList();
-        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-800, -400, 0),1,0.010,200,true), ptpController));
-        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-900, -1500, Math.PI),1,0.010,150,true), ptpController));
-        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1250, -1500, Math.PI),1,0.010,150,true), ptpController));
-        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1250, -400, Math.PI),1,0.010,150,true), ptpController));
+        intakingSample.addTask(new CustomTask(()->{
+            extendoPosition = 0;
 
-        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1000, -600, Math.PI/2),1,0.010,150,true), ptpController));
+            return true;
+        }));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-700, -400, Math.PI),1,0.1,200,true), ptpController));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-750, -1500, Math.PI),1,0.010,100,true), ptpController));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1100, -1500, Math.PI),1,0.010,100,true), ptpController));
+        intakingSample.addTask(new CustomTask(()->{
+            extendoPosition = 3;
+            return true;
+        }));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1100, -150, Math.PI),1,0.010,100,true), ptpController));
+        intakingSample.addTask(new CustomTask(()->{
+            extendoPosition = 0;
+            return true;
+        }));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-900, -1450, Math.PI),1,0.010,100,true), ptpController));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1300, -1400, Math.PI),1,0.010,100,true), ptpController));
+        intakingSample.addTask(new CustomTask(()->{
+            extendoPosition = 3;
+            return true;
+        }));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1300, -200, Math.PI),0.7,0.010,100,true), ptpController));
+        intakingSample.addTask(new CustomTask(()->{
+            extendoPosition = 0;
+            return true;
+        }));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1250, -1450, Math.PI),1,0.010,100,true), ptpController));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1470, -1400, Math.PI),1,0.010,75,true), ptpController));
+        intakingSample.addTask(new CustomTask(()->{
+            extendoPosition = 3;
+            return true;
+        }));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-1470, -200, Math.PI),0.7,0.010,100,true), ptpController));
+
         intakingSample.addTask(new PointTask(new Waypoint(new Pose(-400, -500, Math.PI/2),1,0.010,150,true), ptpController));
+        intakingSample.addTask(new PointTask(new Waypoint(new Pose(-350, -350, Math.toRadians(45))), ptpController));
+
 
         queue.addTask(intakingSample);
+        intakingSample.addTask(new CustomTask(()->{
+            step = true;
+            return true;
+        }));
     }
 
     void scoringSpecimen(){
@@ -227,6 +280,7 @@ public class DrivingSpecimenAuto extends CuttleInitOpMode {
 
         scoringSpecimen.addTask(new CustomTask(() -> {
             liftPosition = 3;
+            extendoPosition = 3;
             outake.autoAutoHighRungPos();
             return true;
         }));
@@ -243,18 +297,12 @@ public class DrivingSpecimenAuto extends CuttleInitOpMode {
         scoringSpecimen.addTask(new PointTask(new Waypoint(new Pose(0, -400, 0),1,0.010,100, true), ptpController));
 
         scoringSpecimen.addTask(new CustomTask(() -> {
-            outake.transferPos();
+            outake.readyPos();
             liftPosition = 0;
             return true;
         }));
 
         queue.addTask(scoringSpecimen);
-    }
-
-    void scoringPose(){
-        TaskList scoringPos = new TaskList();
-        scoringPos.addTask(new PointTask(new Waypoint(new Pose(-350, -350, Math.toRadians(45))), ptpController));
-        queue.addTask(scoringPos);
     }
 
     private enum State{

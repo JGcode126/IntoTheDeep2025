@@ -9,6 +9,7 @@ import com.roboctopi.cuttlefish.controller.PTPController;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
+import com.roboctopi.cuttlefish.utils.PID;
 import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
@@ -66,16 +67,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public TaskQueue queue;
     public SparkFunOTOS.Pose2D pos;
     SparkFunOTOS myOtos;
-/*
-    public static double p;
-    public static double i;
-    public static double d;
 
-    public static double pRotation;
-    public static double iRotation;
-    public static double dRotation;
 
- */
 
     //public static int method;
     public static double extendoPosition;
@@ -161,24 +154,15 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         // Initialize the PTP Controller
         ptpController = new PTPController(chassis, encoderLocalizer);
 
-        /*ptpController.setTranslational_PD_ctrlr(new PID(
-                p,i, d,2.0/1000.0,0
-        ));//0.02, 0, 0.0005*/
-        //ptpController.setRotational_PID_ctrlr(new PID(pRotation,iRotation,dRotation,0.0,0.35));
-        //PI * 1, 0, 0.2
 
-       /* ptpController.setTranslational_PD_ctrlr(new PID(
-                0.002,0, 0.0002,2.0/1000.0,0
-        ));//0.02, 0, 0.0005
-        ptpController.setRotational_PID_ctrlr(new PID(0.9,0,0.25,0.0,0.35));*/
-        //PI * 1, 0, 0.2
-        //50%-50% = 2,0,0.2
-        //20%-80% = 0.9,0, 0.25
-
-        /*ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.2);
-        ptpController.getAntistallParams().setMoveSpeedAntistallThreshold(.05);
-        ptpController.getAntistallParams().setRotatePowerAntistallThreshold(0.05);
-        ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.05);*/
+        ptpController.setTranslational_PD_ctrlr(new PID(
+                0.015,0,0.002,0,1
+        ));//0.00025
+        ptpController.setRotational_PID_ctrlr(new PID(3.2,0.0,0,0,1));
+        ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.25);
+        ptpController.getAntistallParams().setMoveSpeedAntistallThreshold(0.1);
+        ptpController.getAntistallParams().setRotatePowerAntistallThreshold(0.25);
+        ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.1);
 
         // Initialize the queue
         queue = new TaskQueue();
