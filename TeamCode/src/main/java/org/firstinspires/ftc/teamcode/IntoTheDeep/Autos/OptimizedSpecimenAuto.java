@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.INE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARLEFT;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARRIGHT;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BUCKET_BAR;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -25,11 +29,14 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
     double counter = 0;
     public boolean transfering = false;
 
-    public static int x = -700;
-    public static int y = -600;
-    public static double rotation = 130;
-    public static double extendo = 5.7;
-    public static double out = 6;
+    public static int x = -300;
+    public static int y = -500;
+    public static double rotation = 45;
+    public static double extendoAuto = 7.5;
+    public static double out = 7.5;
+
+    double highChamberPos = 5.1;
+
 
     private ElapsedTime timer = new ElapsedTime();
 
@@ -40,8 +47,8 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         otosLocalizer.reset();
 
-        liftPosition = 0;
-        extendoPosition = 0;
+        liftPosController.setHome();
+        extendoPosController.setHome();
 
         intake.initPos();
         liftPosController.setHome();
@@ -59,13 +66,16 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
         //addSequence(this::testSample);
 
         //-----ACTUAL RUNNING CODE-----
-        //addSequence(this::scoringSpecimen);
-        addSequence(this::fistSample);
+        addSequence(this::firstSpecimen);
+        //addSequence(this::fistSample);
         //addSequence(this::secondSample);
         //addSequence(this::thirdSample);
-        //addSequence(this::transferSequence);
-        //addSequence(this::specimen);
-        addSequence(this::teleOpInit);
+
+        addSequence(this::scoringSpecimen);
+        addSequence(this::scoringSpecimen);
+        addSequence(this::scoringSpecimen3);
+
+        //addSequence(this::teleOpInit);
     }
 
     public void mainLoop() {
@@ -122,71 +132,132 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
         queue.addTask(init);
     }
 
+    void scoringSpecimen3(){
+        specimen();
+        transferSequence();
+        scoring(0.5);
+    }
+
+    void scoringSpecimen(){
+        specimen();
+        transferSequence();
+        scoring(0);
+    }
+
     void specimen() {
         TaskList specimen = new TaskList();
+
+        //x = -300, y = -500, rotation = 45
+        addWaypointTask(specimen, new Pose(-350, -600, Math.toRadians(50)));
+
+
         addIntakeTask(specimen, () -> {
             intake.intakeDown();
-            extendoPosition = 7.5;
             intake.in();
         });
+
+        addDelayTask(specimen, 500);
+
+        addIntakeTask(specimen, () -> {
+            extendoPosition = 7.5;
+        });
+
         addDelayTask(specimen, 1500);
-        prepareForScoring(specimen);
 
         queue.addTask(specimen);
     }
 
-    private void prepareForScoring(TaskList taskList) {
-        addDelayTask(taskList, 200);
-        addIntakeTask(taskList, () -> {
-            outake.autoHighRungPos();
-            outake.wristLeft();
-            liftPosition = 5.1;
-        });
-        addDelayTask(taskList, 200);
-        addWaypointTask(taskList, new Pose(-200, -390, Math.toRadians(0)));
-        addIntakeTask(taskList, () -> {
-            outake.readyPos();
-            liftPosition = 0;
-        });
-    }
+     void scoring(double num) {
+        TaskList scoring = new TaskList();
 
-    void transferSequence() {
+         addIntakeTask(scoring, ()->{
+             liftPosition = highChamberPos + num;
+         });
+
+         addWaypointTask(scoring, new Pose(-150, -720, Math.toRadians(0)));
+
+         addIntakeTask(scoring, () -> {
+             outake.openClaw();
+             outake.wristCenter();
+         });
+
+         addDelayTask(scoring, 300);
+
+         addWaypointTask(scoring, new Pose(0, -400, 0));
+
+         addIntakeTask(scoring, () -> {
+             outake.readyPos();
+             liftPosition = 0;
+         });
+
+         queue.addTask(scoring);
+     }
+
+    void transferSequence(){
         TaskList transfer = new TaskList();
         intake.setIntakeState(UP);
         lift.setLiftState(IN);
 
-        addIntakeTask(transfer, () -> {
+        addIntakeTask(transfer, ()->{
             counter += 1;
             intake.armUp();
             intake.clawServo.setPosition(0.45);
             outake.readyPos();
             extendoPosition = 0;
             liftPosition = 0;
+            telemetry.addData("tranfer sequence running", true);
         });
 
         addDelayTask(transfer, 300);
-        addIntakeTask(transfer, outake::transferPos);
+
+        addIntakeTask(transfer, ()->{
+            //finalSlidePos = extendo.extendoMachine(true, false, false);
+            outake.transferPos();
+        });
+
         addDelayTask(transfer, 200);
-        addIntakeTask(transfer, () -> {
+
+        addIntakeTask(transfer, ()->{
             outake.grippedPos();
             intake.initPos();
             intake.setIntakeState(UP);
         });
 
+        addDelayTask(transfer, 200);
+
+        addIntakeTask(transfer, ()->{
+            outake.scorePosMid();
+            extendoPosition= 1;
+        });
+
+        addDelayTask(transfer, 200);
+
+        addIntakeTask(transfer, ()->{
+            extendoPosition = 0;
+            outake.scorePosLeft();
+            liftPosition = highChamberPos;
+
+            transfering = false;
+        });
+
+
         queue.addTask(transfer);
     }
 
     void thirdSample() {
-        processSample(-1200, -580, 4.5, 4.5, Math.toRadians(115), Math.toRadians(35));
+        processSample(x, y, extendoAuto, out, Math.toRadians(rotation), Math.toRadians(45));//For testing
+        //processSample(-1200, -580, 4.5, 4.5, Math.toRadians(115), Math.toRadians(35));
     }
 
     void secondSample() {
-        processSample(-900, -580, 7.5, 7.5, Math.toRadians(125), Math.toRadians(45));
+        processSample(x, y, extendoAuto, out, Math.toRadians(rotation), Math.toRadians(40));//For testing
+        //processSample(-900, -580, 7.5, 3.5, Math.toRadians(120), Math.toRadians(45));
+
     }
 
     void fistSample() {
-        processSample(x, y, extendo, out, Math.toRadians(rotation), Math.toRadians(45));
-        //processSample(-700, -600, 5.8, Math.toRadians(126), Math.toRadians(45));
+        //processSample(x, y, extendoAuto, out, Math.toRadians(rotation), Math.toRadians(45));//For Testing
+        processSample(-700, -600, 5.7,6, Math.toRadians(130), Math.toRadians(47));
     }
 
     private void processSample(int x, int y, double extendo, double extendoOut, double initialAngle, double finalAngle) {
@@ -205,9 +276,11 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
         });
 
         addDelayTask(sample, 1300);
-        addWaypointTask(sample, new Pose(x, y, finalAngle));
         addIntakeTask(sample, () -> {
             extendoPosition = extendoOut;
+        });
+        addWaypointTask(sample, new Pose(x, y, finalAngle));
+        addIntakeTask(sample, () -> {
             intake.out();
         });
         addDelayTask(sample, 200);
@@ -219,7 +292,7 @@ public class OptimizedSpecimenAuto extends CuttleInitOpMode {
         queue.addTask(sample);
     }
 
-    void scoringSpecimen() {
+    void firstSpecimen() {
         TaskList scoringSpecimen = new TaskList();
         addIntakeTask(scoringSpecimen, () -> {
             liftPosition = 3;

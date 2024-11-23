@@ -153,16 +153,17 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         // Initialize the PTP Controller
         ptpController = new PTPController(chassis, encoderLocalizer);
+        //ptpController = new PTPController(chassis, otosLocalizer);
 
 
-        ptpController.setTranslational_PD_ctrlr(new PID(
+        /*ptpController.setTranslational_PD_ctrlr(new PID(
                 0.015,0,0.002,0,1
         ));//0.00025
         ptpController.setRotational_PID_ctrlr(new PID(3.2,0.0,0,0,1));
         ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.25);
         ptpController.getAntistallParams().setMoveSpeedAntistallThreshold(0.1);
         ptpController.getAntistallParams().setRotatePowerAntistallThreshold(0.25);
-        ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.1);
+        ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.1);*/
 
         // Initialize the queue
         queue = new TaskQueue();
