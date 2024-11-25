@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
+package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.Old;
 
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.INE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.DelayTask;
@@ -18,6 +19,7 @@ import com.roboctopi.cuttlefish.utils.Pose;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous
+@Disabled
 public class BasicPositions extends CuttleInitOpMode {
     double finalExtendoPos = 0;
     double finalLiftPos = 0;
@@ -36,7 +38,7 @@ public class BasicPositions extends CuttleInitOpMode {
         liftPosController.setHome();
 
         outake.closeClaw();
-        outake.autoPos();
+        //outake.autoPos();
     }
 
     public void main(){

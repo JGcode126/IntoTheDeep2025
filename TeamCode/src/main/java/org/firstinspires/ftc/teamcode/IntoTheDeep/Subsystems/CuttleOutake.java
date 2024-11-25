@@ -44,8 +44,9 @@ public class CuttleOutake {
         drive.setPosition(0.18);
     }
 
-    public void autoPos(){
+    public void initAutoPos(){
         drive.setPosition(0.70);
+        closeClaw();
     }
 
     public void readyPos(){

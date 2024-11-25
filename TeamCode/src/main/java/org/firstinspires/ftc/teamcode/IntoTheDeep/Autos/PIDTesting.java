@@ -34,19 +34,15 @@ public class PIDTesting extends CuttleInitOpMode {
         intake.initPos();
         liftPosController.setHome();
 
-        outake.closeClaw();
-        outake.autoPos();
+        outake.initAutoPos();
 
     }
     public void main() {
         super.main();
         queue.addTask(new PointTask(new Waypoint(new Pose(0, 2000, 0)), ptpController));
 
-
-
-
-
     }
+
     public void mainLoop(){
         super.mainLoop();
 
