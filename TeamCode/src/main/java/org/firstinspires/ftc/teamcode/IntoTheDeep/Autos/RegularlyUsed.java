@@ -22,8 +22,10 @@ import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 
 import java.util.Queue;
 
@@ -33,11 +35,20 @@ public class RegularlyUsed extends CuttleInitOpMode{
     double counter = 0;
     public boolean transfering = false;
     double highChamberPos = 5.1;
+    double highBucketPos = 13;
     public String color;
     public String side;
 
+    public int x = 0;
+    public int y = 0;
+    public int x2 = 0;
+    public int y2 = 0;
+    public double rotation = 0;
+
     public RegularlyUsed(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
-                         PTPController ptpController, MotorPositionController liftController, MotorPositionController extController) {
+                         PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
+                         CuttleExtendo extendo, CuttleSlides lift) {
+
         //Initializing values
         this.otosLocalizer = otos;
         this.encoderLocalizer = encoderLocalizer;
@@ -47,7 +58,10 @@ public class RegularlyUsed extends CuttleInitOpMode{
         this.queue = queue;
         this.ptpController = ptpController;
         this.liftPosController = liftController;
-        this.extendoPosController = extController;}
+        this.extendoPosController = extController;
+        this.lift = lift;
+        this.extendo = extendo;
+    }
 
     //To initialize the robot
     public void initRobot() {
@@ -132,7 +146,7 @@ public class RegularlyUsed extends CuttleInitOpMode{
         });
 
         if(test) {
-            addWaypointTask(init, new Pose(0, 0, 0));//for auto testing sets position of robot to 0
+            addWaypointTask(init, new Pose(0, 0, 0),0.8,0.5,150,false);//for auto testing sets position of robot to 0
         }
 
         queue.addTask(init);
@@ -141,14 +155,15 @@ public class RegularlyUsed extends CuttleInitOpMode{
     public void scoringSpecimen(){
         specimen();
         transferSequence();
-        scoring(0);
+        scoring();
     }
 
     public void specimen() {
         TaskList specimen = new TaskList();
 
         //x = -300, y = -500, rotation = 45
-        addWaypointTask(specimen, new Pose(-350, -400, Math.toRadians(50)));
+        addWaypointTask(specimen, new Pose(x, y, Math.toRadians(rotation)),0.8,0.5,150,false);
+        //addWaypointTask(specimen, new Pose(-350, -400, Math.toRadians(50)));
 
         addIntakeTask(specimen, () -> {
             intake.intakeDown();
@@ -166,14 +181,15 @@ public class RegularlyUsed extends CuttleInitOpMode{
         queue.addTask(specimen);
     }
 
-    public void scoring(double num) {
+    public void scoring() {
         TaskList scoring = new TaskList();
 
-        addIntakeTask(scoring, ()->{
-            liftPosition = highChamberPos + num;
-        });
+        addDelayTask(scoring, 500);
 
-        addWaypointTask(scoring, new Pose(-150, -720, Math.toRadians(0)));
+        //x = -150, y = -720, turn  = 0
+        addWaypointTask(scoring, new Pose(x2, y2, Math.toRadians(0)),0.8,0.5,150,false);
+        //addWaypointTask(scoring, new Pose(-150, -720, Math.toRadians(0)));
+
 
         addIntakeTask(scoring, () -> {
             outake.openClaw();
@@ -182,7 +198,7 @@ public class RegularlyUsed extends CuttleInitOpMode{
 
         addDelayTask(scoring, 300);
 
-        addWaypointTask(scoring, new Pose(0, -400, 0));
+        addWaypointTask(scoring, new Pose(0, -400, 0),0.8,0.5,150,false);
 
         addIntakeTask(scoring, () -> {
             outake.readyPos();
@@ -231,13 +247,25 @@ public class RegularlyUsed extends CuttleInitOpMode{
 
         addDelayTask(transfer, 200);
 
-        addIntakeTask(transfer, ()->{
-            extendoPosition = 0;
-            outake.scorePosLeft();
-            liftPosition = highChamberPos;
+        if(side == "right") {
+            addIntakeTask(transfer, () -> {
+                extendoPosition = 0;
+                outake.scorePosLeft();
+                liftPosition = highChamberPos;
 
-            transfering = false;
-        });
+                transfering = false;
+            });
+        }
+
+        else{
+            addIntakeTask(transfer, () -> {
+                extendoPosition = 0;
+                outake.scorePosMid();
+                liftPosition = highBucketPos;
+
+                transfering = false;
+            });
+        }
 
         queue.addTask(transfer);
     }
@@ -251,10 +279,10 @@ public class RegularlyUsed extends CuttleInitOpMode{
     }
 
     //sample driving
-    public void fistSample() {sampleDriving(-700, -400, -750, -1500, -1100, -1500, -1100, -200);}
-    public void secondSample(){sampleDriving(-900, -1450,-1400, -1400,-1300, -200);}
+    public void fistSample() {sampleDriving(-700, -400, -750, -1500, -1100, -1500, -1100, -300);}
+    public void secondSample(){sampleDriving(-900, -1450,-1400, -1400,-1300, -300);}
     public void thridSample(){
-        sampleDriving(-1250, -1450,-1500, -1400,-1480, -200);
+        sampleDriving(-1250, -1450,-1500, -1400,-1480, -300);
         drive(-1400, -500, Math.PI);
     }
 
@@ -370,7 +398,7 @@ public class RegularlyUsed extends CuttleInitOpMode{
             extendoPosition = 3;
         });
 
-        addWaypointTask(scoringSpecimen, new Pose(0, -720, 0));
+        addWaypointTask(scoringSpecimen, new Pose(0, -700, 0),0.8,0.5,150,false);
         addDelayTask(scoringSpecimen, 100);
         addIntakeTask(scoringSpecimen, () -> {
             outake.openClaw();
@@ -378,12 +406,13 @@ public class RegularlyUsed extends CuttleInitOpMode{
             extendoPosition = 3;
         });
 
-        addWaypointTask(scoringSpecimen, new Pose(0, -400, 0));
+        addWaypointTask(scoringSpecimen, new Pose(0, -400, 0),0.8,0.5,150,false);
 
         addIntakeTask(scoringSpecimen, () -> {
             outake.transferPos();
             liftPosition = 0;
             extendoPosition = 0;
+            outake.readyPos();
         });
 
         queue.addTask(scoringSpecimen);

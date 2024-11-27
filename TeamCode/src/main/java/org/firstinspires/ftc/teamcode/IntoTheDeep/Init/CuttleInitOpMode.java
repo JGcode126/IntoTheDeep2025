@@ -174,7 +174,10 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap);
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new CuttleOutake(driveServo, wristServo, clawServo);
-        methods = new RegularlyUsed(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftPosController, extendoPosController);
+        methods = new RegularlyUsed(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift);
+
+
         configureOtos();
     }
     @Override
