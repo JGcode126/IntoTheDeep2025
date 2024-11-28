@@ -42,12 +42,12 @@ public class Robot1Tele extends CuttleInitOpMode{
         super.mainLoop();
 
         if (intake.intakeState == TRANSFERED && transfering == true){
-            transferSequence();
+            teleOptransferSequence();
             telemetry.addData("running", true);
         }
 
         if (transfering == false) {
-            intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad1.dpad_right, gamepad1.dpad_left);
+            intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x);
             if(gamepad1.share){
                 hardResetExtendo();
             } else {
@@ -78,10 +78,16 @@ public class Robot1Tele extends CuttleInitOpMode{
         extendoPosition = finalExtendoPos;
 
         //dt.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
+
         dt.driveDO(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x, gamepad1.right_trigger, gamepad1.left_trigger, -encoderLocalizer.getPos().getR());
 
-        if (gamepad2.left_bumper && intake.intakeState == TRANSFERED){
+        if (/*gamepad2.left_bumper &&*/ intake.intakeState == TRANSFERED){
             transfering = true;
+        }
+
+        if(outake.outakeState == READY){
+            finalLiftPos = 0;
+            lift.setLiftState(IN);
         }
 
         if (gamepad1.options){
@@ -93,21 +99,21 @@ public class Robot1Tele extends CuttleInitOpMode{
         }
 
 
-        telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
-        telemetry.addData("Cuttle Y:",encoderLocalizer.getPos().getY());
-        telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());
         telemetry.addData("intake state", intake.intakeState);
         telemetry.addData("outtake state", outake.outakeState);
         telemetry.addData("lift state", lift.currentState);
         telemetry.addData("extendo pose", extendoPosController.getPosition());
         telemetry.addData("lift pose", liftPosController.getPosition());
         telemetry.addData("turntable pose", intake.turntable.getPosition());
+        telemetry.addData("Cuttle X:",encoderLocalizer.getPos().getX());
+        telemetry.addData("Cuttle Y:",encoderLocalizer.getPos().getY());
+        telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());
         telemetry.addData("transfering?", transfering);
         telemetry.update();
     }
 
 
-    void transferSequence(){
+    void teleOptransferSequence(){
         TaskList transfer = new TaskList();
         intake.setIntakeState(UP);
         lift.setLiftState(IN);
@@ -121,7 +127,7 @@ public class Robot1Tele extends CuttleInitOpMode{
             telemetry.addData("tranfer sequence running", true);
             return true;
         }));
-        transfer.addTask(new DelayTask(300));
+        transfer.addTask(new DelayTask(1000));
         transfer.addTask(new CustomTask(()->{
             //finalSlidePos = extendo.extendoMachine(true, false, false);
             outake.transferPos();
@@ -202,6 +208,8 @@ public class Robot1Tele extends CuttleInitOpMode{
         }));
         queue.addTask(liftReset);
     }
+
+
 
 
 

@@ -63,7 +63,7 @@ public class CuttleOutake {
 
     public void transferPos(){
         wristCenter();
-        drive.setPosition(1);
+        drive.setPosition(0.95);
         openClaw();
     }
 
@@ -123,7 +123,6 @@ public class CuttleOutake {
             case READY:
                 if (claw.getPosition() > 0.45) {
                     readyPos();
-                    //Robot1Tele.liftPosition = 0;
                 } else {
                     openClaw();
                 }

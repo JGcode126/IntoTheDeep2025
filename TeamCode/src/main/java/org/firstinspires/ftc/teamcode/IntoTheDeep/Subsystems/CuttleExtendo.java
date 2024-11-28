@@ -72,14 +72,14 @@ public class CuttleExtendo {
                 if(buttonFULLEXTEND){currentState = FULL;}
                 break;
             case MIDDLE:
-                slidePosition = 3 + slidePosOffset;
+                slidePosition = 2.5 + slidePosOffset;
                 if(smallExtend){slidePosOffset += 0.25;}
                 if(smallRetract){slidePosOffset -= 0.25;}
                 if(buttonIN){currentState = INE;}
                 if(buttonFULLEXTEND){currentState = FULL;}
                 break;
             case FULL:
-                slidePosition = 6 + slidePosOffset;
+                slidePosition = 5 + slidePosOffset;
                 if(smallRetract){slidePosOffset -= 0.25;}
                 if(buttonIN){currentState = INE;}
                 if(buttonMIDDLE){currentState = MIDDLE;}

@@ -100,7 +100,7 @@ public class CuttleIntake{
         return color;
     }
 
-    public void intakeMachine(boolean down, double looking, boolean up, double reject, boolean right, boolean left){
+    public void intakeMachine(boolean down, double looking, boolean up, double reject, double turn){
         switch (intakeState){
             case UP:
                 initPos();
@@ -111,8 +111,9 @@ public class CuttleIntake{
             case DOWN:
                 intakePos(turntablePos);
                 intakeMotor.setPower(0);
-                if(right && turntable.getPosition() < 0.6){turntablePos += 0.025;}
-                if(left && turntable.getPosition() > 0.4){turntablePos -= 0.025;}
+
+                turntablePos = turn * 0.2 + turntableInitPos;
+
                 if(looking > triggerTrigger){intakeState = LOOKING;}
                 if(up){intakeState = UP;}
                 if(reject > triggerTrigger){intakeState = REJECT;}
@@ -120,8 +121,9 @@ public class CuttleIntake{
             case LOOKING:
                 intakePos(turntablePos);
                 intakeMotor.setPower(-1);
-                if(right && turntable.getPosition() < 0.55){turntablePos += 0.025;}
-                if(left && turntable.getPosition() > 0.45){turntablePos -= 0.025;}
+
+                turntablePos = turn*0.2 + turntableInitPos;
+
                 if(down){intakeState = DOWN;}
                 if(up){intakeState = UP;}
                 if (getColor() == YELLOW || getColor() == RED || getColor() == BLUE){
@@ -130,23 +132,22 @@ public class CuttleIntake{
                 if(reject > 0.1){intakeState = REJECT;}
                 break;
             case SECURED:
-                intakePos(0.5);
+                intakePos(turntableInitPos);
                 clawServo.setPosition(clawGrab);
                 intakeState = TRANSFERED;
                 break;
             case TRANSFERED:
                 if (clawServo.getPosition() > clawGrab - 0.05) {
                     armUp();
-                    Robot1Tele.extendoPosition = 0;
                 }
                 if(down){intakeState = DOWN;}
                 if(looking > triggerTrigger){intakeState = LOOKING;}
                 if(up){intakeState = UP;}
                 break;
             case REJECT:
-                intakePos(0.5);
+                intakePos(turntableInitPos);
                 intakeMotor.setPower(1);
-                if(looking > triggerTrigger){intakeState = LOOKING;}
+                if(getColor() != YELLOW || getColor() != RED || getColor() != BLUE){intakeState = DOWN;}
                 if(up){intakeState = UP;}
                 if(down){intakeState = DOWN;}
         }
