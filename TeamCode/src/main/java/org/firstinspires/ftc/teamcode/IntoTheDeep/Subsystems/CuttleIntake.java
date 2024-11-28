@@ -27,10 +27,10 @@ public class CuttleIntake{
     public CuttleServo clawServo;
     public CuttleIntake.IntakeState intakeState = UP;
 
-    double clawInit = 0, clawGrab = 0.45, triggerTrigger = 0.1;
+    double clawInit = 1, clawGrab = 0.55, triggerTrigger = 0.1;
 
-    double turntablePos = 0.5;
-
+    double turntablePos = 0.48;
+    public final double turntableInitPos = 0.48;
     public CuttleIntake(CuttleServo left, CuttleServo right, CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap){
         leftServo = left;
         rightServo = right;
@@ -48,17 +48,14 @@ public class CuttleIntake{
     }
 
     public void initPos(){
-        leftServo.setPosition(0.965);
-        rightServo.setPosition(0.035);
-        turntable.setPosition(0.5);
-        intakeMotor.setPower(0);
+        armUp();
         clawServo.setPosition(clawInit);
     }
 
     public void armUp(){
-        leftServo.setPosition(0.965);
-        rightServo.setPosition(0.035);
-        turntable.setPosition(0.5);
+        leftServo.setPosition(0.865);
+        rightServo.setPosition(0.135);
+        turntable.setPosition(turntableInitPos);
         intakeMotor.setPower(0);
     }
     //close claw pos 0.957
@@ -107,7 +104,7 @@ public class CuttleIntake{
         switch (intakeState){
             case UP:
                 initPos();
-                turntablePos = 0.5;
+                turntablePos = turntableInitPos;
                 if(down){intakeState = DOWN;}
                 if(looking > triggerTrigger){intakeState = LOOKING;}
                 break;

@@ -63,13 +63,13 @@ public class CuttleOutake {
 
     public void transferPos(){
         wristCenter();
-        drive.setPosition(0.85);
+        drive.setPosition(1);
         openClaw();
     }
 
     public void grippedPos(){
         closeClaw();
-        drive.setPosition(0.85);
+        drive.setPosition(1);
         wristCenter();
     }
 
