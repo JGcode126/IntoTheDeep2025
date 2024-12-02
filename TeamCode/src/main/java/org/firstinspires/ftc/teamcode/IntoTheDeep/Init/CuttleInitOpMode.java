@@ -154,8 +154,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         liftPosController = new MotorPositionController(0, rightBackSlides, liftEncoder, true);
 
         // Initialize the PTP Controller
-        ptpController = new PTPController(chassis, encoderLocalizer);
-        //ptpController = new PTPController(chassis, otosLocalizer);
+        ptpController = new PTPController(chassis, encoderLocalizer);//for otos
+        //ptpController = new PTPController(chassis, otosLocalizer);//
 
 
         /*ptpController.setTranslational_PD_ctrlr(new PID(

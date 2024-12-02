@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.INE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BUCKET_BAR;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -43,7 +45,10 @@ public class RegularlyUsed extends CuttleInitOpMode{
     public int y = 0;
     public int x2 = 0;
     public int y2 = 0;
+
+    public double liftSpecimen = 0;
     public double rotation = 0;
+    ElapsedTime autoTimer;
 
     public RegularlyUsed(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                          PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
@@ -61,15 +66,17 @@ public class RegularlyUsed extends CuttleInitOpMode{
         this.extendoPosController = extController;
         this.lift = lift;
         this.extendo = extendo;
+        autoTimer = new ElapsedTime();
     }
 
     //To initialize the robot
     public void initRobot() {
         otosLocalizer.reset();//reset otos
+        encoderLocalizer.reset();//reset odo
 
         //inti intake and outake
-        intake.initPos();
         outake.initAutoPos();
+        intake.initPos();
 
         //set slide home
         liftPosController.setHome();
@@ -133,6 +140,21 @@ public class RegularlyUsed extends CuttleInitOpMode{
     }
 
     //Init values for the start of teleOp
+    public void park(){
+        TaskList park = new TaskList();
+
+        addWaypointTask(park, new Pose(-450, 250, Math.toRadians(90)),0.8,0.5,150,false);
+
+        addIntakeTask(park, () -> {
+            outake.readyPos();
+            intake.off();
+            intake.initPos();
+            extendoPosition = 0;
+            liftPosition = 0;
+        });
+
+        queue.addTask(park);
+    }
     public void teleOpInit() {
         TaskList init = new TaskList();
 
@@ -161,6 +183,8 @@ public class RegularlyUsed extends CuttleInitOpMode{
     public void specimen() {
         TaskList specimen = new TaskList();
 
+        autoTimer.reset();
+
         //x = -300, y = -500, rotation = 45
         addWaypointTask(specimen, new Pose(x, y, Math.toRadians(rotation)),0.8,0.5,150,false);
         //addWaypointTask(specimen, new Pose(-350, -400, Math.toRadians(50)));
@@ -173,10 +197,10 @@ public class RegularlyUsed extends CuttleInitOpMode{
         addDelayTask(specimen, 500);
 
         addIntakeTask(specimen, () -> {
-            extendoPosition = 7.5;
+            extendoPosition = 5;
         });
 
-        addDelayTask(specimen, 1500);
+        addDelayTask(specimen,1200);
 
         queue.addTask(specimen);
     }
@@ -187,6 +211,7 @@ public class RegularlyUsed extends CuttleInitOpMode{
         addDelayTask(scoring, 500);
 
         //x = -150, y = -720, turn  = 0
+        addWaypointTask(scoring, new Pose(x2, -425, Math.toRadians(0)),0.8,0.5,150,true);
         addWaypointTask(scoring, new Pose(x2, y2, Math.toRadians(0)),0.8,0.5,150,false);
         //addWaypointTask(scoring, new Pose(-150, -720, Math.toRadians(0)));
 
@@ -223,7 +248,7 @@ public class RegularlyUsed extends CuttleInitOpMode{
             telemetry.addData("tranfer sequence running", true);
         });
 
-        addDelayTask(transfer, 300);
+        addDelayTask(transfer, 600);
 
         addIntakeTask(transfer, ()->{
             //finalSlidePos = extendo.extendoMachine(true, false, false);
@@ -242,7 +267,7 @@ public class RegularlyUsed extends CuttleInitOpMode{
 
         addIntakeTask(transfer, ()->{
             outake.scorePosMid();
-            extendoPosition= 1;
+            extendoPosition = 1;
         });
 
         addDelayTask(transfer, 200);
@@ -393,12 +418,12 @@ public class RegularlyUsed extends CuttleInitOpMode{
         TaskList scoringSpecimen = new TaskList();
 
         addIntakeTask(scoringSpecimen, () -> {
-            liftPosition = 2.8;
+            liftPosition = 3;
             outake.autoAutoHighRungPos();
             extendoPosition = 3;
         });
 
-        addWaypointTask(scoringSpecimen, new Pose(0, -700, 0),0.8,0.5,150,false);
+        addWaypointTask(scoringSpecimen, new Pose(200, -850, 0),0.8,0.5,150,false);
         addDelayTask(scoringSpecimen, 100);
         addIntakeTask(scoringSpecimen, () -> {
             outake.openClaw();

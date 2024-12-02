@@ -127,7 +127,7 @@ public class Robot1Tele extends CuttleInitOpMode{
             telemetry.addData("tranfer sequence running", true);
             return true;
         }));
-        transfer.addTask(new DelayTask(1000));
+        transfer.addTask(new DelayTask(600));
         transfer.addTask(new CustomTask(()->{
             //finalSlidePos = extendo.extendoMachine(true, false, false);
             outake.transferPos();
