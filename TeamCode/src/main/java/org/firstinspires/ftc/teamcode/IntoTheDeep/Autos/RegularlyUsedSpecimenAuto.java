@@ -306,18 +306,50 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
     public void ttSample(){
         fistSampleTT();
         secondSampleTT();
-        thridSampleTT();
+        //thridSampleTT();
     }
 
     public void fistSampleTT() {
-        drive(-700,-400, Math.PI/4);
-        intake.turntableRight();
-        extendoPosition = 4;
+        ttdriving(-730, -580);
     }
-    public void secondSampleTT(){sampleDriving(-900, -1450,-1400, -1400,-1300, -300);}
+    public void secondSampleTT(){
+        ttdriving(-1050, -580);
+    }
     public void thridSampleTT(){
         sampleDriving(-1250, -1450,-1500, -1400,-1480, -300);
         drive(-1400, -500, Math.PI);
+    }
+
+    public void ttdriving(int x1, int y1) {
+        //gets given positions to drive the robot
+
+        TaskList sample = new TaskList();
+
+        sample.addTask(new CustomTask(() -> {
+            extendoPosition = 4;
+            intake.turntableRight();
+            intake.in();
+            return true;
+        }));
+        //make these slower
+        addWaypointTask(sample, new Pose(x1, y1, Math.toRadians(90)), 1, 0.1, 10, true);
+        addWaypointTask(sample, new Pose(x1, y1, Math.toRadians(135)), 1, 0.1, 10, false);
+
+
+        addDelayTask(sample, 1000);
+        sample.addTask(new CustomTask(() -> {
+            extendoPosition = 4;
+            intake.turntableLeft();
+            intake.off();
+            return true;
+        }));
+        addWaypointTask(sample, new Pose(-700, -400, Math.toRadians(50)), 1, 0.1, 10, false);
+        sample.addTask(new CustomTask(() -> {
+            intake.out();
+            return true;
+        }));
+        addDelayTask(sample, 150);
+        queue.addTask(sample);
     }
 
     public void drive(int x, int y, double r){
@@ -432,7 +464,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
             extendoPosition = 3;
         });
 
-        addWaypointTask(scoringSpecimen, new Pose(200, -850, 0),0.8,0.5,150,false);
+        addWaypointTask(scoringSpecimen, new Pose(100, -850, 0),0.6,0.5,150,false);
         addDelayTask(scoringSpecimen, 100);
         addIntakeTask(scoringSpecimen, () -> {
             outake.openClaw();

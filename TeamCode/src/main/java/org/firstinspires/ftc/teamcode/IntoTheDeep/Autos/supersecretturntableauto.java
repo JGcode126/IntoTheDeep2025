@@ -55,14 +55,18 @@ public class supersecretturntableauto extends CuttleInitOpMode {
 
         methods.firstSpecimen();
 
+        methods.ttSample();
+        /*
+        methods.scoringSpecimen();
+        methods.scoringSpecimen();
+        methods.scoringSpecimen();
+        methods.scoringSpecimen();
 
 
-        methods.scoringSpecimen();
-        methods.scoringSpecimen();
-        methods.scoringSpecimen();
-        methods.scoringSpecimen();
 
         methods.park();
+
+         */
     }
 
     public void mainLoop() {
