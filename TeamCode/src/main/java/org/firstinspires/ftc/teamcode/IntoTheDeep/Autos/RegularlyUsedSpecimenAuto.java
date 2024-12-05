@@ -1,15 +1,8 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.INE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BUCKET_BAR;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
@@ -29,10 +22,8 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 
-import java.util.Queue;
 
-
-public class RegularlyUsed extends CuttleInitOpMode{
+public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
     public boolean test = false;
     double counter = 0;
     public boolean transfering = false;
@@ -50,9 +41,9 @@ public class RegularlyUsed extends CuttleInitOpMode{
     public double rotation = 0;
     ElapsedTime autoTimer;
 
-    public RegularlyUsed(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
-                         PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
-                         CuttleExtendo extendo, CuttleSlides lift) {
+    public RegularlyUsedSpecimenAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
+                                     PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
+                                     CuttleExtendo extendo, CuttleSlides lift) {
 
         //Initializing values
         this.otosLocalizer = otos;
@@ -307,6 +298,24 @@ public class RegularlyUsed extends CuttleInitOpMode{
     public void fistSample() {sampleDriving(-700, -400, -750, -1500, -1100, -1500, -1100, -300);}
     public void secondSample(){sampleDriving(-900, -1450,-1400, -1400,-1300, -300);}
     public void thridSample(){
+        sampleDriving(-1250, -1450,-1500, -1400,-1480, -300);
+        drive(-1400, -500, Math.PI);
+    }
+
+
+    public void ttSample(){
+        fistSampleTT();
+        secondSampleTT();
+        thridSampleTT();
+    }
+
+    public void fistSampleTT() {
+        drive(-700,-400, Math.PI/4);
+        intake.turntableRight();
+        extendoPosition = 4;
+    }
+    public void secondSampleTT(){sampleDriving(-900, -1450,-1400, -1400,-1300, -300);}
+    public void thridSampleTT(){
         sampleDriving(-1250, -1450,-1500, -1400,-1480, -300);
         drive(-1400, -500, Math.PI);
     }

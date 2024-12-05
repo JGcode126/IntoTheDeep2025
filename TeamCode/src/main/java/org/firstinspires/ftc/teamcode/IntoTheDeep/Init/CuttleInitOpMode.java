@@ -9,7 +9,6 @@ import com.roboctopi.cuttlefish.controller.PTPController;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
-import com.roboctopi.cuttlefish.utils.PID;
 import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
@@ -19,7 +18,7 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.RegularlyUsed;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.RegularlyUsedSpecimenAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
@@ -40,7 +39,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleIntake intake;
     public CuttleSlides lift;
     public CuttleOutake outake;
-    public RegularlyUsed methods;
+    public RegularlyUsedSpecimenAuto methods;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -174,7 +173,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap);
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new CuttleOutake(driveServo, wristServo, clawServo);
-        methods = new RegularlyUsed(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+        methods = new RegularlyUsedSpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift);
 
 

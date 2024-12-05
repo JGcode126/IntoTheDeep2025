@@ -1,17 +1,25 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.READY;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.roboctopi.cuttlefish.controller.Waypoint;
+import com.roboctopi.cuttlefish.queue.CustomTask;
+import com.roboctopi.cuttlefish.queue.DelayTask;
+import com.roboctopi.cuttlefish.queue.PointTask;
+import com.roboctopi.cuttlefish.queue.TaskList;
+import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous
 @Config
-public class driveSpecimenAuto extends CuttleInitOpMode {
+public class supersecretturntableauto extends CuttleInitOpMode {
     public static int x = -450;
     public static int y = -250;
 
@@ -47,7 +55,7 @@ public class driveSpecimenAuto extends CuttleInitOpMode {
 
         methods.firstSpecimen();
 
-        methods.sample();
+
 
         methods.scoringSpecimen();
         methods.scoringSpecimen();
@@ -61,5 +69,16 @@ public class driveSpecimenAuto extends CuttleInitOpMode {
         super.mainLoop();
         //otosLocalizer.update();
         methods.telemetryData();
+    }
+
+    void intakeColor(){
+        TaskList suck = new TaskList();
+        suck.addTask(new CustomTask(()->{
+            intake.intakePos(intake.turntableInitPos);
+            intake.in();
+            intake.turntableRight();
+            return true;
+        }));
+        queue.addTask(suck);
     }
 }

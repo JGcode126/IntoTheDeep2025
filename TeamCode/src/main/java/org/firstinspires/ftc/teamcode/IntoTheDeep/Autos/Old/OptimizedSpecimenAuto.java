@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.Old;
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.INE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARLEFT;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARRIGHT;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BUCKET_BAR;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -20,14 +16,14 @@ import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.queue.TaskList;
 import com.roboctopi.cuttlefish.utils.Pose;
 
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.RegularlyUsed;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.RegularlyUsedSpecimenAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous
 @Config
 @Disabled
 public class OptimizedSpecimenAuto extends CuttleInitOpMode {
-    RegularlyUsed methods;
+    RegularlyUsedSpecimenAuto methods;
     private State currentState;
     double counter = 0;
     public boolean transfering = false;
