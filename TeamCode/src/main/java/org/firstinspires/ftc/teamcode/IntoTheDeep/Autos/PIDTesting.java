@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.queue.CustomTask;
@@ -17,6 +18,7 @@ import com.roboctopi.cuttlefish.utils.Pose;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous
+@Disabled
 public class PIDTesting extends CuttleInitOpMode {
 
     private ElapsedTime timer = new ElapsedTime();

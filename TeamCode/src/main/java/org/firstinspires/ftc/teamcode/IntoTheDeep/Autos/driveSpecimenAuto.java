@@ -49,10 +49,10 @@ public class driveSpecimenAuto extends CuttleInitOpMode {
 
         methods.sample();
 
-        methods.scoringSpecimen();
-        methods.scoringSpecimen();
-        methods.scoringSpecimen();
-        methods.scoringSpecimen();
+        //methods.scoringSpecimen();
+        //methods.scoringSpecimen();
+        //methods.scoringSpecimen();
+        //methods.scoringSpecimen();
 
         methods.park();
     }

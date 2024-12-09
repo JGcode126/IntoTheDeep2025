@@ -49,6 +49,16 @@ public class CuttleIntake{
     public void turntableLeft(){
         intakePos(0.2);
     }
+    public void turntableMiddle(){
+        intakePos(turntableInitPos);
+    }
+    public void clawOpen(){
+        clawServo.setPosition(clawInit);
+    }
+    public void clawClose(){
+        clawServo.setPosition(clawGrab);
+    }
+
 
     public void initPos(){
         armUp();
