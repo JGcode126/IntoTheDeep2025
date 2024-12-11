@@ -18,7 +18,8 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.RegularlyUsedSpecimenAuto;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedSpecimenAuto;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Setup;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
@@ -40,6 +41,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleSlides lift;
     public CuttleOutake outake;
     public RegularlyUsedSpecimenAuto methods;
+    public Setup setup;
+
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -174,6 +177,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new CuttleOutake(driveServo, wristServo, clawServo);
         methods = new RegularlyUsedSpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+        setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);
 
 

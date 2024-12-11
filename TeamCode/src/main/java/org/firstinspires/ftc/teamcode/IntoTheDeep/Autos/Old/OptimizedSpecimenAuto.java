@@ -16,7 +16,7 @@ import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.queue.TaskList;
 import com.roboctopi.cuttlefish.utils.Pose;
 
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.RegularlyUsedSpecimenAuto;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedSpecimenAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous

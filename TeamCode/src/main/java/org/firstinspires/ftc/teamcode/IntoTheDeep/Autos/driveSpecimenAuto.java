@@ -12,15 +12,6 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 @Autonomous
 @Config
 public class driveSpecimenAuto extends CuttleInitOpMode {
-    public static int x = -450;
-    public static int y = -250;
-
-    public static int x2 = 0;
-    public static int y2 = -650;
-    public static double rotation = 45;
-
-    public static double liftSpecimen = 3;
-
     private ElapsedTime timer;
     public void onInit() {
         super.onInit();
@@ -33,13 +24,6 @@ public class driveSpecimenAuto extends CuttleInitOpMode {
         methods.test = true;
         methods.side = "right";
         methods.color = "blue";
-
-        methods.x = x;
-        methods.y = y;
-        methods.x2 = x2;
-        methods.y2 = y2;
-        methods.rotation = rotation;
-        methods.liftSpecimen = liftSpecimen;
     }
 
     public void main(){

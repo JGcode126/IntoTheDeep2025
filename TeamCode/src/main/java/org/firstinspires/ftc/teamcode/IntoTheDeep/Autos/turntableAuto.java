@@ -13,14 +13,18 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 @Autonomous
 @Config
 public class turntableAuto extends CuttleInitOpMode {
-    public static int x = -450;
-    public static int y = -250;
+    //For testing
+    public static int x = -810;
+    public static int y = -590;
+    public static int r = 90;
 
-    public static int x2 = 0;
-    public static int y2 = -650;
-    public static double rotation = 45;
+    //fist sample values x = -810, y = -590, r = 90
 
-    public static double liftSpecimen = 3;
+    public static int x2 = -900;
+    public static int y2 = -400;
+    public static int r2 = 50;
+    //x2 = -900, y2 = -400, r2 = 50
+    //-----------
 
     private ElapsedTime timer;
     public void onInit() {
@@ -34,13 +38,6 @@ public class turntableAuto extends CuttleInitOpMode {
         methods.test = true;
         methods.side = "right";
         methods.color = "blue";
-
-        methods.x = x;
-        methods.y = y;
-        methods.x2 = x2;
-        methods.y2 = y2;
-        methods.rotation = rotation;
-        methods.liftSpecimen = liftSpecimen;
     }
 
     public void main(){
@@ -48,16 +45,17 @@ public class turntableAuto extends CuttleInitOpMode {
 
         methods.firstSpecimen();
 
-        methods.ttSample();
+        //methods.ttTestSample();
+        methods.testSampleTT(x,y,r,x2,y2,r2);
+
+        /*methods.ttSample();
 
         methods.scoringSpecimen(300);
         methods.scoringSpecimen(600);
         methods.scoringSpecimen(900);
         //methods.scoringSpecimen();
 
-        methods.park();
-
-
+        methods.park();*/
     }
 
     public void mainLoop() {
