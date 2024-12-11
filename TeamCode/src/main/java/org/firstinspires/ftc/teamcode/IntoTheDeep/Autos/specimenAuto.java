@@ -29,6 +29,7 @@ public class specimenAuto extends CuttleInitOpMode {
 
         methods.initRobot();
 
+
         methods.test = false;
         methods.side = "right";
         methods.color = "blue";
