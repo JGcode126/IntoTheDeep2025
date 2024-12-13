@@ -14,14 +14,16 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 @Config
 public class turntableAuto extends CuttleInitOpMode {
     //For testing
-    public static int x = -810;
-    public static int y = -590;
-    public static int r = 90;
-
+    //public static int x = -1055;
+    //y1 = -425, y2 = -650, y3 = -400
+    public static int y1 = -425;
+    //public static int r = 90;
+    //2nd sample values = x = -1055, y = -580, r = 90
     //fist sample values x = -810, y = -590, r = 90
 
-    public static int x2 = -900;
-    public static int y2 = -400;
+    //public static int x2 = -900;
+    public static int y2 = -650;
+    public static int y3 = -400;
     public static int r2 = 50;
     //x2 = -900, y2 = -400, r2 = 50
     //-----------
@@ -44,18 +46,20 @@ public class turntableAuto extends CuttleInitOpMode {
         super.main();
 
         methods.firstSpecimen();
+        //methods.ttSample();
+        methods.fistSampleTT();
+        methods.secondSampleTT();
+        methods.thridSampleTT();
+        //methods.testSampleTT(-1260, -610,100,-900,-400,50);
 
-        //methods.ttTestSample();
-        methods.testSampleTT(x,y,r,x2,y2,r2);
-
-        /*methods.ttSample();
-
+        //y1 = -425, y2 = -650, y3 = -400
+        methods.scoringTest(300,y1, y2, y3);
         methods.scoringSpecimen(300);
         methods.scoringSpecimen(600);
         methods.scoringSpecimen(900);
         //methods.scoringSpecimen();
 
-        methods.park();*/
+        methods.park();
     }
 
     public void mainLoop() {

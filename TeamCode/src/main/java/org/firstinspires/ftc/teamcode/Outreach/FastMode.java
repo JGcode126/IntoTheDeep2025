@@ -4,11 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
+import org.firstinspires.ftc.teamcode.Testing.CuttleInitOpModeMTI;
 
 
 @TeleOp
 //@Disabled
-public class FastMode extends CuttleInitOpMode {
+public class FastMode extends CuttleInitOpModeMTI {
     public void onInit() {
         super.onInit();
     }

@@ -125,7 +125,7 @@ public class CuttleIntake{
                 intakePos(turntablePos);
                 intakeMotor.setPower(0);
 
-                turntablePos = turn * 0.2 + turntableInitPos;
+                turntablePos = turn * -0.2 + turntableInitPos;
 
                 if(looking > triggerTrigger){intakeState = LOOKING;}
                 if(up){intakeState = UP;}
@@ -135,7 +135,7 @@ public class CuttleIntake{
                 intakePos(turntablePos);
                 intakeMotor.setPower(-1);
 
-                turntablePos = turn*0.2 + turntableInitPos;
+                turntablePos = turn*-0.2 + turntableInitPos;
 
                 if(down){intakeState = DOWN;}
                 if(up){intakeState = UP;}

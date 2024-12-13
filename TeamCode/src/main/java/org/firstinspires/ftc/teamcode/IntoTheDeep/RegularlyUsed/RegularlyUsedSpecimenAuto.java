@@ -248,6 +248,35 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
         queue.addTask(scoring);
     }
 
+    public void scoringTest(int barPos, int y, int y2, int y3) {
+        TaskList scoring = new TaskList();
+
+        //addDelayTask(scoring, 500);
+
+
+        //x = -150, y = -720, turn  = 0
+        addWaypointTask(scoring, new Pose(0, y, Math.toRadians(0)),0.8,0.5,150,true);
+        addWaypointTask(scoring, new Pose(0, y2, Math.toRadians(0)),0.8,0.5,150,false);
+        //addWaypointTask(scoring, new Pose(-150, -720, Math.toRadians(0)));
+
+
+        addIntakeTask(scoring, () -> {
+            outake.openClaw();
+            outake.wristCenter();
+        });
+
+        addDelayTask(scoring, 300);
+        //0
+        addWaypointTask(scoring, new Pose(barPos, y3, 0),0.8,0.5,150,false);
+
+        addIntakeTask(scoring, () -> {
+            outake.readyPos();
+            liftPosition = 3;
+        });
+
+        queue.addTask(scoring);
+    }
+
     public void transferSequence(){
         TaskList transfer = new TaskList();
         TaskList movement = new TaskList();
@@ -338,11 +367,9 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
     }
 
     public void fistSampleTT() {
-        ttdriving(-810, -590,90);
+        ttdriving(-750, -590,90);
     }
-    public void secondSampleTT(){
-        ttdriving(-1055, -580,90);
-    }
+    public void secondSampleTT(){ttdriving(-1030, -580,90);}
     public void thridSampleTT(){
         ttdriving(-1260, -610,100);
     }
