@@ -101,7 +101,10 @@ public class Robot1Tele extends CuttleInitOpMode{
         }
 
         if(gamepad1.share){
-            hardResetExtendo();
+            extendo.hardReset();
+            extendo.resetSlides();
+            finalExtendoPos = 0;
+            extendo.setExtendoState(INE);
         }
 
 
@@ -190,8 +193,7 @@ public class Robot1Tele extends CuttleInitOpMode{
         TaskList reset = new TaskList();
         extendo.setExtendoState(INE);
         reset.addTask(new CustomTask(()->{
-            extendo.hardRetract();
-            return extendoMotor.getCurrent() > 3300;
+            return extendoMotor.getCurrent() > 6000;
         }));
         reset.addTask(new CustomTask(()->{
             extendoMotor.setPower(0);

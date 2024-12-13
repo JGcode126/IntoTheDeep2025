@@ -23,8 +23,8 @@ public class CuttleExtendo {
     private PIDController controller;
     private final double ticks_in_degree = 384.5/360.0;
     private static final double JOYSTICK_SCALE = 1;  // Adjust as needed make higher for less sensitive
-    public static double p = 0.9, i = 0, d = 0.05;
-
+    public static double p = 1.7, i = 0, d = 0.04;
+    //0.9, 0.05
 
     public CuttleExtendo(CuttleMotor motor, CuttleEncoder encoder, MotorPositionController motorpos, CuttleRevHub hub){
         extendoMotor = motor;
@@ -57,9 +57,19 @@ public class CuttleExtendo {
         extendoMotor.setPower(pid + extraPower);
     }
 
-    public void hardRetract(){
-        //work in progress
-        extendoMotor.setPower(-0.5);
+    public void hardReset(){
+        // Run the motors until the current exceeds 3300 mA
+        while (controlHub.getMotorCurrent(2) < 3300) {
+            extendoMotor.setPower(-0.5);
+        }
+        // Once the loop exits (current >= 3300 mA), stop the motors and reset slides
+        resetSlides();
+        extendoMotor.setPower(0);
+        //slidesAutoLow(0);
+    }
+
+    public void resetSlides(){
+        slidePosController.setHome();
     }
 
     public double extendoMachine(boolean buttonIN, boolean buttonMIDDLE, boolean buttonFULLEXTEND, boolean smallExtend, boolean smallRetract){
