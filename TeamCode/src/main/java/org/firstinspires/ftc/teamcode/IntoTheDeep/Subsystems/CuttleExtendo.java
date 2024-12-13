@@ -23,7 +23,7 @@ public class CuttleExtendo {
     private PIDController controller;
     private final double ticks_in_degree = 384.5/360.0;
     private static final double JOYSTICK_SCALE = 1;  // Adjust as needed make higher for less sensitive
-    public static double p = 1.9, i = 0.0, d = 0.01;
+    public static double p = 0.9, i = 0, d = 0.05;
 
 
     public CuttleExtendo(CuttleMotor motor, CuttleEncoder encoder, MotorPositionController motorpos, CuttleRevHub hub){
@@ -45,7 +45,7 @@ public class CuttleExtendo {
         double extraPower = 0;
         if (position >= 7.3){
             NewPosition = 7.3;
-            extraPower = 0.01;
+            //extraPower = 0.01;
         }
         if (position <= 0){
             NewPosition = 0;

@@ -46,7 +46,7 @@ public class CuttleSlides {
         double NewPosition = position;
         double ff = 0.08;
         if (position >= 10.4){
-            NewPosition = 11;
+            NewPosition = 13;
         }
         if (position <= 0){
             NewPosition = 0;
@@ -55,8 +55,8 @@ public class CuttleSlides {
         controller.setPID(p, i, d);
         double pid = controller.calculate(getPos(), NewPosition);
         if (liftMotorRight.power < 0){
-            liftMotorLeft.setPower((pid+ ff) * -0.1);
-            liftMotorRight.setPower((pid + ff) * 0.1);
+            liftMotorLeft.setPower((pid+ ff) * -0.2);
+            liftMotorRight.setPower((pid + ff) * 0.2);
         } else {
             liftMotorLeft.setPower((pid + ff) * -1);
             liftMotorRight.setPower((pid + ff) * 1);
@@ -81,7 +81,7 @@ public class CuttleSlides {
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case HIGH_BUCKET:
-                liftPosition = 13; //good
+                liftPosition = 14; //good
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonLOWSUB){currentState = LOWSUB;}
@@ -98,7 +98,7 @@ public class CuttleSlides {
                 break;
             case HIGHSUB:
                 liftPosition = 5.1 + positionOffset;
-                if(upOffset){positionOffset += 0.4;}
+                if(upOffset){positionOffset += 0.2;}
                 if(downOffset){positionOffset -= 0.25;}
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}

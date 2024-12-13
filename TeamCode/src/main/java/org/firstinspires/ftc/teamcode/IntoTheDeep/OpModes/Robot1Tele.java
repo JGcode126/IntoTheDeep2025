@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.DelayTask;
 import com.roboctopi.cuttlefish.queue.TaskList;
+import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
@@ -37,6 +38,7 @@ public class Robot1Tele extends CuttleInitOpMode{
         extendoPosController.setHome();
         intake.initPos();
         outake.readyPos();
+
     }
     public void mainLoop() {
         super.mainLoop();
@@ -53,6 +55,7 @@ public class Robot1Tele extends CuttleInitOpMode{
             } else {
                 finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
             }
+
             finalLiftPos = lift.liftMachine(gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options, gamepad2.right_bumper, gamepad1.dpad_up, gamepad1.dpad_down);
 
             if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
@@ -85,10 +88,13 @@ public class Robot1Tele extends CuttleInitOpMode{
             transfering = true;
         }
 
+
         if(outake.outakeState == READY){
             finalLiftPos = 0;
             lift.setLiftState(IN);
         }
+
+
 
         if (gamepad1.options){
             encoderLocalizer.getPos().setR(0);
@@ -110,6 +116,8 @@ public class Robot1Tele extends CuttleInitOpMode{
         telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());
         telemetry.addData("transfering?", transfering);
         telemetry.update();
+
+        //intake.lightRed();
     }
 
 

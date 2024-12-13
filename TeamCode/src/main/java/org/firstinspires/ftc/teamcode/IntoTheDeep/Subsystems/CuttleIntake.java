@@ -23,6 +23,7 @@ public class CuttleIntake{
     public ColorRangeSensor colorSensor;
     CuttleServo leftServo;
     CuttleServo rightServo;
+    public CuttleServo lightbulb;
     public CuttleServo turntable;
     public CuttleServo clawServo;
     public CuttleIntake.IntakeState intakeState = UP;
@@ -31,14 +32,29 @@ public class CuttleIntake{
 
     double turntablePos = 0.48;
     public final double turntableInitPos = 0.48;
-    public CuttleIntake(CuttleServo left, CuttleServo right, CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap){
+    public CuttleIntake(CuttleServo left, CuttleServo right, CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap, CuttleServo light){
         leftServo = left;
         rightServo = right;
         clawServo = claw;
         turntable = tt;
+        lightbulb = light;
         intakeMotor = hardwareMap.get(CRServo.class,"intake");
         colorSensor = hardwareMap.get(ColorRangeSensor.class, "color");
     }
+
+    public void lightRed(){
+        lightbulb.setPosition(0.3);
+    }
+    public void lightBlue(){
+        lightbulb.setPosition(0.61);
+    }
+    public void lightGreen(){
+        lightbulb.setPosition(0.5);
+    }
+    public void lightYellow(){
+        lightbulb.setPosition(0.4);
+    }
+
 
     public void intakeDown(){
         intakePos(0.5);
