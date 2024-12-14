@@ -68,10 +68,10 @@ public class turntableAuto extends CuttleInitOpMode {
         //methods.testSampleTT(-1260, -610,100,-900,-400,50);
 
         //y1 = -425, y2 = -650, y3 = -400
-        methods.scoringSpecimen(0, 0);
-        methods.scoringSpecimen(0.25, -5);
-        methods.scoringSpecimen(0.5,-7);
-        methods.scoringSpecimen(0.75,-9);
+        methods.scoringSpecimen(0, -4, 0,0,0);
+        methods.scoringSpecimen(0.25, -6,0,0,20);
+        methods.scoringSpecimen(0.75,-7,0, -10,50);
+        methods.scoringSpecimen(3,-11,50,-20,90);
 
         methods.park();
     }
