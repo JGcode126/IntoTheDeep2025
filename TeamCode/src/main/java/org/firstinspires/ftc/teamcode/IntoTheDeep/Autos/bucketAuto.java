@@ -27,7 +27,7 @@ public class bucketAuto extends CuttleInitOpMode {
         super.main();
 
         methods.firstSpecimen();
-        methods.specimen();
+        //methods.specimen();
 
         methods.teleOpInit();
     }

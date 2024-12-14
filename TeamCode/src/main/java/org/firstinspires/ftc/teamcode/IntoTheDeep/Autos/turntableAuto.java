@@ -13,19 +13,32 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 @Autonomous
 @Config
 public class turntableAuto extends CuttleInitOpMode {
-    //For testing
-    //public static int x = -1055;
-    //y1 = -425, y2 = -650, y3 = -400
-    public static int y1 = -425;
+    //------------For testing----------
+    //public static int x = -100;
+    //public static int y1 = -425;
     //public static int r = 90;
-    //2nd sample values = x = -1055, y = -580, r = 90
-    //fist sample values x = -810, y = -590, r = 90
 
     //public static int x2 = -900;
-    public static int y2 = -650;
-    public static int y3 = -400;
-    public static int r2 = 50;
-    //x2 = -900, y2 = -400, r2 = 50
+    //public static int y2 = -750;
+    //public static double lift = 5.1;
+    public static int x1 = 0;
+    public static int y1 = 0;
+    public static int x2 = 0;
+    public static int y2 = 0;
+    public static int x3 = 0;
+    public static int y3 = 0;
+    public static int x4 = 0;
+    public static int y4 = 0;
+
+    public static int r1 = 0;
+    public static int r2 = 0;
+    public static int r3 = 0;
+    public static int r4 = 0;
+
+    public static double extOffset2 = 0.25;
+    public static double extOffset3 = 0.5;
+    public static double extOffset4 = 0.75;
+
     //-----------
 
     private ElapsedTime timer;
@@ -40,6 +53,8 @@ public class turntableAuto extends CuttleInitOpMode {
         methods.test = true;
         methods.side = "right";
         methods.color = "blue";
+
+        //methods.highChamberPos = lift;
     }
 
     public void main(){
@@ -53,11 +68,10 @@ public class turntableAuto extends CuttleInitOpMode {
         //methods.testSampleTT(-1260, -610,100,-900,-400,50);
 
         //y1 = -425, y2 = -650, y3 = -400
-        methods.scoringTest(300,y1, y2, y3);
-        methods.scoringSpecimen(300);
-        methods.scoringSpecimen(600);
-        methods.scoringSpecimen(900);
-        //methods.scoringSpecimen();
+        methods.scoringSpecimen(0, 0);
+        methods.scoringSpecimen(0.25, -5);
+        methods.scoringSpecimen(0.5,-7);
+        methods.scoringSpecimen(0.75,-9);
 
         methods.park();
     }
