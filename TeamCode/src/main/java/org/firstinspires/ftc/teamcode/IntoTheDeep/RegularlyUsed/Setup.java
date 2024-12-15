@@ -21,6 +21,10 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 
 public class Setup extends CuttleInitOpMode {
+    public static boolean test;
+    public static String color;
+    public static String side;
+
     public Setup(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                                      PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
                                      CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
@@ -67,46 +71,5 @@ public class Setup extends CuttleInitOpMode {
         telemetry.addData("Cuttle R:", currentPos.getR());
 
         telemetry.update();
-    }
-
-    //I don't think this is needed
-    public void addSequence(Runnable taskMethod) {
-        queue.addTask(new CustomTask(() -> {
-            taskMethod.run();
-            return true;
-        }));
-    }
-
-    //Add position task
-    public void addWaypointTask(TaskList taskList, Pose pose) {
-        //takes in the task and position
-        //adds the position to the given taskList
-        taskList.addTask(new PointTask(new Waypoint(pose) , ptpController));
-    }
-
-    //Constructer gets in other stuff too -- power, rSlop, tSlop, passthrough
-    //More detailed driving
-    //Made this to not mess up my code
-    public void addWaypointTask(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
-        //takes in the task and position
-        //adds the position to the given taskList
-        taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), ptpController));
-    }
-
-    //To add a delay task
-    public void addDelayTask(TaskList taskList, int delay) {
-        //takes delay and taskList
-        //adds delay to task list
-        taskList.addTask(new DelayTask(delay));
-        //idk if this is needed
-    }
-
-    //Intake task
-    //Also don't think this is needed
-    public void addIntakeTask(TaskList taskList, Runnable intakeAction) {
-        taskList.addTask(new CustomTask(() -> {
-            intakeAction.run();
-            return true;
-        }));
     }
 }

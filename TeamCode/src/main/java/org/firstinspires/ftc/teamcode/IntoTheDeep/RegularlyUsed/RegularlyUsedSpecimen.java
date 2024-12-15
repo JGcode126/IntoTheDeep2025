@@ -20,7 +20,6 @@ import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
@@ -29,7 +28,7 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 
 
-public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
+public class RegularlyUsedSpecimen extends CuttleInitOpMode{
     public boolean test = false;
     double counter = 0;
     public boolean transfering = false;
@@ -43,9 +42,9 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
     public int rotation = 0;
     ElapsedTime autoTimer;
 
-    public RegularlyUsedSpecimenAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
-                                     PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
-                                     CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
+    public RegularlyUsedSpecimen(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
+                                 PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
+                                 CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
 
         //Initializing values
         this.otosLocalizer = otos;

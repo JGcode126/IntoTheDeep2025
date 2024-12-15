@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous
 @Config
-@Disabled
 public class bucketAuto extends CuttleInitOpMode {
     public void onInit() {
         super.onInit();
@@ -20,7 +19,6 @@ public class bucketAuto extends CuttleInitOpMode {
 
         methods.test = true;
         methods.side = "left";
-        methods.color = "blue";
     }
 
     public void main(){
@@ -34,7 +32,5 @@ public class bucketAuto extends CuttleInitOpMode {
 
     public void mainLoop() {
         super.mainLoop();
-        //otosLocalizer.update();
-        methods.telemetryData();
-    }
+        methods.telemetryData();}
 }

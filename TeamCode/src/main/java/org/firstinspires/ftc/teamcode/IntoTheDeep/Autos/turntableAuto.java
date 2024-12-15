@@ -73,7 +73,7 @@ public class turntableAuto extends CuttleInitOpMode {
         methods.scoringSpecimen(0.75,-7,0, -10,50);
         methods.scoringSpecimen(3,-11,50,-20,90);
 
-        methods.park();
+        methods.specimenPark();
     }
 
     public void mainLoop() {

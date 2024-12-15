@@ -39,7 +39,7 @@ public class OLDdriveSpecimenAuto extends CuttleInitOpMode {
         //methods.scoringSpecimen();
         //methods.scoringSpecimen();
 
-        methods.park();
+        methods.specimenPark();
     }
 
     public void mainLoop() {
