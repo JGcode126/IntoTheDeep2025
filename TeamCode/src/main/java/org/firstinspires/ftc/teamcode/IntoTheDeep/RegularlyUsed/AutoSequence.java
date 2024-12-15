@@ -27,28 +27,6 @@ public class AutoSequence extends CuttleInitOpMode {
     public String side;
     ElapsedTime autoTimer;
 
-    public AutoSequence(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
-                 PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
-                 CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
-        //Initializing values
-        this.otosLocalizer = otos;
-        this.encoderLocalizer = encoderLocalizer;
-        this.intake = intake;
-        this.outake = outake;
-        this.telemetry = telemetry;
-        this.queue = queue;
-        this.ptpController = ptpController;
-        this.liftPosController = liftController;
-        this.extendoPosController = extController;
-        this.lift = lift;
-        this.extendo = extendo;
-        this.dt = dt;
-
-        this.test = Setup.test;
-        this.color = Setup.color;
-        this.side = Setup.side;
-    }
-
     public void specimenPark(){
         TaskList park = new TaskList();
 

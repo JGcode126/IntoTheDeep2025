@@ -12,25 +12,19 @@ import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 
-public class TeleOp extends Setup{
+public class TeleOp extends CuttleInitOpMode {
     double counter = 0;
     public boolean transfering = false;
     public double highChamberPos = 5.1;
     double highBucketPos = 13;
-
-    TaskManager task;
-
-    public TeleOp(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController, MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
-        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
-
-        task = new TaskManager(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
-    }
+    private String side = setup.side;
 
     public void transferSequence(){
         TaskList transfer = new TaskList();

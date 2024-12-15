@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.AutoSequence;
 
 @Autonomous(name="4 Spec Auto", group="Example")
+@Config
 public class _4SpecAuto extends CuttleInitOpMode {
     private AutoSequence auto;
     public void onInit(){

@@ -22,8 +22,11 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.AutoSequence;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedSpecimenAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Setup;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.TaskManager;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.TeleOp;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
@@ -46,6 +49,9 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleOutake outake;
     public RegularlyUsedSpecimenAuto methods;
     public Setup setup;
+    public AutoSequence auto;
+    public TaskManager task;
+    public TeleOp teleOp;
 
 
     // Declare the chassis motors

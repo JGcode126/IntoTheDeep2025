@@ -12,6 +12,7 @@ import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
@@ -19,11 +20,7 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 
 //Class that just maneges the tasks
-public class TaskManager extends Setup {
-    public TaskManager(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController, MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
-        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
-    }
-
+public class TaskManager extends CuttleInitOpMode {
     //I don't think this is needed
     public void addSequence(Runnable taskMethod) {
         queue.addTask(new CustomTask(() -> {
