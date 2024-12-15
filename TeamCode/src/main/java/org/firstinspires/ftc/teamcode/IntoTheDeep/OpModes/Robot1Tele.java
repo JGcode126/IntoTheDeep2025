@@ -94,6 +94,13 @@ public class Robot1Tele extends CuttleInitOpMode{
             dt.driveDO(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x, gamepad1.right_trigger, gamepad1.left_trigger, -encoderLocalizer.getPos().getR());
         }
 
+        if (autoPosing && gamepad1.right_stick_x != 0) {
+            //dt.driveDO(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x, gamepad1.right_trigger, gamepad1.left_trigger, -encoderLocalizer.getPos().getR());
+            queue.clear();
+            autoPosing = false;
+            dt.drive(0,0,0);
+        }
+
         if (gamepad1.b){
             savex1 = encoderLocalizer.getPos().getX();
             savey1 = encoderLocalizer.getPos().getY();
