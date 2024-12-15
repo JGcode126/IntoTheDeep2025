@@ -23,7 +23,7 @@ public class CuttleIntake{
     public ColorRangeSensor colorSensor;
     CuttleServo leftServo;
     CuttleServo rightServo;
-    public CuttleServo lightbulb;
+    CuttleServo lightbulb;
     public CuttleServo turntable;
     public CuttleServo clawServo;
     public CuttleIntake.IntakeState intakeState = UP;
@@ -43,7 +43,10 @@ public class CuttleIntake{
     }
 
     public void lightRed(){
-        lightbulb.setPosition(0.3);
+        lightbulb.setPosition(0.28);
+    }
+    public void lightOff(){
+        lightbulb.setPosition(0);
     }
     public void lightBlue(){
         lightbulb.setPosition(0.61);
@@ -51,8 +54,11 @@ public class CuttleIntake{
     public void lightGreen(){
         lightbulb.setPosition(0.5);
     }
+    public void lightPurple(){
+        lightbulb.setPosition(0.7);
+    }
     public void lightYellow(){
-        lightbulb.setPosition(0.4);
+        lightbulb.setPosition(0.38);
     }
 
 
@@ -134,13 +140,14 @@ public class CuttleIntake{
             case UP:
                 initPos();
                 turntablePos = turntableInitPos;
+                lightOff();
                 if(down){intakeState = DOWN;}
                 if(looking > triggerTrigger){intakeState = LOOKING;}
                 break;
             case DOWN:
                 intakePos(turntablePos);
                 intakeMotor.setPower(0);
-
+                lightOff();
                 turntablePos = turn * -0.2 + turntableInitPos;
 
                 if(looking > triggerTrigger){intakeState = LOOKING;}
@@ -150,7 +157,7 @@ public class CuttleIntake{
             case LOOKING:
                 intakePos(turntablePos);
                 intakeMotor.setPower(-1);
-
+                lightGreen();
                 turntablePos = turn*-0.2 + turntableInitPos;
 
                 if(down){intakeState = DOWN;}
@@ -163,6 +170,7 @@ public class CuttleIntake{
             case SECURED:
                 intakePos(turntableInitPos);
                 clawServo.setPosition(clawGrab);
+                lightOff();
                 intakeState = TRANSFERED;
                 break;
             case TRANSFERED:
@@ -176,6 +184,7 @@ public class CuttleIntake{
             case REJECT:
                 intakePos(turntableInitPos);
                 intakeMotor.setPower(1);
+                lightPurple();
                 if(getColor() != YELLOW || getColor() != RED || getColor() != BLUE){intakeState = DOWN;}
                 if(up){intakeState = UP;}
                 if(down){intakeState = DOWN;}

@@ -60,7 +60,7 @@ public class CuttleDT{
             releaseAngle = Math.toDegrees(rotation);
         } else{
             targetAngle = releaseAngle;
-            inputTurn = PID(targetAngle-Math.toDegrees(rotation), 0.008,0,0.00);
+            inputTurn = PID(targetAngle-Math.toDegrees(rotation), 0.00,0,0.00);
         }
 
         if (fast > 0.02) {
@@ -81,6 +81,37 @@ public class CuttleDT{
         }
 
     }
+
+
+    public void driveNonDO(double drive, double strafe, double turn, double fast, double superslow, double rotation){
+
+        if(turn!= 0) {
+            inputTurn = turn;
+            releaseAngle = Math.toDegrees(rotation);
+        } else{
+            targetAngle = releaseAngle;
+            inputTurn = PID(targetAngle-Math.toDegrees(rotation), 0.00,0,0.00);
+        }
+
+        if (fast > 0.02) {
+            leftFrontMotor.setPower((drive+strafe+(inputTurn))*-0.6);
+            rightFrontMotor.setPower((drive-strafe-(inputTurn))*-0.6);
+            leftBackMotor.setPower((drive-strafe+(inputTurn))*-0.6);
+            rightBackMotor.setPower((drive+strafe-(inputTurn))*-0.6);
+        } else if (superslow > 0.02) {
+            leftFrontMotor.setPower((drive+strafe*1.5+inputTurn)*-0.25);
+            rightFrontMotor.setPower((drive-strafe*1.5-inputTurn)*-0.25);
+            leftBackMotor  .setPower((drive-strafe*1.5+inputTurn)*-0.25);
+            rightBackMotor.setPower((drive+strafe*1.5-inputTurn)*-0.25);
+        } else{
+            leftFrontMotor.setPower((drive+strafe+inputTurn*0.9)*-1);
+            rightFrontMotor.setPower((drive-strafe-inputTurn*0.9)*-1);
+            leftBackMotor.setPower((drive-strafe+inputTurn*0.9)*-1);
+            rightBackMotor.setPower((drive+strafe-inputTurn*0.9)*-1);
+        }
+
+    }
+
 
     public double PID (double error, double kp, double ki, double kd){
 

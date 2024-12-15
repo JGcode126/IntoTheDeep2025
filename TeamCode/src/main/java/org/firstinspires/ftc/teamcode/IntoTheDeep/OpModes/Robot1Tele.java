@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.OpModes;
 
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo.ExtendoState.INE;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.BLUE;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.RED;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.YELLOW;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.TRANSFERED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARLEFT;
@@ -13,9 +16,12 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.DelayTask;
+import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.queue.TaskList;
+import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
@@ -27,6 +33,9 @@ public class Robot1Tele extends CuttleInitOpMode{
     double finalLiftPos = 0;
     double counter = 0;
     public boolean transfering = false;
+    public boolean autoPosing = false;
+    double savex1,savey1, saver1;
+    double savex2,savey2, saver2;
     public void onInit() {
         super.onInit();
         //intake.initPos();
@@ -81,10 +90,32 @@ public class Robot1Tele extends CuttleInitOpMode{
         extendoPosition = finalExtendoPos;
 
         //dt.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
+        if (!autoPosing) {
+            dt.driveDO(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x, gamepad1.right_trigger, gamepad1.left_trigger, -encoderLocalizer.getPos().getR());
+        }
 
-        dt.driveDO(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x, gamepad1.right_trigger, gamepad1.left_trigger, -encoderLocalizer.getPos().getR());
+        if (gamepad1.b){
+            savex1 = encoderLocalizer.getPos().getX();
+            savey1 = encoderLocalizer.getPos().getY();
+            saver1 = encoderLocalizer.getPos().getR();
+        }
 
-        if (/*gamepad2.left_bumper &&*/ intake.intakeState == TRANSFERED){
+        if (gamepad1.dpad_left && !autoPosing){
+            autoPos();
+        }
+
+        if (gamepad1.dpad_up){
+            savex2 = encoderLocalizer.getPos().getX();
+            savey2 = encoderLocalizer.getPos().getY();
+            saver2 = encoderLocalizer.getPos().getR();
+        }
+
+        if (gamepad1.dpad_right && !autoPosing){
+            autoPos2();
+        }
+
+
+        if (intake.intakeState == TRANSFERED){
             transfering = true;
         }
 
@@ -106,6 +137,18 @@ public class Robot1Tele extends CuttleInitOpMode{
             finalExtendoPos = 0;
             extendo.setExtendoState(INE);
         }
+        /*
+        if(intake.getColor() == RED){
+            intake.lightRed();
+        }
+        if(intake.getColor() == BLUE){
+            intake.lightBlue();
+        }
+        if(intake.getColor() == YELLOW){
+            intake.lightYellow();
+        }
+
+         */
 
 
         telemetry.addData("intake state", intake.intakeState);
@@ -119,8 +162,6 @@ public class Robot1Tele extends CuttleInitOpMode{
         telemetry.addData("Cuttle R:",encoderLocalizer.getPos().getR());
         telemetry.addData("transfering?", transfering);
         telemetry.update();
-
-        //intake.lightRed();
     }
 
 
@@ -217,6 +258,38 @@ public class Robot1Tele extends CuttleInitOpMode{
             return true;
         }));
         queue.addTask(liftReset);
+    }
+
+    void autoPos(){
+        TaskList autoPos = new TaskList();
+        System.out.println("yes");
+        autoPosing = true;
+        autoPos.addTask(new CustomTask(()->{
+            //autoPosing = true;
+            return true;
+        }));
+        autoPos.addTask(new PointTask(new Waypoint(new Pose(savex1,savey1,saver1),1, 0.4,75,false), ptpController));
+        autoPos.addTask(new CustomTask(()->{
+            autoPosing = false;
+            return true;
+        }));
+        queue.addTask(autoPos);
+    }
+
+    void autoPos2(){
+        TaskList autoPos2 = new TaskList();
+        System.out.println("yes");
+        autoPosing = true;
+        autoPos2.addTask(new CustomTask(()->{
+            //autoPosing = true;
+            return true;
+        }));
+        autoPos2.addTask(new PointTask(new Waypoint(new Pose(savex2,savey2,saver2), 1, 0.4,75,false), ptpController));
+        autoPos2.addTask(new CustomTask(()->{
+            autoPosing = false;
+            return true;
+        }));
+        queue.addTask(autoPos2);
     }
 
 

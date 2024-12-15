@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Init;
 
 
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.BLUE;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.RED;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.YELLOW;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MecanumController;
@@ -118,9 +122,9 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         CuttleServo intakeRight = ctrlHub.getServo(2);
         CuttleServo intakeClaw = ctrlHub.getServo(0);
         CuttleServo turntable = ctrlHub.getServo(1);
-        CuttleServo light = ctrlHub.getServo(4);
+        CuttleServo light = expHub.getServo(5);
 
-        //outake exp hub servo 5 and 1 are cooked
+        //outake exp hub servo 5 and 1 are cooked (Fixed 12/14/24 changed exp hub)
         CuttleServo driveServo = expHub.getServo(3);
         CuttleServo clawServo = expHub.getServo(4);
         CuttleServo wristServo = expHub.getServo(2);
@@ -205,6 +209,9 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         extendo.setSlidePosition(extendoPosition);
         lift.setLiftPosition(liftPosition);
+
+
+
 
         // Update the queue
         queue.update();
