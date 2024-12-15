@@ -55,8 +55,8 @@ public class CuttleSlides {
         controller.setPID(p, i, d);
         double pid = controller.calculate(getPos(), NewPosition);
         if (liftMotorRight.power < 0){
-            liftMotorLeft.setPower((pid+ ff) * -0.2);
-            liftMotorRight.setPower((pid + ff) * 0.2);
+            liftMotorLeft.setPower((pid+ ff) * -1);
+            liftMotorRight.setPower((pid + ff) * 1);
         } else {
             liftMotorLeft.setPower((pid + ff) * -1);
             liftMotorRight.setPower((pid + ff) * 1);

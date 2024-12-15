@@ -174,8 +174,9 @@ public class CuttleIntake{
                 intakeState = TRANSFERED;
                 break;
             case TRANSFERED:
-                if (clawServo.getPosition() > clawGrab - 0.05) {
+                if (clawServo.getPosition() > clawGrab - 0.015) {
                     armUp();
+                    off();
                 }
                 if(down){intakeState = DOWN;}
                 if(looking > triggerTrigger){intakeState = LOOKING;}
