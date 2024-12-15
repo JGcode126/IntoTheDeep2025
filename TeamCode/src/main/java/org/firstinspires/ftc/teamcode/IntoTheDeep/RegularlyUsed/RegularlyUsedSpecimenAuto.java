@@ -176,6 +176,12 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
         scoring(scoreOffset);
     }
 
+    public void scoring3(){
+        methods.scoringSpecimen(0, -4, 0,0,0);
+        methods.scoringSpecimen(0.25, -6,0,0,20);
+        methods.scoringSpecimen(0.75,-7,0, -10,50);
+    }
+
     public void specimen(double extOffset, int offsetr, int offsety, int offsetx) {
         TaskList specimen = new TaskList();
 
