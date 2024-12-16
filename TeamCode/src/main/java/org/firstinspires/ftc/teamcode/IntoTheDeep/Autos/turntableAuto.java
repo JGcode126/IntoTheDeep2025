@@ -53,32 +53,19 @@ public class turntableAuto extends CuttleInitOpMode {
         methods.test = true;
         methods.side = "right";
         methods.color = "blue";
-
-        //methods.highChamberPos = lift;
     }
 
     public void main(){
         super.main();
 
         methods.firstSpecimen();
-        //methods.ttSample();
-        methods.fistSampleTT();
-        methods.secondSampleTT();
-        methods.thridSampleTT();
-        //methods.testSampleTT(-1260, -610,100,-900,-400,50);
-
-        //y1 = -425, y2 = -650, y3 = -400
-        methods.scoringSpecimen(0, -4, 0,0,0);
-        methods.scoringSpecimen(0.25, -6,0,0,20);
-        methods.scoringSpecimen(0.75,-7,0, -10,50);
-        methods.scoringSpecimen(3,-11,50,-20,90);
-
+        methods.ttSample();
+        methods.scoring4();
         methods.specimenPark();
     }
 
     public void mainLoop() {
         super.mainLoop();
-        //otosLocalizer.update();
         methods.telemetryData();
     }
 

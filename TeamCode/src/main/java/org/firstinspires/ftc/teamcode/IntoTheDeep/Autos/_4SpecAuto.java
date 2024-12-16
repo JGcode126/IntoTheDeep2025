@@ -5,15 +5,14 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.AutoSequence;
 
 @Autonomous(name="4 Spec Auto", group="Example")
 @Config
-@Disabled
 public class _4SpecAuto extends CuttleInitOpMode {
-    private AutoSequence auto;
     public void onInit(){
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -22,20 +21,22 @@ public class _4SpecAuto extends CuttleInitOpMode {
 
         setup.test = false;
         setup.side = "right";
-
+        methods.color = "blue";
     }
 
     public void main(){
         super.main();
 
-        auto.firstSpecimen();
-        auto.ttSample();
-        auto.scoring3();
-        auto.specimenPark();
+        methods.firstSpecimen();
+        methods.ttSample();
+        methods.scoring3();
+        methods.specimenTelePark();
     }
 
     public void mainLoop() {
         super.mainLoop();
-        setup.telemetryData();
+        methods.telemetryData();
     }
 }
+
+
