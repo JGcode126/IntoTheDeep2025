@@ -192,6 +192,7 @@ public class CuttleIntake{
         }
     }
 
+    
 
     public enum IntakeState {
         DOWN, UP, LOOKING, SECURED, TRANSFERED, REJECT
