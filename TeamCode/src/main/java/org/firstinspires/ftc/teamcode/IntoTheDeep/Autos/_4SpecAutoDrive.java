@@ -4,15 +4,12 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.AutoSequence;
 
-@Autonomous(name="4 Spec", group="Example")
+@Autonomous(name="4 Drive Spec ", group="Example")
 @Config
-public class _4SpecAuto extends CuttleInitOpMode {
+public class _4SpecAutoDrive extends CuttleInitOpMode {
     public static int distance = -650;
     public void onInit(){
         super.onInit();
@@ -30,11 +27,16 @@ public class _4SpecAuto extends CuttleInitOpMode {
 
         methods.firstSpecimen(-730, 2.8);
 
-        methods.sampleTT_Test(-685,-620,90);
-        methods.sampleTT_Test(-945,-660,90);
-        methods.sampleTT_Test(-1250,-710,100);
+        methods.sampleDriving(-700, -400, -750, -1350, -1050, -1350, -1050, -300);
+        methods.sampleDriving(-1000, -1350,-1300, -1350,-1300, -300);
+        methods.sampleDriving(-1300, -1300,-1500, -1300,-1450, -300);
+        methods.drive(-1300, -700, Math.PI);
+        //methods.drive(-500, -300, 0);
 
-        methods.scoring3();
+        methods.scoringSpecimenDrive(0, -4, 0,0,0);
+        methods.scoringSpecimenDrive(0.25, -6,0,0,20);
+        methods.scoringSpecimenDrive(0.75,-7,0, -10,50);
+
         methods.specimenTelePark();
     }
 

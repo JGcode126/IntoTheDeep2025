@@ -10,9 +10,9 @@ import com.roboctopi.cuttlefish.queue.TaskList;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
-@Autonomous
+@Autonomous(name = "5 Spec", group = "Example")
 @Config
-public class turntableAuto extends CuttleInitOpMode {
+public class _5SpecAuto extends CuttleInitOpMode {
     //------------For testing----------
     //public static int x = -100;
     //public static int y1 = -425;
