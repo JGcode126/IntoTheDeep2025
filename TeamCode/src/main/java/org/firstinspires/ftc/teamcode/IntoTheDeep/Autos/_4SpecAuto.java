@@ -28,14 +28,12 @@ public class _4SpecAuto extends CuttleInitOpMode {
     public void main(){
         super.main();
 
-        methods.firstSpecimen(-730, 2.8);
+        methods.firstSpecimen(-850, 3);
 
-        methods.sampleTT_Test(-685,-620,90);
-        methods.sampleTT_Test(-945,-660,90);
-        methods.sampleTT_Test(-1250,-710,100);
+        methods.ttSample();
 
-        methods.scoring3();
-        methods.specimenTelePark();
+        //methods.scoring3();
+        //methods.specimenTelePark();
     }
 
     public void mainLoop() {
