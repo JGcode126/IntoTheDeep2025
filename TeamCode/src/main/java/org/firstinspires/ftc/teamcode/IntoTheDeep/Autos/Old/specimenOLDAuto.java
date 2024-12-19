@@ -1,20 +1,10 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.Old;
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.roboctopi.cuttlefish.controller.Waypoint;
-import com.roboctopi.cuttlefish.queue.CustomTask;
-import com.roboctopi.cuttlefish.queue.DelayTask;
-import com.roboctopi.cuttlefish.queue.PointTask;
-import com.roboctopi.cuttlefish.queue.TaskList;
-import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
@@ -27,33 +17,33 @@ public class specimenOLDAuto extends CuttleInitOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        methods.initRobot();
+        specimenMethods.initRobot();
 
 
-        methods.test = false;
-        methods.side = "right";
-        methods.color = "blue";
+        specimenMethods.test = false;
+        specimenMethods.side = "right";
+        specimenMethods.color = "blue";
     }
 
     public void main() {
         super.main();
 
-        methods.sample();
-        methods.firstSpecimen();
-        methods.firstSpecimen();
-        methods.secondSample();
-        methods.thridSample();
+        specimenMethods.sample();
+        specimenMethods.firstSpecimen();
+        specimenMethods.firstSpecimen();
+        specimenMethods.secondSample();
+        specimenMethods.thridSample();
 
         //methods.scoringSpecimen();
         //methods.scoringSpecimen();
         //methods.scoringSpecimen();
 
-        methods.teleOpInit();
+        specimenMethods.teleOpInit();
     }
 
     public void mainLoop() {
         super.mainLoop();
-        methods.telemetryData();
+        specimenMethods.telemetryData();
     }
 
     private enum State {

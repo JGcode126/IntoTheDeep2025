@@ -19,30 +19,30 @@ public class _4SpecAutoDrive extends CuttleInitOpMode {
 
         setup.test = false;
         setup.side = "right";
-        methods.color = "blue";
+        specimenMethods.color = "blue";
     }
 
     public void main(){
         super.main();
 
-        methods.firstSpecimen(-730, 2.8);
+        specimenMethods.firstSpecimen(-730, 2.8);
 
-        methods.sampleDriving(-700, -400, -750, -1350, -1050, -1350, -1050, -300);
-        methods.sampleDriving(-1000, -1350,-1300, -1350,-1300, -300);
-        methods.sampleDriving(-1300, -1300,-1500, -1300,-1450, -300);
-        methods.drive(-1300, -700, Math.PI);
+        specimenMethods.sampleDriving(-700, -400, -750, -1350, -1050, -1350, -1050, -300);
+        specimenMethods.sampleDriving(-1000, -1350,-1300, -1350,-1300, -300);
+        specimenMethods.sampleDriving(-1300, -1300,-1500, -1300,-1450, -300);
+        specimenMethods.drive(-1300, -700, Math.PI);
         //methods.drive(-500, -300, 0);
 
-        methods.scoringSpecimenDrive(0, -4, 0,0,0);
-        methods.scoringSpecimenDrive(0.25, -6,0,0,20);
-        methods.scoringSpecimenDrive(0.75,-7,0, -10,50);
+        specimenMethods.scoringSpecimenDrive(0, -4, 0,0,0);
+        specimenMethods.scoringSpecimenDrive(0.25, -6,0,0,20);
+        specimenMethods.scoringSpecimenDrive(0.75,-7,0, -10,50);
 
-        methods.specimenTelePark();
+        specimenMethods.specimenTelePark();
     }
 
     public void mainLoop() {
         super.mainLoop();
-        methods.telemetryData();
+        specimenMethods.telemetryData();
     }
 }
 

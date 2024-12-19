@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Init;
 
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.BLUE;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.RED;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.YELLOW;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MecanumController;
@@ -23,6 +19,7 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.AutoSequence;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedBucketAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedSpecimenAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Setup;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.TaskManager;
@@ -47,7 +44,8 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleIntake intake;
     public CuttleSlides lift;
     public CuttleOutake outake;
-    public RegularlyUsedSpecimenAuto methods;
+    public RegularlyUsedSpecimenAuto specimenMethods;
+    public RegularlyUsedBucketAuto bucketMethods;
     public Setup setup;
     public AutoSequence auto;
     public TaskManager task;
@@ -188,8 +186,13 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap, light);
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new CuttleOutake(driveServo, wristServo, clawServo);
-        methods = new RegularlyUsedSpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+
+        specimenMethods = new RegularlyUsedSpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+
+        bucketMethods = new RegularlyUsedBucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+
         setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);
 

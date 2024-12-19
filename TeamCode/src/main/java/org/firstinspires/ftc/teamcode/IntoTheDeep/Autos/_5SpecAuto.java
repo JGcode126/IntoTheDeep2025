@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.TaskList;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous(name = "5 Spec", group = "Example")
 @Config
+@Disabled
 public class _5SpecAuto extends CuttleInitOpMode {
     //------------For testing----------
     //public static int x = -100;
@@ -48,25 +50,25 @@ public class _5SpecAuto extends CuttleInitOpMode {
         timer = new ElapsedTime();
         timer.reset();
 
-        methods.initRobot();
+        specimenMethods.initRobot();
 
-        methods.test = true;
-        methods.side = "right";
-        methods.color = "blue";
+        specimenMethods.test = true;
+        specimenMethods.side = "right";
+        specimenMethods.color = "blue";
     }
 
     public void main(){
         super.main();
 
-        methods.firstSpecimen();
-        methods.ttSample();
-        methods.scoring4();
-        methods.specimenPark();
+        specimenMethods.firstSpecimen();
+        specimenMethods.ttSample();
+        specimenMethods.scoring4();
+        specimenMethods.specimenPark();
     }
 
     public void mainLoop() {
         super.mainLoop();
-        methods.telemetryData();
+        specimenMethods.telemetryData();
     }
 
     void intakeColor(){

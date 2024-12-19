@@ -20,31 +20,31 @@ public class OLDdriveSpecimenAuto extends CuttleInitOpMode {
         timer = new ElapsedTime();
         timer.reset();
 
-        methods.initRobot();
+        specimenMethods.initRobot();
 
-        methods.test = true;
-        methods.side = "right";
-        methods.color = "blue";
+        specimenMethods.test = true;
+        specimenMethods.side = "right";
+        specimenMethods.color = "blue";
     }
 
     public void main(){
         super.main();
 
-        methods.firstSpecimen();
+        specimenMethods.firstSpecimen();
 
-        methods.sample();
+        specimenMethods.sample();
 
         //methods.scoringSpecimen();
         //methods.scoringSpecimen();
         //methods.scoringSpecimen();
         //methods.scoringSpecimen();
 
-        methods.specimenPark();
+        specimenMethods.specimenPark();
     }
 
     public void mainLoop() {
         super.mainLoop();
         //otosLocalizer.update();
-        methods.telemetryData();
+        specimenMethods.telemetryData();
     }
 }

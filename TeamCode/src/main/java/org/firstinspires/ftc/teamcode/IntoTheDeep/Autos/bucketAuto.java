@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
@@ -15,22 +14,24 @@ public class bucketAuto extends CuttleInitOpMode {
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        methods.initRobot();
+        bucketMethods.initRobot();
 
-        methods.test = true;
-        methods.side = "left";
+        specimenMethods.test = true;
+        specimenMethods.side = "left";
     }
 
     public void main(){
         super.main();
 
-        methods.firstSpecimen();
-        //methods.specimen();
+        bucketMethods.scoreFirstSample(-870);
+        bucketMethods.scoring(-870, -1130,0);
+        bucketMethods.scoring(-1130, -1200,0);
+        bucketMethods.scoring(-1200, -400,20);
+        bucketMethods.park();
 
-        methods.teleOpInit();
     }
 
     public void mainLoop() {
         super.mainLoop();
-        methods.telemetryData();}
+        specimenMethods.telemetryData();}
 }
