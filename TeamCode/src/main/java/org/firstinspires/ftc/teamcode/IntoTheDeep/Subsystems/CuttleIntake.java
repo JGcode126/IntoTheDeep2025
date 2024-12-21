@@ -117,13 +117,17 @@ public class CuttleIntake{
     public Color getColor(){
         Color color = null;
         colorSensor.enableLed(false);
-        if (colorSensor.green() > 2100 && colorSensor.red() < 2100 && colorSensor.getDistance(DistanceUnit.CM) < 2.5){
+
+        if(colorSensor.green() > colorSensor.red() && colorSensor.green() > colorSensor.blue() && colorSensor.getDistance(DistanceUnit.CM) < 2.5){
             color = YELLOW;
-        } else if (colorSensor.blue() < colorSensor.red() && colorSensor.red() > colorSensor.green() && colorSensor.getDistance(DistanceUnit.CM) < 2.5){
-            color = RED;
-        } else if(colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green() && colorSensor.getDistance(DistanceUnit.CM) < 2.5){
+        }
+        else if(colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green() && colorSensor.getDistance(DistanceUnit.CM) < 2.5){
             color = BLUE;
-        } else if(colorSensor.getDistance(DistanceUnit.CM) < 2.5){
+        }
+        else if(colorSensor.blue() < colorSensor.red() && colorSensor.red() > colorSensor.green() && colorSensor.getDistance(DistanceUnit.CM) < 2.5){
+            color = RED;
+        }
+        else if(colorSensor.getDistance(DistanceUnit.CM) < 2.5){
             color = BLUE;
         }
         /*
@@ -133,6 +137,64 @@ public class CuttleIntake{
 
          */
         return color;
+    }
+
+    public void intakeMachineColor(boolean down, double looking, boolean up, double reject, double turn, Color inColor, Color rejectColor){
+
+        switch (intakeState){
+            case UP:
+                initPos();
+                turntablePos = turntableInitPos;
+                lightOff();
+                if(down){intakeState = DOWN;}
+                if(looking > triggerTrigger){intakeState = LOOKING;}
+                break;
+            case DOWN:
+                intakePos(turntablePos);
+                intakeMotor.setPower(0);
+                lightOff();
+                turntablePos = turn * -0.2 + turntableInitPos;
+
+                if(looking > triggerTrigger){intakeState = LOOKING;}
+                if(up){intakeState = UP;}
+                if(reject > triggerTrigger){intakeState = REJECT;}
+                break;
+            case LOOKING:
+                intakePos(turntablePos);
+                intakeMotor.setPower(-1);
+                lightGreen();
+                turntablePos = turn*-0.2 + turntableInitPos;
+
+                if(down){intakeState = DOWN;}
+                if(up){intakeState = UP;}
+                if (getColor() == YELLOW || getColor() == inColor){intakeState = SECURED;}
+                if (getColor() == rejectColor){intakeState = REJECT;}
+                if(reject > 0.1){intakeState = REJECT;}
+                break;
+            case SECURED:
+                intakePos(turntableInitPos);
+                clawServo.setPosition(clawGrab);
+                lightOff();
+                intakeState = TRANSFERED;
+                break;
+            case TRANSFERED:
+                if (clawServo.getPosition() > clawGrab - 0.015) {
+                    armUp();
+                    off();
+                }
+                if(down){intakeState = DOWN;}
+                if(looking > triggerTrigger){intakeState = LOOKING;}
+                if(up){intakeState = UP;}
+                break;
+            case REJECT:
+                intakePos(turntableInitPos);
+                intakeMotor.setPower(1);
+                lightPurple();
+                if(getColor() != YELLOW || getColor() != inColor){intakeState = DOWN;}
+                if(getColor() == rejectColor){intakeState = REJECT;}
+                if(up){intakeState = UP;}
+                if(down){intakeState = DOWN;}
+        }
     }
 
     public void intakeMachine(boolean down, double looking, boolean up, double reject, double turn){

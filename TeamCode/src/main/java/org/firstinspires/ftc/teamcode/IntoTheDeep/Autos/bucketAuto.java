@@ -23,10 +23,12 @@ public class bucketAuto extends CuttleInitOpMode {
     public void main(){
         super.main();
 
-        bucketMethods.scoreFirstSample(-870);
+        //bucketMethods.scoreFirstSample(-870);
+        bucketMethods.scoreFirstSample(-1100, 280,-870);
+
         bucketMethods.scoring(-870, -1130,0);
         bucketMethods.scoring(-1130, -1200,0);
-        bucketMethods.scoring(-1200, -400,20);
+        bucketMethods.scoring(-1200, -400,15);//deg used to be 20
         bucketMethods.park();
 
     }

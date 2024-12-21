@@ -219,8 +219,9 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
     public void specimen(double extOffset, int offsetr, int offsety, int offsetx) {
         TaskList specimen = new TaskList();
 
-        autoTimer.reset();
         specimen.addTask(new CustomTask(() -> {
+            autoTimer.reset();
+            intake.intakeDown();
             intake.turntableMiddle();
             intake.in();
             extendoPosition = 2;
@@ -244,6 +245,13 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
             intake.in();
             intake.clawOpen();
             intake.intakeDown();
+
+            if(autoTimer.seconds() > 2) {
+                extendoPosition = 1;
+                if (autoTimer.seconds() > 2.5) {
+                    autoTimer.reset();
+                }
+            }
 
             return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
         }));
@@ -641,12 +649,14 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
     }
 
     public void ttdriving(int x1, int y1, int r1) {
+        autoTimer.reset();
         //gets given positions to drive the robot
 
         TaskList sample = new TaskList();
 
         sample.addTask(new CustomTask(() -> {
             extendoPosition = 4;
+            intake.intakeDown();
             intake.turntableRight();
             intake.in();
             return true;
@@ -659,9 +669,13 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
         sample.addTask(new CustomTask(() -> {
             intake.in();
             boolean quit = false;
-            if (encoderLocalizer.getPos().getR() < Math.toRadians(145)) {
+            if(autoTimer.seconds() > 5){
+                quit = true;
+            }
+            else if (encoderLocalizer.getPos().getR() < Math.toRadians(145)) {
                 dt.drive(0.1, 0.2, -0.12);
-            } else {
+            }
+            else {
                 dt.drive(0, 0, 0);
                 quit = true;
             }
@@ -816,6 +830,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
             liftPosition = 0;
             extendoPosition = 0;
             outake.readyPos();
+            intake.intakeDown();
         });
 
         queue.addTask(scoringSpecimen);

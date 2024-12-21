@@ -131,8 +131,34 @@ public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
             liftPosition = 14;
             outake.scorePosMid();
         });
-
+        //x used to be -980, -1000 still works
         addWaypointTask(scoringSample, new Pose(-980, 200, -0.7),0.8,0.6,10,false);
+
+
+        //addWaypointTask(scoringSample, new Pose(-1200, 260, -0.7),0.8,0.5,150,false);
+
+        addIntakeTask(scoringSample, () -> {
+            outake.openClaw();
+        });
+        addDelayTask(scoringSample, 200);
+        addIntakeTask(scoringSample, () -> {
+            liftPosition = 0;
+            outake.readyPos();
+        });
+        addWaypointTask(scoringSample, new Pose(finishxpos, 330, 0),0.6,0.1,10,false);
+
+        queue.addTask(scoringSample);
+    }
+
+    public void scoreFirstSample(int xPos, int yPos, int finishxpos) {
+        TaskList scoringSample = new TaskList();
+
+        addIntakeTask(scoringSample, () -> {
+            liftPosition = 14;
+            outake.scorePosMid();
+        });
+        //x used to be -980, -1000 still works
+        addWaypointTask(scoringSample, new Pose(xPos, yPos, -0.7),0.6,0.6,10,false);
 
 
         //addWaypointTask(scoringSample, new Pose(-1200, 260, -0.7),0.8,0.5,150,false);
@@ -158,7 +184,8 @@ public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
             outake.scorePosMid();
         });
 
-        addWaypointTask(scoringSample, new Pose(-920, 400, -0.7),0.8,0.6,10,false);
+        //change x from -920, y used to be 400
+        addWaypointTask(scoringSample, new Pose(-1000, 390, -0.7),0.8,0.6,10,false);
         addIntakeTask(scoringSample, () -> {
             dt.drive(-0.2,0,0);
         });
@@ -192,12 +219,13 @@ public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
             intake.armUp();
             extendoPosition = 0;
             liftPosition = 0;
+            outake.parkPos();
             return true;
         }));
-        addWaypointTask(park, new Pose(-500, 1500, Math.toRadians(90)),0.9,0.1,10,false);
+
+        addWaypointTask(park, new Pose(-500, 1400, Math.toRadians(90)),0.9,0.5,100,false);
         park.addTask(new CustomTask(() -> {
             dt.drive(-0.5,0,0);
-            outake.parkPos();
             return true;
         }));
         queue.addTask(park);
@@ -206,8 +234,8 @@ public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
     public void intakeSample(double x, double deg) {
         TaskList samples = new TaskList();
 
-        autoTimer.reset();
         samples.addTask(new CustomTask(() -> {
+            autoTimer.reset();
             intake.turntableMiddle();
             intake.in();
             extendoPosition = 0;
@@ -221,12 +249,15 @@ public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
 
         samples.addTask(new DelayTask(400));
         samples.addTask(new CustomTask(() -> {
+            boolean quit = false;
             extendoPosition = 5;
             intake.in();
             intake.clawOpen();
             intake.intakeDown();
 
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
+            if (autoTimer.seconds() > 3.5) {quit = true;}
+
+            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
         }));
 
         //addDelayTask(specimen, 500);

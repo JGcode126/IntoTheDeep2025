@@ -1,14 +1,16 @@
-package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
+package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.Old;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous(name="4 Drive Spec ", group="Example")
 @Config
+@Disabled
 public class _4SpecAutoDrive extends CuttleInitOpMode {
     public static int distance = -650;
     public void onInit(){
