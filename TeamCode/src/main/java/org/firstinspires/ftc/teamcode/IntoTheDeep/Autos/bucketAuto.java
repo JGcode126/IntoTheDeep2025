@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
-@Autonomous
+@Autonomous(name = "BUCKET", group = "Example")
 @Config
 public class bucketAuto extends CuttleInitOpMode {
     public void onInit() {

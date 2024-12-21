@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
-@Autonomous(name="4_Spec", group="Example")
+@Autonomous(name="FAILSAFE_4_Spec", group="Example")
 @Config
-public class _4SpecAuto extends CuttleInitOpMode {
+public class _4SpecAutoWithFailsafe extends CuttleInitOpMode {
     public static int distance = -650;
     public void onInit(){
         super.onInit();
@@ -29,7 +29,7 @@ public class _4SpecAuto extends CuttleInitOpMode {
 
         specimenMethods.ttSample();
 
-        specimenMethods.scoring3();
+        specimenMethods.scoring3Failsafe();
 
         specimenMethods.specimenTelePark();
 
