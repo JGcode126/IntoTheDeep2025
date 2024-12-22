@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Init;
 
 
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.DOWN;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.LOOKING;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MecanumController;
@@ -9,6 +12,7 @@ import com.roboctopi.cuttlefish.controller.PTPController;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
+import com.roboctopi.cuttlefish.utils.PID;
 import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
@@ -163,6 +167,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         );
 
         extendoPosController = new MotorPositionController(0,extendoMotor, extendoEncoder, true);
+        extendoPosController.setPid(new PID(1.7, 0, 0.04, 0,1));
         liftPosController = new MotorPositionController(0, rightBackSlides, liftEncoder, true);
 
         // Initialize the PTP Controller
@@ -202,8 +207,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     @Override
     public void main() {
     }
-    public void mainLoop()
-    {
+    public void mainLoop() {
         super.mainLoop();
 
         pos = myOtos.getPosition();
@@ -216,14 +220,20 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         otosLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
 
-        extendo.setSlidePosition(extendoPosition);
         lift.setLiftPosition(liftPosition);
+        if (intake.intakeState != LOOKING && !gamepad1.share) {
+            extendo.setSlidePosition(extendoPosition);
+        }
+        if (intake.intakeState == LOOKING && !gamepad1.share){
+            extendo.setSlidePositionColor(extendoPosition);
 
-
+        }
+        //extendoPosController.setPosition(extendoPosition);
 
 
         // Update the queue
         queue.update();
+        //extendoPosController.loop();
 
     }
 

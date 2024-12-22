@@ -46,6 +46,7 @@ public class Robot1Tele extends CuttleInitOpMode{
         liftPosController.setHome();
         extendoPosController.setHome();
         intake.initPos();
+        encoderLocalizer.getPos().setR(Math.PI/2);
         outake.readyPos();
 
     }
@@ -60,13 +61,22 @@ public class Robot1Tele extends CuttleInitOpMode{
         if (transfering == false) {
             intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x);
             if(gamepad1.share){
-                hardResetExtendo();
+                extendoMotor.setPower(-0.5);
+                rightBackSlides.setPower(-0.4);
+                leftbackSlides.setPower(0.4);
+                liftPosController.setHome();
+                extendoPosController.setHome();
+                finalExtendoPos = 0;
+                finalLiftPos = 0;
+
             } else {
-                finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
+                if (!gamepad1.share) {
+                    finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
+                }
             }
-
-            finalLiftPos = lift.liftMachine(gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options, gamepad2.right_bumper, gamepad1.dpad_up, gamepad1.dpad_down);
-
+            if (!gamepad1.share) {
+                finalLiftPos = lift.liftMachine(gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options, gamepad2.right_bumper, gamepad1.dpad_up, gamepad1.dpad_down);
+            }
             if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
                 if(outake.outakeState == BARLEFT){
                     outake.scorePosLeft();
@@ -85,9 +95,10 @@ public class Robot1Tele extends CuttleInitOpMode{
         }
 
 
-
-        liftPosition = finalLiftPos;
-        extendoPosition = finalExtendoPos;
+        if (!gamepad1.share) {
+            liftPosition = finalLiftPos;
+            extendoPosition = finalExtendoPos;
+        }
 
         //dt.drive(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
         if (!autoPosing) {
@@ -138,12 +149,6 @@ public class Robot1Tele extends CuttleInitOpMode{
             encoderLocalizer.getPos().setR(0);
         }
 
-        if(gamepad1.share){
-            extendo.hardReset();
-            extendo.resetSlides();
-            finalExtendoPos = 0;
-            extendo.setExtendoState(INE);
-        }
         /*
         if(intake.getColor() == RED){
             intake.lightRed();

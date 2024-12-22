@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.BLUE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.RED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.YELLOW;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.LOOKING;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.SECURED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides.LiftState.IN;
 
@@ -284,7 +286,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
             intake.in();
             intake.clawOpen();
             intake.intakeDown();
-
+            intake.setIntakeState(LOOKING);
             if(autoTimer.seconds() > 2) {
                 extendoPosition = 0;
                 if (autoTimer.seconds() > 3) {
@@ -299,6 +301,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
 
         addIntakeTask(specimen, () -> {
             extendoPosition = 5;
+            intake.setIntakeState(SECURED);
             intake.clawClose();
         });
 
@@ -345,8 +348,12 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
         // Intake task
         addIntakeTask(specimen, () -> {
             intake.clawClose();
+            if (intake.getColor() == YELLOW) {
+                queue.clear();
+                specimenTelePark(); // Parking sequence
+            }
         });
-
+        /*
         // Final decision task
         specimen.addTask(new CustomTask(() -> {
             // FORCE reevaluation in case earlier detection missed updates
@@ -361,6 +368,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
             }
 
             if (intake.getColor() == YELLOW) {
+                queue.clear();
                 specimenTelePark(); // Parking sequence
             }
             
@@ -368,13 +376,17 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
                 transferSequence(); // Continue scoring4
                 scoring(scoreOffset);
             }
-            /*else if (intake.getColor() == RED || intake.getColor() == BLUE) {
+            /*
+            else if (intake.getColor() == RED || intake.getColor() == BLUE) {
                 transferSequence(); // Continue scoring
                 scoring(scoreOffset);
-            }*/
+            }
+          //
             telemetry.update();
             return true; // Task complete
         }));
+
+         */
 
         // Queue the task list
         queue.addTask(specimen);

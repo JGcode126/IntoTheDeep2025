@@ -24,6 +24,7 @@ public class CuttleExtendo {
     private final double ticks_in_degree = 384.5/360.0;
     private static final double JOYSTICK_SCALE = 1;  // Adjust as needed make higher for less sensitive
     public static double p = 1.7, i = 0, d = 0.04;
+    public static double p2 = 0.4, i2 = 0, d2 = 0;
     //0.9, 0.05
 
     public CuttleExtendo(CuttleMotor motor, CuttleEncoder encoder, MotorPositionController motorpos, CuttleRevHub hub){
@@ -53,6 +54,23 @@ public class CuttleExtendo {
         }
 
         controller.setPID(p, i, d);
+        double pid = controller.calculate(getPos(), NewPosition);
+        extendoMotor.setPower(pid + extraPower);
+    }
+    public void setSlidePositionColor(double position){
+        //7.3 is max
+        double NewPosition = position;
+        double extraPower = 0;
+        if (position >= 7.3){
+            NewPosition = 7.3;
+            //extraPower = 0.01;
+        }
+        if (position <= 0){
+            NewPosition = 0;
+            extraPower = -0.09;
+        }
+
+        controller.setPID(p2, i2, d2);
         double pid = controller.calculate(getPos(), NewPosition);
         extendoMotor.setPower(pid + extraPower);
     }

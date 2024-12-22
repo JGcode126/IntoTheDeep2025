@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.YELLOW;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
@@ -11,6 +14,7 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 @Config
 public class _4SpecAutoWithFailsafe extends CuttleInitOpMode {
     public static int distance = -650;
+    public int loopCounter = 0;
     public void onInit(){
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -24,12 +28,12 @@ public class _4SpecAutoWithFailsafe extends CuttleInitOpMode {
 
     public void main(){
         super.main();
-
+        loopCounter = 0;
         specimenMethods.firstSpecimen(-850, 3);
 
         specimenMethods.ttSample();
 
-        specimenMethods.scoring3Failsafe();
+        specimenMethods.scoring3();
 
         specimenMethods.specimenTelePark();
 
@@ -37,6 +41,15 @@ public class _4SpecAutoWithFailsafe extends CuttleInitOpMode {
 
     public void mainLoop() {
         super.mainLoop();
+        loopCounter += 1;
+        if (loopCounter == 25){
+            loopCounter= 0;
+            if (intake.getColor() == YELLOW) {
+                queue.clear();
+                loopCounter = 0;
+                specimenMethods.specimenTelePark();
+            }
+        }
         specimenMethods.telemetryData();
     }
 }
