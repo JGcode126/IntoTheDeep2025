@@ -32,12 +32,15 @@ public class CuttleIntake{
 
     double turntablePos = 0.48;
     public final double turntableInitPos = 0.48;
-    public CuttleIntake(CuttleServo left, CuttleServo right, CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap, CuttleServo light){
+
+    public String colorLight;
+    public CuttleIntake(CuttleServo left, CuttleServo right, CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap, CuttleServo light, String color){
         leftServo = left;
         rightServo = right;
         clawServo = claw;
         turntable = tt;
         lightbulb = light;
+        colorLight = color;
         intakeMotor = hardwareMap.get(CRServo.class,"intake");
         colorSensor = hardwareMap.get(ColorRangeSensor.class, "color");
     }
@@ -85,8 +88,20 @@ public class CuttleIntake{
     public void initPos(){
         armUp();
         clawServo.setPosition(clawInit);
+        color();
     }
 
+    public void color(){
+        if(colorLight == "red"){
+            lightRed();
+        }
+        else if(colorLight == "blue"){
+            lightBlue();
+        }
+        else{
+            lightOff();
+        }
+    }
     public void armUp(){
         leftServo.setPosition(0.865);
         rightServo.setPosition(0.135);
@@ -268,8 +283,4 @@ public class CuttleIntake{
     public void setIntakeState(IntakeState state){
         intakeState = state;
     }
-
-
-
-
 }

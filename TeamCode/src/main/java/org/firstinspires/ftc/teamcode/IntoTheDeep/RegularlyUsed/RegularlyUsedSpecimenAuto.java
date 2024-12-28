@@ -114,10 +114,26 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
         taskList.addTask(new PointTask(new Waypoint(pose) , ptpController));
     }
 
+    public void addWaypointTaskDefault(Pose pose) {
+        queue.addTask(new PointTask(new Waypoint(pose) , ptpController));
+    }
+
     //Constructer gets in other stuff too -- power, rSlop, tSlop, passthrough
     //More detailed driving
     //Made this to not mess up my code
     public void addWaypointTask(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
+        //takes in the task and position
+        //adds the position to the given taskList
+        taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), ptpController));
+    }
+
+    public void addWaypointTaskOtos(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
+        //takes in the task and position
+        //adds the position to the given taskList
+        taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), ptpController));
+    }
+
+    public void addWaypointTaskOdo(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
         //takes in the task and position
         //adds the position to the given taskList
         taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), ptpController));

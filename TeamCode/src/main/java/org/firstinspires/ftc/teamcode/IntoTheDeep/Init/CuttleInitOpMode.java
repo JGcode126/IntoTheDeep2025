@@ -78,12 +78,14 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
     // Declare the PTPController
     public PTPController ptpController;
+    public PTPController ptpOdoController;
 
     // Declare the task queue
     public TaskQueue queue;
     public SparkFunOTOS.Pose2D pos;
     SparkFunOTOS myOtos;
 
+    public String color = null;
 
 
 
@@ -100,6 +102,21 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         //otos
         myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
+
+        //check if otos is plugged
+        try {
+            SparkFunOTOS.Version hwVersion = new SparkFunOTOS.Version();
+            SparkFunOTOS.Version fwVersion = new SparkFunOTOS.Version();
+            myOtos.getVersionInfo(hwVersion, fwVersion);
+
+            if (hwVersion.major == 0 && hwVersion.minor == 0 && fwVersion.major == 0 && fwVersion.minor == 0) {
+                throw new Exception("OTOS not responding! Check connection.");
+            }
+        }
+        catch (Exception e) {
+            color = "red";
+        }
+
 
         //drivetrain
         leftFrontMotor  = ctrlHub.getMotor(1);
@@ -144,6 +161,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         CuttleEncoder rightEncoder = expHub.getEncoder(1,2000);
         leftEncoder.setDirection(Direction.REVERSE);
 
+
         // Initialize the mecanum controller
         chassis = new MecanumController(rightFrontMotor,rightBackMotor,leftFrontMotor,leftBackMotor);
 
@@ -171,8 +189,11 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         liftPosController = new MotorPositionController(0, rightBackSlides, liftEncoder, true);
 
         // Initialize the PTP Controller
-        ptpController = new PTPController(chassis, encoderLocalizer);//for otos
-        //ptpController = new PTPController(chassis, otosLocalizer);//
+        //ptpController = new PTPController(chassis, encoderLocalizer);//for odo
+        ptpOdoController = new PTPController(chassis, otosLocalizer);//for otos something that I want to try to use
+        //for right now for oto
+        ptpController = new PTPController(chassis, otosLocalizer);//for odo
+
 
 
         /*ptpController.setTranslational_PD_ctrlr(new PID(
@@ -188,7 +209,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         queue = new TaskQueue();
         dt = new CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
         extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
-        intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap, light);
+        intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap, light,color);
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new CuttleOutake(driveServo, wristServo, clawServo);
 

@@ -57,6 +57,22 @@ public class Setup extends CuttleInitOpMode {
         extendoPosController.setHome();
     }
 
+    public void runTest() {
+        otosLocalizer.update();
+        encoderLocalizer.update();
+        Pose otos = otosLocalizer.getPos();
+        Pose odo = encoderLocalizer.getPos();
+
+        telemetry.addData("Oto X:", otos.getX());
+        telemetry.addData("Oto Y:", otos.getY());
+        telemetry.addData("Oto R:", otos.getR());
+
+        telemetry.addData("Odo X:", odo.getX());
+        telemetry.addData("Odo Y:", odo.getY());
+        telemetry.addData("Odo R:", odo.getR());
+        telemetry.update();
+    }
+
     public void telemetryData() {
         //Printing out data
         //works!!

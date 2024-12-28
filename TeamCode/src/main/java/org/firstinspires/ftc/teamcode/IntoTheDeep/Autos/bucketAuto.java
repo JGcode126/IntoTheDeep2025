@@ -4,11 +4,13 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 
 @Autonomous(name = "BUCKET", group = "Example")
 @Config
+@Disabled
 public class bucketAuto extends CuttleInitOpMode {
     public void onInit() {
         super.onInit();
