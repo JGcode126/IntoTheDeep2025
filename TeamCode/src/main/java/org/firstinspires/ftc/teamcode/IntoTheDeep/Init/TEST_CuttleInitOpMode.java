@@ -33,6 +33,7 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 
@@ -52,16 +53,15 @@ public abstract class TEST_CuttleInitOpMode extends GamepadOpMode {
     // Declare the task queue
     public TaskQueue queue;
 
-    public Limelight3A limelight;
+    public Limelight3A camera;
+    public Limelight limelight;
 
     @Override
     public void onInit() {
         //rev hubs
         ctrlHub = new CuttleRevHub(hardwareMap, CuttleRevHub.HubTypes.CONTROL_HUB);
 
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        telemetry.setMsTransmissionInterval(11);
-
+        camera = hardwareMap.get(Limelight3A.class, "limelight");
 
         //otos
         /*myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
@@ -97,9 +97,11 @@ public abstract class TEST_CuttleInitOpMode extends GamepadOpMode {
                 0.9140322
         );
 
+        limelight = new Limelight(camera);
     }
     @Override
     public void main() {
+
     }
     public void mainLoop() {
         super.mainLoop();
