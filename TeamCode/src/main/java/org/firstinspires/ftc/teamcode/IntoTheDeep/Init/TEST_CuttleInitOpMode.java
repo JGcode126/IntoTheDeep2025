@@ -1,40 +1,17 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Init;
 
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.LOOKING;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.roboctopi.cuttlefish.controller.MecanumController;
-import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
-import com.roboctopi.cuttlefish.utils.PID;
-import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
-import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
-import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.AutoSequence;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedBucketAuto;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedSpecimenAuto;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Setup;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.TaskManager;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.TeleOp;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleExtendo;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.Limelight;
-import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 
 //@Disabled

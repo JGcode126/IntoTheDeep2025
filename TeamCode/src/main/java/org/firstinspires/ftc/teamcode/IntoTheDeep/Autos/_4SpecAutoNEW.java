@@ -1,45 +1,40 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.YELLOW;
+
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.SpecimenAuto;
 
-@Autonomous(name="otos", group="Example")
-@Config
-public class OtosAuto extends CuttleInitOpMode {
-    public static int x = 0;
-    public static int y = 0;
-    public static int r = 0;
+@Autonomous
+public class _4SpecAutoNEW extends CuttleInitOpMode {
+    public int loopCounter = 0;
     public void onInit(){
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         setup.initRobot();
-        //setup.runTest();
-
         setup.test = false;
         setup.side = "right";
-        specimenMethods.color = "blue";
+        setup.color = "blue";
     }
 
     public void main(){
         super.main();
-        /*specimenMethods.firstSpecimen(-600, 3);
-        specimenMethods.ttSample();
-        specimenMethods.scoring3();
-        specimenMethods.specimenTelePark();*/
+        loopCounter = 0;
 
-        specimenMethods.addWaypointTaskDefault(new Pose(x, y, Math.toRadians(r)));
+        auto.startSpecimen(-850, 3, 0.4, 0.6);
+        specimen.allSamples();
+        auto.scoringSpec3();
+        specimen.specimenPark(0.8);
     }
 
     public void mainLoop() {
         super.mainLoop();
-        setup.allLocationData();
+        loopCounter = specimen.yellowPark(loopCounter);
+        specimenMethods.telemetryData();
     }
 }
-
-

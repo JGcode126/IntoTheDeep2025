@@ -24,6 +24,8 @@ public class Setup extends CuttleInitOpMode {
     public static boolean test;
     public static String color;
     public static String side;
+    TaskManager manager;
+    TeleOp teleOp;
 
     public Setup(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                                      PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
@@ -41,6 +43,9 @@ public class Setup extends CuttleInitOpMode {
         this.lift = lift;
         this.extendo = extendo;
         this.dt = dt;
+
+        manager = new TaskManager(queue, ptpController);
+        teleOp = new TeleOp(intake,outake, extendo, lift, dt, manager);
     }
 
     //To initialize the robot for start
@@ -57,7 +62,8 @@ public class Setup extends CuttleInitOpMode {
         extendoPosController.setHome();
     }
 
-    public void runTest() {
+    //prints out all data, odometry and otos
+    public void allLocationData() {
         otosLocalizer.update();
         encoderLocalizer.update();
         Pose otos = otosLocalizer.getPos();

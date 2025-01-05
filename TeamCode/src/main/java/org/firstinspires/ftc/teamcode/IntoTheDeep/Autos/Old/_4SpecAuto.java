@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
+package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos.Old;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;

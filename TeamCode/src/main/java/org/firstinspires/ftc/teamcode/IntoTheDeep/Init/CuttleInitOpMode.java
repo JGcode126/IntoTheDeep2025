@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Init;
 
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.DOWN;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.LOOKING;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -23,9 +22,11 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.AutoSequence;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedBucketAuto;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.RegularlyUsedSpecimenAuto;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.BucketAuto;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Old.RegularlyUsedBucketAuto;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Old.RegularlyUsedSpecimenAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Setup;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.SpecimenAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.TaskManager;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.TeleOp;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleDT;
@@ -50,10 +51,11 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleOutake outake;
     public RegularlyUsedSpecimenAuto specimenMethods;
     public RegularlyUsedBucketAuto bucketMethods;
+
     public Setup setup;
     public AutoSequence auto;
-    public TaskManager task;
-    public TeleOp teleOp;
+    public SpecimenAuto specimen;
+    public BucketAuto bucket;
 
 
     // Declare the chassis motors
@@ -222,6 +224,13 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);
 
+        auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+
+        specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+        bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
 
         configureOtos();
     }
