@@ -36,6 +36,11 @@ public class TaskManager{
         queue.addTask(new ForkTask(task1, task2));
     }
 
+    //to add a task
+    public void addTask(Task task) {//got lazy and didn't want to change the TeleOp class code
+        queue.addTask(task);
+    }
+
     //Add position task (basic)
     public void waypointTask(TaskList task, Pose pose) {task.addTask(new PointTask(new Waypoint(pose) , ptpController));}
 

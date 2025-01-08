@@ -191,10 +191,10 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         liftPosController = new MotorPositionController(0, rightBackSlides, liftEncoder, true);
 
         // Initialize the PTP Controller
-        //ptpController = new PTPController(chassis, encoderLocalizer);//for odo
+        ptpController = new PTPController(chassis, encoderLocalizer);//for odo
         ptpOdoController = new PTPController(chassis, otosLocalizer);//for otos something that I want to try to use
         //for right now for oto
-        ptpController = new PTPController(chassis, otosLocalizer);//for odo
+        //ptpController = new PTPController(chassis, otosLocalizer);//for odo
 
 
 
@@ -225,12 +225,15 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);
 
         auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
+                new TaskManager(queue, ptpController), new TeleOp(intake, outake,extendo,lift,dt,new TaskManager(queue, ptpController))/*specimen, bucket*/);
 
         specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManager(queue, ptpController));
         bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
+                new TaskManager(queue, ptpController));
+
 
         configureOtos();
     }

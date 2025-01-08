@@ -26,10 +26,34 @@ public class AutoSequence extends Setup{
     BucketAuto bucket;
     TaskManager manager;
 
-    public AutoSequence(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController, MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
+    public AutoSequence(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer,
+                        CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
+                        PTPController ptpController, MotorPositionController liftController,
+                        MotorPositionController extController, CuttleExtendo extendo,
+                        CuttleSlides lift, CuttleDT dt, TaskManager manager, TeleOp teleOp/*, SpecimenAuto s, BucketAuto b*/) {
+
         super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
-        this.manager = setup.manager;
-        this.teleOp = setup.teleOp;
+        this.manager = manager;
+        this.teleOp = teleOp;
+
+        this.specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManager(queue, ptpController));
+        this.bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
+                new TaskManager(queue, ptpController));
+
+    }
+    public AutoSequence(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer,
+                        CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
+                        PTPController ptpController, MotorPositionController liftController,
+                        MotorPositionController extController, CuttleExtendo extendo,
+                        CuttleSlides lift, CuttleDT dt) {
+
+        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
+    }
+
+    public void testTele(){
+        teleOp.testingIfWorks();
     }
 
     public void scoringBuckets(int xpos, int xfinishpos, int deg){

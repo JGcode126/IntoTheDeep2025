@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 
-public class TeleOp{
+public class TeleOp extends CuttleInitOpMode{
     public double highChamberPos = 5;
     public double highBucketPos = 14;
 
@@ -43,6 +43,16 @@ public class TeleOp{
         this.extendo = extendo;
         this.dt = dt;
         this.manager = manager;
+
+    }
+
+    public void testingIfWorks(){
+        TaskList test = new TaskList();
+        manager.task(test, ()->{
+            extendoPosition = 4;
+            liftPosition = 7;
+        });
+        manager.addTask(test);
     }
 
     //idk if will work
@@ -52,14 +62,14 @@ public class TeleOp{
         intake.setIntakeState(UP);
         lift.setLiftState(IN);
 
-        //manager.waypointTask(movement, new Pose(0, -300, Math.toRadians(0)),0.8,0.5,150,false);
+        manager.waypointTask(movement, new Pose(0, -300, Math.toRadians(0)),0.8,0.5,150,false);
 
         manager.task(transfer, ()->{
             intake.armUp();
             intake.clawServo.setPosition(0.45);
             outake.readyPos();
-            extendo.setSlidePosition(0);
-            lift.setLiftPosition(0);
+            extendoPosition = 0;
+            liftPosition = 0;
         });
 
         manager.delay(transfer, 600);
@@ -86,7 +96,7 @@ public class TeleOp{
             manager.task(transfer, () -> {
                 extendo.setSlidePosition(1);
                 outake.scorePosLeft();
-                lift.setLiftPosition(highChamberPos);
+                liftPosition = highChamberPos;
             });
         }
 
@@ -94,7 +104,7 @@ public class TeleOp{
            manager.task(transfer, () -> {
                extendo.setSlidePosition(1);
                outake.scorePosMid();
-               lift.setLiftPosition(highBucketPos);
+               liftPosition = highBucketPos;
            });
         }
 

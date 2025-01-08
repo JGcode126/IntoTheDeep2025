@@ -24,8 +24,8 @@ public class Setup extends CuttleInitOpMode {
     public static boolean test;
     public static String color;
     public static String side;
-    TaskManager manager;
-    TeleOp teleOp;
+    public TaskManager manager;
+    public TeleOp teleOp;
 
     public Setup(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                                      PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,

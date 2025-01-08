@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.IntoTheDeep.Autos;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.YELLOW;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -10,8 +11,10 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.SpecimenAuto;
 
 @Autonomous
+@Config
 public class _4SpecAutoNEW extends CuttleInitOpMode {
     public int loopCounter = 0;
+    public static int distance = -850;
     public void onInit(){
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -26,7 +29,8 @@ public class _4SpecAutoNEW extends CuttleInitOpMode {
         super.main();
         loopCounter = 0;
 
-        auto.startSpecimen(-850, 3, 0.4, 0.6);
+        //auto.testTele();
+        auto.startSpecimen(distance, 3, 0.4, 0.6);
         specimen.allSamples();
         auto.scoringSpec3();
         specimen.specimenPark(0.8);

@@ -27,10 +27,12 @@ public class SpecimenAuto extends AutoSequence{
     private ElapsedTime timer;
     TaskManager manager;
 
-    public SpecimenAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController, MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
+    public SpecimenAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake,
+                        Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController,
+                        MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt, TaskManager manager) {
         super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
         timer = new ElapsedTime();
-        this.manager = super.manager;
+        this.manager =  manager;
     }
 
     public int yellowPark(int loopCounter){

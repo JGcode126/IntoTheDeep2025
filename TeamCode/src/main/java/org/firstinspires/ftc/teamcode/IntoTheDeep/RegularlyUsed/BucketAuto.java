@@ -26,10 +26,12 @@ public class BucketAuto extends AutoSequence{
     TaskManager manager;
 
 
-    public BucketAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController, MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
+    public BucketAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake,
+                      Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController,
+                      MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt, TaskManager manager) {
         super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
         timer = new ElapsedTime();
-        manager = super.manager;
+        this.manager = manager;
     }
     public void park(){
         TaskList park = new TaskList();
