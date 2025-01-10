@@ -152,9 +152,11 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         CuttleServo light = expHub.getServo(5);
 
         //outake exp hub servo 5 and 1 are cooked (Fixed 12/14/24 changed exp hub)
-        CuttleServo driveServo = expHub.getServo(3);
+        CuttleServo driveServoRight = expHub.getServo(3);
+        CuttleServo driveServoLeft = expHub.getServo(1);
         CuttleServo clawServo = expHub.getServo(4);
         CuttleServo wristServo = expHub.getServo(2);
+
 
 
         //Odometry
@@ -213,7 +215,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
         intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap, light,color);
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
-        outake = new CuttleOutake(driveServo, wristServo, clawServo);
+        outake = new CuttleOutake(driveServoRight, wristServo, clawServo, driveServoLeft);
 
         specimenMethods = new RegularlyUsedSpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);

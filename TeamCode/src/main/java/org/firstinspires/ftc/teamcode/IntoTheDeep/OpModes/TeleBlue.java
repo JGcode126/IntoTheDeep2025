@@ -79,7 +79,7 @@ public class TeleBlue extends CuttleInitOpMode{
                     specimenDropOffSequence();
                 }
             } else{
-                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right);
+                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.share, gamepad2.left_bumper);
             }
         }
 

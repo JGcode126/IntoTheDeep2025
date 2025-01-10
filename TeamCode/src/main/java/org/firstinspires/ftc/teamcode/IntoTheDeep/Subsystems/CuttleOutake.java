@@ -1,82 +1,92 @@
 package org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems;
 
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.BLUE;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.RED;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.Color.YELLOW;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.DOWN;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.LOOKING;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.REJECT;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.SECURED;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.TRANSFERED;
-import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BACKINTAKE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARLEFT;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BARRIGHT;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.BUCKET_BAR;
+import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.FRONTSCORE;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.GRIPPED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.HOLD;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.PLACED;
 import static org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleOutake.OutakeState.READY;
 
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.IntoTheDeep.OpModes.Robot1Tele;
-import org.firstinspires.ftc.teamcode.R;
-
 public class CuttleOutake {
-    CuttleServo drive, claw, wrist;
+    CuttleServo driveRight, driveLeft, claw, wrist;
     public CuttleOutake.OutakeState outakeState = READY;
 
-    public CuttleOutake(CuttleServo driveServo, CuttleServo wristServo, CuttleServo clawServo){
-        drive = driveServo;
+    public CuttleOutake(CuttleServo driveServoRight, CuttleServo wristServo, CuttleServo clawServo, CuttleServo driveServoLeft){
+        driveRight = driveServoRight;
+        driveLeft = driveServoLeft;
         claw = clawServo;
         wrist = wristServo;
     }
 
     public void autoHighRungPos(){
-        drive.setPosition(0.19);
+        driveRight.setPosition(0.19);
+        driveLeft.setPosition(1-0.19);
     }
 
     public void autoAutoHighRungPos(){
-        drive.setPosition(0.18);
+        driveRight.setPosition(0.18);
+        driveLeft.setPosition(1-0.18);
     }
 
     public void parkPos(){
-        drive.setPosition(0.35);
+        driveRight.setPosition(0.35);
+        driveLeft.setPosition(1-0.35);
         wristCenter();
     }
 
     public void initAutoPos(){
-        drive.setPosition(0.80);
+        driveRight.setPosition(0.80);
+        driveLeft.setPosition(1-0.8);
         closeClaw();
     }
 
     public void readyPos(){
         wristCenter();
-        drive.setPosition(0.60);
+        driveRight.setPosition(0.60);
+        driveLeft.setPosition(1-0.6);
         openClaw();
     }
 
     public void midHolding(){
         closeClaw();
-        drive.setPosition(0.3);
+        driveRight.setPosition(0.3);
+        driveLeft.setPosition(1-0.3);
         wristCenter();
     }
 
     public void transferPos(){
         wristCenter();
-        drive.setPosition(0.95);
+        driveRight.setPosition(0.95);
+        driveLeft.setPosition(1-0.95);
         openClaw();
     }
 
     public void grippedPos(){
         closeClaw();
-        drive.setPosition(1);
+        driveRight.setPosition(1);
+        driveLeft.setPosition(0);
         wristCenter();
     }
+    public void backIntakePos(){
+        openClaw();
+        driveRight.setPosition(0);
+        driveLeft.setPosition(1);
+        wristCenter();
+    }
+
+    public void specimenFrontReadyPos(){
+        closeClaw();
+        driveRight.setPosition(0.80);
+        driveLeft.setPosition(1-0.8);
+        wristDown();
+    }
+
+
 
     public void closeClaw(){
         claw.setPosition(0.49);
@@ -102,19 +112,22 @@ public class CuttleOutake {
     }
 
     public void scorePosMid(){
-        drive.setPosition(0.3);
+        driveRight.setPosition(0.3);
+        driveLeft.setPosition(1-0.3);
         closeClaw();
         wristDown();
     }
 
     public void scorePosRight(){
-        drive.setPosition(0.19);
+        driveRight.setPosition(0.19);
+        driveLeft.setPosition(1-0.19);
         closeClaw();
         wristRight();
     }
 
     public void scorePosLeft(){
-        drive.setPosition(0.19);
+        driveRight.setPosition(0.19);
+        driveLeft.setPosition(1-0.19);
         closeClaw();
         wristLeft();
     }
@@ -122,7 +135,7 @@ public class CuttleOutake {
 
 
 
-    public void outakeMachine(boolean ready, boolean place, boolean grip, boolean holding, boolean bucket_bar, boolean barLeft, boolean barRight){
+    public void outakeMachine(boolean ready, boolean place, boolean grip, boolean holding, boolean bucket_bar, boolean barLeft, boolean barRight, boolean back, boolean backTransfer){
         //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
         switch (outakeState){
             case READY:
@@ -132,6 +145,7 @@ public class CuttleOutake {
                     openClaw();
                 }
                 if(place){outakeState = PLACED;}
+                if (back) {outakeState = BACKINTAKE;}
                 break;
             case PLACED:
                 transferPos();
@@ -182,6 +196,17 @@ public class CuttleOutake {
                 if(bucket_bar){outakeState = BUCKET_BAR;}
                 if(grip){outakeState = GRIPPED;}
                 break;
+            case BACKINTAKE:
+                backIntakePos();
+                if (backTransfer){outakeState = FRONTSCORE;}
+                break;
+            case FRONTSCORE:
+                specimenFrontReadyPos();
+                if(ready){
+                    openClaw();
+                    outakeState = READY;
+                }
+                break;
         }
     }
 
@@ -189,7 +214,7 @@ public class CuttleOutake {
 
 
     public enum OutakeState {
-        READY, PLACED, GRIPPED, BUCKET_BAR, BARRIGHT, BARLEFT, HOLD
+        READY, PLACED, GRIPPED, BUCKET_BAR, BARRIGHT, BARLEFT, HOLD, BACKINTAKE, FRONTSCORE
     }
 
     public void setScoreState(OutakeState state){

@@ -90,7 +90,7 @@ public class Robot1Tele extends CuttleInitOpMode{
                     specimenDropOffSequence();
                 }
             } else{
-                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right);
+                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.share, gamepad2.left_bumper);
             }
         }
 
@@ -240,6 +240,25 @@ public class Robot1Tele extends CuttleInitOpMode{
             return true;
         }));
         queue.addTask(deliver);
+    }
+
+    void frontScoreSequence(){
+        TaskList frontScore = new TaskList();
+        System.out.println("yes");
+        lift.setLiftState(IN);
+        outake.setScoreState(READY);
+        frontScore.addTask(new CustomTask(()->{
+
+            return true;
+        }));
+        frontScore.addTask(new DelayTask(400));
+        frontScore.addTask(new CustomTask(()->{
+            outake.readyPos();
+            finalLiftPos = 0;
+            dt.drive(0,0,0);
+            return true;
+        }));
+        queue.addTask(frontScore);
     }
 
     void hardResetExtendo(){
