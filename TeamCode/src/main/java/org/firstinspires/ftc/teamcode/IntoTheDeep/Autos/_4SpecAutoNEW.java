@@ -15,6 +15,12 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.SpecimenAuto;
 public class _4SpecAutoNEW extends CuttleInitOpMode {
     public int loopCounter = 0;
     public static int distance = -850;
+    public static double speed1 = 0.4;
+    public static double speed2 = 0.6;
+
+    public static int x2 = -850;
+    public static int y2 = -400;
+    public static int r2 = 70;
     public void onInit(){
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -29,11 +35,16 @@ public class _4SpecAutoNEW extends CuttleInitOpMode {
         super.main();
         loopCounter = 0;
 
-        //auto.testTele();
-        auto.startSpecimen(distance, 3, 0.4, 0.6);
-        specimen.allSamples();
-        auto.scoringSpec3();
-        specimen.specimenPark(0.8);
+        auto.startSpecimen(distance, 3, 0.6, 0.7);
+        //r2 used to be 70, turn = -0.12
+        //x1 = -580, y1 = -720, r1 = 90, x2 = -850, y2 = 400, r2 = 80
+        specimen.ttSample(-580, -720,90,-850,-600, 60, -0.25);//first sample
+        //x1 = 920, x2 = -850, y2 = -400, r2 = 70
+        specimen.ttSample(-900, -720,90,x2,y2, r2, -0.25);//second sample
+        //specimen.ttSample(-1230, -610,100,-850,-400, 70, -0.12);//third sample
+        /*auto.allSamples();
+        auto.scoringSpec3Fancy();
+        specimen.specimenPark(1);*/
     }
 
     public void mainLoop() {

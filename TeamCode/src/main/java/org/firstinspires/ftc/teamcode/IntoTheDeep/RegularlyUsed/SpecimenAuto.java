@@ -87,6 +87,11 @@ public class SpecimenAuto extends AutoSequence{
         scoring(scoreOffset);
     }
 
+    public void scoringSpecimenFancy(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset){
+        specimenGrab(extOffset,offsetr,offsety,offsetx);
+        teleOp.transferSequenceWhileScore(scoreOffset);
+    }
+
     public void scoring(int extraX) {
         TaskList scoring = new TaskList();
 
@@ -150,12 +155,6 @@ public class SpecimenAuto extends AutoSequence{
         });
 
         queue.addTask(specimen);
-    }
-
-    public void allSamples(){
-        ttSample(-600, -720,90,-850,-400, 70, -0.12);//first sample
-        ttSample(-920, -720,90,-850,-400, 70, -0.12);//second sample
-        ttSample(-1230, -610,100,-850,-400, 70, -0.12);//third sample
     }
 
     public void ttSample(int x1, int y1, int r1, int x2, int y2, int r2, double turn) {

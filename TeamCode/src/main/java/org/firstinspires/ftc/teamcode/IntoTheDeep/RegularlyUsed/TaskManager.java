@@ -25,10 +25,17 @@ import org.firstinspires.ftc.teamcode.IntoTheDeep.Subsystems.CuttleSlides;
 public class TaskManager{
     TaskQueue queue;
     PTPController ptpController;
+    Battery battery;
 
     public TaskManager(TaskQueue queue, PTPController ptpController) {
         this.queue = queue;
         this.ptpController = ptpController;
+    }
+
+    public TaskManager(TaskQueue queue, PTPController ptpController, int voltage, double optimalSpeed) {
+        this.queue = queue;
+        this.ptpController = ptpController;
+        this.battery = new Battery(voltage, optimalSpeed);
     }
 
     public void forkTask(Task task1, Task task2) {//fork tasks, will this work??
@@ -51,6 +58,10 @@ public class TaskManager{
     //Gets in other stuff too -- power, rSlop, tSlop, passthrough
     public void waypointTask(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
         taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), ptpController));
+    }
+
+    public void waypointTaskWithBattery(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
+        taskList.addTask(new PointTask(new Waypoint(pose, (battery.optimalSpeed(power)), rSlop, tSlop, passthrough), ptpController));
     }
 
     public void delay(TaskList taskList, int delay) {taskList.addTask(new DelayTask(delay));}//To add a delay task

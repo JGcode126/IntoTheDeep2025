@@ -113,4 +113,82 @@ public class TeleOp extends CuttleInitOpMode{
        manager.forkTask(transfer, movement);
     }
 
+    public void transferSequenceWhileScore(int extraX){
+        TaskList scoring = new TaskList();
+
+        manager.waypointTask(scoring, new Pose(0, -300, Math.toRadians(0)),0.8,0.5,150,false);
+
+        manager.delay(scoring, 800);
+
+        manager.waypointTask(scoring, new Pose(-100+extraX, -800, Math.toRadians(0)),0.4,0.5,150,false);
+
+        manager.delay(scoring, 300);
+
+        manager.task(scoring, () -> {
+            outake.openClaw();
+            outake.wristCenter();
+        });
+
+        manager.waypointTask(scoring, new Pose(-300, -400, 0),0.8,0.8,150,false);
+
+        manager.task(scoring, () -> {
+            outake.readyPos();
+            liftPosition = 3;
+        });
+
+        TaskList transfer = new TaskList();
+
+        intake.setIntakeState(UP);
+        lift.setLiftState(IN);
+
+
+        manager.task(transfer, ()->{
+            intake.armUp();
+            intake.clawServo.setPosition(0.45);
+            outake.readyPos();
+            extendoPosition = 0;
+            liftPosition = 0;
+        });
+
+        manager.delay(transfer, 600);
+
+        manager.task(transfer, ()->{outake.transferPos();});
+
+        manager.delay(transfer, 200);
+
+        manager.task(transfer, ()->{
+            outake.grippedPos();
+            intake.initPos();
+            intake.setIntakeState(UP);
+        });
+
+        manager.delay(transfer, 200);
+
+       /*manager.task(transfer, () -> {
+           extendo.setSlidePosition(1);
+           outake.scorePosLeft();
+           lift.setLiftPosition(highChamberPos);
+       });*/
+
+        if(side == "right") {
+            manager.task(transfer, () -> {
+                extendo.setSlidePosition(1);
+                outake.scorePosLeft();
+                liftPosition = highChamberPos;
+            });
+        }
+
+        if(side == "left"){
+            manager.task(transfer, () -> {
+                extendo.setSlidePosition(1);
+                outake.scorePosMid();
+                liftPosition = highBucketPos;
+            });
+        }
+
+        manager.delay(transfer, 200);
+
+        manager.forkTask(transfer, scoring);
+    }
+
 }

@@ -22,6 +22,7 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.AutoSequence;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Battery;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.BucketAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Old.RegularlyUsedBucketAuto;
 import org.firstinspires.ftc.teamcode.IntoTheDeep.RegularlyUsed.Old.RegularlyUsedSpecimenAuto;
@@ -56,6 +57,7 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public AutoSequence auto;
     public SpecimenAuto specimen;
     public BucketAuto bucket;
+    public Battery battery;
 
 
     // Declare the chassis motors
@@ -101,6 +103,11 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         //rev hubs
         ctrlHub = new CuttleRevHub(hardwareMap,CuttleRevHub.HubTypes.CONTROL_HUB);
         expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
+
+        //get voltage
+        int batteryVoltage = ctrlHub.getBatteryVoltage();
+        //int batteryVoltage = 14;
+        double optimalVoltage = 13.8;
 
         //otos
         myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
@@ -228,14 +235,19 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
 
         auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController), new TeleOp(intake, outake,extendo,lift,dt,new TaskManager(queue, ptpController))/*specimen, bucket*/);
+                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage), new TeleOp(intake, outake,extendo,lift,dt,
+                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage))/*specimen, bucket*/);
 
         specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManager(queue, ptpController));
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
+                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage));
+
         bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController));
+                new TaskManager(queue, ptpController,batteryVoltage, optimalVoltage));
 
+
+        battery = new Battery(batteryVoltage, optimalVoltage);
 
         configureOtos();
     }

@@ -67,6 +67,11 @@ public class AutoSequence extends Setup{
         specimen.scoringSpecimen(0.25, -6,0,0,20);
         specimen.scoringSpecimen(0.75,-7,0, 0,50);
     }
+    public void scoringSpec3Fancy(){
+        specimen.scoringSpecimenFancy(0, -4, 0,0,0);
+        specimen.scoringSpecimenFancy(0.25, -6,0,0,20);
+        specimen.scoringSpecimenFancy(0.75,-7,0, 0,50);
+    }
 
     public void allSamples(){
         specimen.ttSample(-600, -720,90,-850,-400, 70, -0.12);//first sample
@@ -95,7 +100,9 @@ public class AutoSequence extends Setup{
 
         manager.delay(scoreSpec, 300);
 
-        manager.waypointTask(scoreSpec,  new Pose(-150, -400, Math.toRadians(50)),speed2,0.5,150,false);
+        //first sample values: x = -600, y = -720, r = 90
+        //old values x = -150, y = -400, r = 50
+        manager.waypointTask(scoreSpec,  new Pose(-500, -720, Math.toRadians(70)),speed2,0.5,150,false);
 
         manager.task(scoreSpec, () ->{
             outake.transferPos();

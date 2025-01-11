@@ -90,6 +90,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
         otosLocalizer.update();//updating otos values
         Pose currentPos = otosLocalizer.getPos();//setting position of otos to current pos
 
+        //telemetry.addData("Battery Voltage", ctrlHub.getBatteryVoltage());
         telemetry.addData("Intake Color", intake.getColor());//print out intake color
         //print out oto values
         telemetry.addData("Cuttle X:", currentPos.getX());
