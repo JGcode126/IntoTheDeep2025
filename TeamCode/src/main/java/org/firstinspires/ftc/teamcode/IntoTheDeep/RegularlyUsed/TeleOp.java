@@ -116,11 +116,11 @@ public class TeleOp extends CuttleInitOpMode{
     public void transferSequenceWhileScore(int extraX){
         TaskList scoring = new TaskList();
 
-        manager.waypointTask(scoring, new Pose(0, -300, Math.toRadians(0)),0.8,0.5,150,false);
+        manager.waypointTask(scoring, new Pose(0, -300, Math.toRadians(0)),0.8,0.6,150,false);
 
-        manager.delay(scoring, 800);
+        manager.delay(scoring, 1000);
 
-        manager.waypointTask(scoring, new Pose(-100+extraX, -800, Math.toRadians(0)),0.4,0.5,150,false);
+        manager.waypointTask(scoring, new Pose(-100+extraX, -760, Math.toRadians(0)),0.7,0.5,150,false);
 
         manager.delay(scoring, 300);
 
@@ -129,7 +129,7 @@ public class TeleOp extends CuttleInitOpMode{
             outake.wristCenter();
         });
 
-        manager.waypointTask(scoring, new Pose(-300, -400, 0),0.8,0.8,150,false);
+        manager.waypointTask(scoring, new Pose(-300, -400, 0),1,0.8,150,false);
 
         manager.task(scoring, () -> {
             outake.readyPos();
@@ -170,23 +170,23 @@ public class TeleOp extends CuttleInitOpMode{
            lift.setLiftPosition(highChamberPos);
        });*/
 
-        if(side == "right") {
+        //if(side == "right") {
             manager.task(transfer, () -> {
-                extendo.setSlidePosition(1);
+                extendoPosition = 1;
                 outake.scorePosLeft();
                 liftPosition = highChamberPos;
             });
-        }
+        //}
 
-        if(side == "left"){
+        /*if(side == "left"){
             manager.task(transfer, () -> {
                 extendo.setSlidePosition(1);
                 outake.scorePosMid();
                 liftPosition = highBucketPos;
             });
-        }
+        }*/
 
-        manager.delay(transfer, 200);
+        //manager.delay(transfer, 200);
 
         manager.forkTask(transfer, scoring);
     }

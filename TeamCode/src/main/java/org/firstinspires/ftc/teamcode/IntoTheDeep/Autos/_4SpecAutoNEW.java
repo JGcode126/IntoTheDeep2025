@@ -18,9 +18,11 @@ public class _4SpecAutoNEW extends CuttleInitOpMode {
     public static double speed1 = 0.4;
     public static double speed2 = 0.6;
 
-    public static int x2 = -850;
-    public static int y2 = -400;
-    public static int r2 = 70;
+    public static int x2 = -1000;
+    public static int y1 = -630;
+    public static int r2 = 50;
+    public static int x1 = -1180;
+    public static double extF = 4;
     public void onInit(){
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -38,13 +40,18 @@ public class _4SpecAutoNEW extends CuttleInitOpMode {
         auto.startSpecimen(distance, 3, 0.6, 0.7);
         //r2 used to be 70, turn = -0.12
         //x1 = -580, y1 = -720, r1 = 90, x2 = -850, y2 = 400, r2 = 80
-        specimen.ttSample(-580, -720,90,-850,-600, 60, -0.25);//first sample
+        specimen.ttSample(-580, -720,90,-850,-600, 50, -0.25);//first sample
         //x1 = 920, x2 = -850, y2 = -400, r2 = 70
-        specimen.ttSample(-900, -720,90,x2,y2, r2, -0.25);//second sample
-        //specimen.ttSample(-1230, -610,100,-850,-400, 70, -0.12);//third sample
-        /*auto.allSamples();
-        auto.scoringSpec3Fancy();
-        specimen.specimenPark(1);*/
+        specimen.ttSample(-870, -720,90,-1000,-550, 50, -0.25);//second sample
+        specimen.ttSample(2,4, -1180, -640,110,-850,-400, 50, -0.25);//third sample
+        //auto.allSamples();
+        //auto.scoringSpec3Fancy();
+        specimen.scoringSpecimenFancy(0, -4, 0,0,0);//1st specimen
+        specimen.scoringSpecimenFancy(0.25, -6,0,0,20);//2nd specimen
+        specimen.scoringSpecimenFancy(0.75,-7,0, 0,50);//3rd specimen
+        specimen.scoringSpecimenFancy(1.5,-9,0, 0,70);//4th specimen
+
+        specimen.specimenPark(1);
     }
 
     public void mainLoop() {

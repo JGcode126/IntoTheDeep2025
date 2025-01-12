@@ -74,9 +74,7 @@ public class AutoSequence extends Setup{
     }
 
     public void allSamples(){
-        specimen.ttSample(-600, -720,90,-850,-400, 70, -0.12);//first sample
-        specimen.ttSample(-920, -720,90,-850,-400, 70, -0.12);//second sample
-        specimen.ttSample(-1230, -610,100,-850,-400, 70, -0.12);//third sample
+
     }
 
     public void startSpecimen(int distance, double height, double speed1, double speed2){
