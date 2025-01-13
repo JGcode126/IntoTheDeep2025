@@ -61,12 +61,6 @@ public class AutoSequence extends Setup{
         teleOp.transferSequence();
         bucket.scoreSample(xpos);
     }
-
-    public void scoringSpec3(){
-        specimen.scoringSpecimen(0, -4, 0,0,0);
-        specimen.scoringSpecimen(0.25, -6,0,0,20);
-        specimen.scoringSpecimen(0.75,-7,0, 0,50);
-    }
     public void scoringSpec3Fancy(){
         specimen.scoringSpecimenFancy(0, -4, 0,0,0);
         specimen.scoringSpecimenFancy(0.25, -6,0,0,20);
@@ -74,6 +68,9 @@ public class AutoSequence extends Setup{
     }
 
     public void allSamples(){
+        specimen.ttSample(-580, -720,90,-850,-600, 50, -0.25);//first sample
+        specimen.ttSample(-870, -720,90,-1000,-550, 50, -0.25);//second sample
+        specimen.ttSample(2,4, -1180, -740,110,-850,-400, 50, -0.25);//third sample
 
     }
 

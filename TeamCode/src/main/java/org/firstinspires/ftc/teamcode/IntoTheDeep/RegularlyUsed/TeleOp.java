@@ -55,6 +55,99 @@ public class TeleOp extends CuttleInitOpMode{
         manager.addTask(test);
     }
 
+    public void justTransferSequence(){
+        TaskList transfer = new TaskList();
+        intake.setIntakeState(UP);
+        lift.setLiftState(IN);
+
+        manager.task(transfer, ()->{
+            intake.armUp();
+            intake.clawServo.setPosition(0.45);
+            outake.readyPos();
+            extendoPosition = 0;
+            liftPosition = 0;
+        });
+
+        manager.delay(transfer, 600);
+
+        manager.task(transfer, ()->{outake.transferPos();});
+
+        manager.delay(transfer, 200);
+
+        manager.task(transfer, ()->{
+            outake.grippedPos();
+            intake.initPos();
+            intake.setIntakeState(UP);
+        });
+
+        manager.delay(transfer, 200);
+
+        manager.task(transfer, () -> {
+            //extendo.setSlidePosition(1);
+            outake.scorePosLeft();
+            liftPosition = highChamberPos;
+        });
+
+        manager.delay(transfer, 200);
+
+        manager.addTask(transfer);
+    }
+
+    public void justTransferSequenceMore(int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2){
+        TaskList transfer = new TaskList();
+        intake.setIntakeState(UP);
+        lift.setLiftState(IN);
+
+        manager.task(transfer, ()->{
+            intake.armUp();
+            intake.clawServo.setPosition(0.45);
+            outake.readyPos();
+            extendoPosition = 0;
+            liftPosition = 0;
+        });
+
+        manager.delay(transfer, 600);
+
+        manager.task(transfer, ()->{outake.transferPos();});
+        manager.waypointTask(transfer, new Pose(x, y, Math.toRadians(r)),0.8,0.8,150,false);
+
+
+        manager.delay(transfer, 200);
+
+        manager.task(transfer, ()->{
+            outake.grippedPos();
+            intake.initPos();
+            intake.setIntakeState(UP);
+        });
+
+        manager.delay(transfer, 200);
+
+        manager.task(transfer, () -> {
+            outake.scorePosLeft();
+            liftPosition = highChamberPos;
+        });
+
+        manager.delay(transfer, 200);
+
+        manager.waypointTask(transfer, new Pose(x1, y1, Math.toRadians(r1)),0.8,0.6,150,false);
+
+        manager.delay(transfer, 300);
+
+        manager.task(transfer, () -> {
+            outake.openClaw();
+            outake.wristCenter();
+        });
+
+        manager.waypointTask(transfer, new Pose(x2, y2, Math.toRadians(r2)),0.8,0.8,150,false);
+
+        manager.task(transfer, () -> {
+            outake.readyPos();
+            liftPosition = 3;
+        });
+
+        manager.addTask(transfer);
+    }
+
     //idk if will work
     public void transferSequence(){
         TaskList transfer = new TaskList();

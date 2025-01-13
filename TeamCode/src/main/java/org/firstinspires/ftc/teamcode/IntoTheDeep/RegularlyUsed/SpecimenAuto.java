@@ -82,10 +82,16 @@ public class SpecimenAuto extends AutoSequence{
         queue.addTask(park);
     }
 
-    public void scoringSpecimen(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset){
+    public void scoringSpecimen(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset,
+                                int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2){
         specimenGrab(extOffset,offsetr,offsety,offsetx);
-        teleOp.transferSequence();
-        scoring(scoreOffset);
+        teleOp.justTransferSequence();
+        scoring(x,y,r,x1,y1,r1,x2,y2,r2);
+    }
+    public void scoringSpecimenOther(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset,
+                                int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2){
+        specimenGrab(extOffset,offsetr,offsety,offsetx);
+        teleOp.justTransferSequenceMore(x,y,r,x1,y1,r1,x2,y2,r2);
     }
 
     public void scoringSpecimenFancy(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset){
@@ -93,12 +99,11 @@ public class SpecimenAuto extends AutoSequence{
         teleOp.transferSequenceWhileScore(scoreOffset);
     }
 
-    public void scoring(int extraX) {
+    public void scoring(int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2) {
         TaskList scoring = new TaskList();
+        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.8,0.8,150,true);
 
-        manager.delay(scoring, 300);
-
-        manager.waypointTask(scoring, new Pose(-100+extraX, -800, Math.toRadians(0)),0.4,0.5,150,false);
+        manager.waypointTask(scoring, new Pose(x1, y1, Math.toRadians(r1)),0.8,0.6,150,false);
 
         manager.delay(scoring, 300);
 
@@ -107,7 +112,7 @@ public class SpecimenAuto extends AutoSequence{
             outake.wristCenter();
         });
 
-        manager.waypointTask(scoring, new Pose(-300, -400, 0),0.8,0.8,150,false);
+        manager.waypointTask(scoring, new Pose(x2, y2, Math.toRadians(r2)),0.8,0.8,150,false);
 
         manager.task(scoring, () -> {
             outake.readyPos();
@@ -196,9 +201,9 @@ public class SpecimenAuto extends AutoSequence{
         manager.waypointTask(sample, new Pose(x2, y2, Math.toRadians(r2)), 1, 0.1, 100, false);
 
         sample.addTask(new CustomTask(() -> {
-            extendoPosition = 4;
-            intake.out();
             intake.clawOpen();
+            intake.out();
+            extendoPosition = 4;
             return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
 
@@ -209,32 +214,31 @@ public class SpecimenAuto extends AutoSequence{
         TaskList sample = new TaskList();
 
         manager.task(sample, () -> {
-            timer.reset();
+            //timer.reset();
             extendoPosition = extPos;
             intake.intakeDown();
-            intake.turntableMiddle();
+            intake.turntableCustom(0.45);
             intake.in();
         });
 
         manager.waypointTask(sample, new Pose(x1, y1, Math.toRadians(r1)), 0.4, 0.1, 10, false);
 
         manager.task(sample, () -> {
+            timer.reset();
             extendoPosition = extPos2;
-            intake.intakeDown();
-            intake.turntableMiddle();
-            intake.in();
         });
+
+        manager.delay(sample, 400);
 
         sample.addTask(new CustomTask(() -> {
             intake.in();
             boolean quit = false;
 
-            //intake.turntableRight();
-
-            if(timer.seconds() < 1){
+            //turn = -0.12
+            //145
+            if (timer.seconds()>3) {
                 intake.in();
             }
-
             else {
                 dt.drive(0, 0, 0);
                 quit = true;
@@ -252,9 +256,9 @@ public class SpecimenAuto extends AutoSequence{
         manager.waypointTask(sample, new Pose(x2, y2, Math.toRadians(r2)), 1, 0.1, 100, false);
 
         sample.addTask(new CustomTask(() -> {
-            extendoPosition = 4;
             intake.out();
             intake.clawOpen();
+            extendoPosition = 4;
             this.samples = true;
             return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));

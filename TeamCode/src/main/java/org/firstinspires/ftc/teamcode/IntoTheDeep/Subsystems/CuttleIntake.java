@@ -71,6 +71,9 @@ public class CuttleIntake{
     public void turntableRight(){
         intakePos(0.7);
     }
+    public void turntableCustom(double amount){
+        intakePos(amount);
+    }
     public void turntableLeft(){
         intakePos(0.2);
     }
