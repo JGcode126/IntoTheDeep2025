@@ -9,16 +9,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class HangTest extends CuttleInitOpModeRobot2 {
     public void onInit() {
         super.onInit();
-        //intake.initPos();
+        hang.initHang();
     }
     public void main() {
         super.main();
-
-
     }
     public void mainLoop() {
         super.mainLoop();
         hang.servoUp();
+        hang.servoDown();
 
         telemetry.update();
     }

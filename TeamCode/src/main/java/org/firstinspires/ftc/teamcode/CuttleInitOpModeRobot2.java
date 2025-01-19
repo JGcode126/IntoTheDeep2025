@@ -138,7 +138,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         CuttleServo hangL = ctrlHub.getServo(5);
-        CuttleServo hangR = expHub.getServo(5);
+        CuttleServo hangR = expHub.getServo(4);
 
 
         //Odometry

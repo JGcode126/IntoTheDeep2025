@@ -25,6 +25,8 @@ import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
 @TeleOp
 @Config
 public class Robot2Tele extends CuttleInitOpModeRobot2{
+    double hL = 0;
+    double hR = 0;
 
     public void onInit() {
         super.onInit();
@@ -32,12 +34,36 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
     }
     public void main() {
         super.main();
-        hang.servoUp();
-
+        //hang.servoUp();
     }
     public void mainLoop() {
         super.mainLoop();
 
+        if(gamepad1.left_bumper){
+            if (hL < 1.0){
+                hL += 0.01;
+            }
+        }
+        if(gamepad1.right_bumper){
+            if(hL > -1.0) {
+                hL -= 0.01;
+            }
+        }
+
+        if(gamepad2.left_bumper){
+            if (hR < 1.0){
+                hR += 0.01;
+            }
+        }
+        if(gamepad2.right_bumper){
+            if(hR > -1.0) {
+                hR -= 0.01;
+            }
+        }
+
+        hang.setHeight(hL,hR);
+        telemetry.addData("hl:",hL);
+        telemetry.addData("hr", hR);
         telemetry.update();
     }
 
