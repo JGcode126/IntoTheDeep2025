@@ -53,15 +53,6 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public CuttleSlides lift;
     public CuttleOutake outake;
     public CuttleHang hang;
-    public RegularlyUsedSpecimenAuto specimenMethods;
-    public RegularlyUsedBucketAuto bucketMethods;
-
-    public Setup setup;
-    public AutoSequence auto;
-    public SpecimenAuto specimen;
-    public BucketAuto bucket;
-    public Battery battery;
-
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -94,8 +85,6 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
 
     public String color = null;
 
-
-
     //public static int method;
     public static double extendoPosition;
     public static double liftPosition;
@@ -106,11 +95,6 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         //rev hubs
         ctrlHub = new CuttleRevHub(hardwareMap,CuttleRevHub.HubTypes.CONTROL_HUB);
         expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
-
-        //get voltage
-        int batteryVoltage = ctrlHub.getBatteryVoltage();
-        //int batteryVoltage = 14;
-        double optimalVoltage = 13.8;
 
         //otos
         myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
@@ -128,7 +112,6 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         catch (Exception e) {
             color = "red";
         }
-
 
         //drivetrain
         leftFrontMotor  = ctrlHub.getMotor(1);
@@ -154,19 +137,8 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         CuttleEncoder extendoEncoder = ctrlHub.getEncoder(2, 141.1*4);
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //intake chub 4 and 5 are cooked
-        CuttleServo intakeLeft = expHub.getServo(0);
-        CuttleServo intakeRight = ctrlHub.getServo(2);
-        CuttleServo intakeClaw = ctrlHub.getServo(0);
-        CuttleServo turntable = ctrlHub.getServo(1);
-        CuttleServo light = expHub.getServo(5);
-
-        //outake exp hub servo 5 and 1 are cooked (Fixed 12/14/24 changed exp hub)
-        CuttleServo driveServoRight = expHub.getServo(3);
-        CuttleServo driveServoLeft = expHub.getServo(1);
-        CuttleServo clawServo = expHub.getServo(4);
-        CuttleServo wristServo = expHub.getServo(2);
-
+        CuttleServo hangL = ctrlHub.getServo(5);
+        CuttleServo hangR = expHub.getServo(5);
 
 
         //Odometry
@@ -223,36 +195,10 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         queue = new TaskQueue();
         dt = new CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
         extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
-        intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap, light,color);
+        //intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap, light,color);
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
-        outake = new CuttleOutake(driveServoRight, wristServo, clawServo, driveServoLeft);
-        hang = new CuttleHang(hardwareMap);
-
-        specimenMethods = new RegularlyUsedSpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
-
-        bucketMethods = new RegularlyUsedBucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
-
-        setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
-
-        auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage), new TeleOp(intake, outake,extendo,lift,dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage))/*specimen, bucket*/);
-
-        specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage));
-
-        bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController,batteryVoltage, optimalVoltage));
-
-
-        battery = new Battery(batteryVoltage, optimalVoltage);
-
+        //outake = new CuttleOutake(driveServoRight, wristServo, clawServo, driveServoLeft);
+        hang = new CuttleHang(hangL,hangR);
         configureOtos();
     }
     @Override
@@ -272,13 +218,13 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         otosLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
 
         lift.setLiftPosition(liftPosition);
-        if (intake.intakeState != LOOKING && !gamepad1.share) {
+        /*if (intake.intakeState != LOOKING && !gamepad1.share) {
             extendo.setSlidePosition(extendoPosition);
         }
         if (intake.intakeState == LOOKING && !gamepad1.share){
             extendo.setSlidePositionColor(extendoPosition);
 
-        }
+        }*/
         //extendoPosController.setPosition(extendoPosition);
 
 

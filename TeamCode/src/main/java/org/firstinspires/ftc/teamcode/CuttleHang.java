@@ -1,16 +1,35 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
 public class CuttleHang {
-    public CRServo hang1;
-    public CuttleHang(HardwareMap hardwareMap){
-        hang1 = hardwareMap.get(CRServo.class,"hang1");
+    public CuttleServo hangR, hangL;
+
+    /*public CuttleHang(HardwareMap hardwareMap){
+        hangR = hardwareMap.get(CRServo.class,"hangR");
+        hangL = hardwareMap.get(CRServo.class, "hangL");
+    }*/
+
+    public CuttleHang(CuttleServo servo1, CuttleServo servo2){
+        hangR = servo1;
+        hangL = servo2;
+    }
+
+    public void initHang(){
+
     }
 
     public void servoUp(){
-        hang1.setPower(1);
+        hangR.setPosition(0.5);
+        hangL.setPosition(0.5);
+    }
+
+    public void servoDown(){
+        hangL.setPosition(0);
+        hangR.setPosition(0);
     }
 }
