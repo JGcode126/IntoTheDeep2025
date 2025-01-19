@@ -20,16 +20,12 @@ public class CuttleHang {
     }
 
     public void initHang(){
-
+        hangL.setPosition(0);
+        hangR.setPosition(0);
     }
 
     public void servoUp(){
         hangR.setPosition(0.5);
         hangL.setPosition(0.5);
-    }
-
-    public void servoDown(){
-        hangL.setPosition(0);
-        hangR.setPosition(0);
     }
 }

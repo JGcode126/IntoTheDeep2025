@@ -28,16 +28,15 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
 
     public void onInit() {
         super.onInit();
-        //intake.initPos();
+        hang.initHang();
     }
     public void main() {
         super.main();
-
+        hang.servoUp();
 
     }
     public void mainLoop() {
         super.mainLoop();
-        hang.servoUp();
 
         telemetry.update();
     }
