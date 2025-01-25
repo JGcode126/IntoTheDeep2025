@@ -47,7 +47,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public CuttleRevHub expHub;
     public CuttleRevHub servoHub;
 
-    public CuttleDT dt;
+    public v2CuttleDT dt;
     public CuttleExtendo extendo;
     public CuttleIntake intake;
     public CuttleSlides lift;
@@ -126,24 +126,31 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         rightFrontMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //lift slides
-        leftbackSlides  = ctrlHub.getMotor(3);
-        rightBackSlides = expHub.getMotor(3);
+        leftbackSlides  = ctrlHub.getMotor(2);
+        rightBackSlides = expHub.getMotor(2);
         leftbackSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-        CuttleEncoder liftEncoder = expHub.getEncoder(3, 141.1*4);
+        CuttleEncoder liftEncoder = expHub.getEncoder(2, 141.1*4);
 
         //extendo
-        extendoMotor = ctrlHub.getMotor(2);
-        CuttleEncoder extendoEncoder = ctrlHub.getEncoder(2, 141.1*4);
+        extendoMotor = ctrlHub.getMotor(3);
+        CuttleEncoder extendoEncoder = ctrlHub.getEncoder(3, 141.1*4);
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //hang
         CuttleServo hangL = ctrlHub.getServo(5);
         CuttleServo hangR = expHub.getServo(4);
 
+        //outtake - all others at servoHub - configure with hardware map
+        CuttleServo outtakeClawServo = ctrlHub.getServo(0);
+
+        //intake - all others at servoHub - configure with hardware map
+        CuttleServo intakeClaw = ctrlHub.getServo(2);
+        CuttleServo intakeTurntable = ctrlHub.getServo(4);
 
         //Odometry
         CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
-        CuttleEncoder sideEncoder = expHub.getEncoder(0,2000);
+        CuttleEncoder sideEncoder = ctrlHub.getEncoder(3,2000);
         CuttleEncoder rightEncoder = expHub.getEncoder(1,2000);
         leftEncoder.setDirection(Direction.REVERSE);
 
@@ -193,7 +200,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
 
         // Initialize the queue
         queue = new TaskQueue();
-        dt = new CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
+        dt = new v2CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
         extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
         //intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap, light,color);
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
