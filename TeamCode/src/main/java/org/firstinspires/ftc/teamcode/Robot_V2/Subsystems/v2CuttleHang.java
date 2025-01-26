@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot_V2.Subsystems;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
-public class CuttleHang {
+public class v2CuttleHang {
     public CuttleServo hangR, hangL;
 
     /*public CuttleHang(HardwareMap hardwareMap){
@@ -14,7 +14,7 @@ public class CuttleHang {
         hangL = hardwareMap.get(CRServo.class, "hangL");
     }*/
 
-    public CuttleHang(CuttleServo servo1, CuttleServo servo2){
+    public v2CuttleHang(CuttleServo servo1, CuttleServo servo2){
         hangR = servo1;
         hangL = servo2;
     }

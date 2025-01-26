@@ -14,14 +14,14 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
 
-public class Setup extends CuttleInitOpMode {
+public class SetupOLD extends CuttleInitOpMode {
     public static boolean test;
     public static String color;
     public static String side;
-    public TaskManager manager;
-    public TeleOp teleOp;
+    public TaskManagerOLD manager;
+    public TeleOpOLD teleOp;
 
-    public Setup(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
+    public SetupOLD(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                                      PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
                                      CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
         //Initializing values
@@ -38,8 +38,8 @@ public class Setup extends CuttleInitOpMode {
         this.extendo = extendo;
         this.dt = dt;
 
-        manager = new TaskManager(queue, ptpController);
-        teleOp = new TeleOp(intake,outake, extendo, lift, dt, manager);
+        manager = new TaskManagerOLD(queue, ptpController);
+        teleOp = new TeleOpOLD(intake,outake, extendo, lift, dt, manager);
     }
 
     //To initialize the robot for start

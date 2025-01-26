@@ -1,13 +1,5 @@
 package org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old;
 
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.Color.BLUE;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.Color.RED;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.Color.YELLOW;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.IntakeState.LOOKING;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.IntakeState.SECURED;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.IntakeState.UP;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides.LiftState.IN;
-
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
@@ -28,9 +20,10 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
+import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 
-public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
+public class RegularlyUsedSpecimenAutoOLD extends CuttleInitOpMode {
     public boolean test = false;
     double counter = 0;
     public boolean transfering = false;
@@ -46,7 +39,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
 
     public boolean park;
 
-    public RegularlyUsedSpecimenAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
+    public RegularlyUsedSpecimenAutoOLD(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                                      PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
                                      CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
 
@@ -301,22 +294,22 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
             intake.in();
             intake.clawOpen();
             intake.intakeDown();
-            intake.setIntakeState(LOOKING);
+            //intake.setIntakeState(LOOKING);
             if(autoTimer.seconds() > 2) {
                 extendoPosition = 0;
                 if (autoTimer.seconds() > 3) {
                     autoTimer.reset();
                 }
             }
-
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
+            return true;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
         }));
 
         //addDelayTask(specimen, 500);
 
         addIntakeTask(specimen, () -> {
             extendoPosition = 5;
-            intake.setIntakeState(SECURED);
+            //intake.setIntakeState(SECURED);
             intake.clawClose();
         });
 
@@ -357,16 +350,17 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
                 }
             }
 
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
+            return true;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
         }));
 
         // Intake task
         addIntakeTask(specimen, () -> {
             intake.clawClose();
-            if (intake.getColor() == YELLOW) {
+            /*if (intake.getColor() == YELLOW) {
                 queue.clear();
                 specimenTelePark(); // Parking sequence
-            }
+            }*/
         });
         /*
         // Final decision task
@@ -436,7 +430,8 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
             intake.clawOpen();
             intake.intakeDown();
 
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
+            return true;
         }));
 
         //addDelayTask(specimen, 500);
@@ -592,8 +587,8 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
     public void transferSequence(){
         TaskList transfer = new TaskList();
         TaskList movement = new TaskList();
-        intake.setIntakeState(UP);
-        lift.setLiftState(IN);
+        //intake.setIntakeState(UP);
+        //lift.setLiftState(IN);
 
         //used to be y = -180
         addWaypointTask(movement, new Pose(0, -300, Math.toRadians(0)),0.8,0.5,150,false);
@@ -620,7 +615,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
         addIntakeTask(transfer, ()->{
             outake.grippedPos();
             intake.initPos();
-            intake.setIntakeState(UP);
+            //intake.setIntakeState(UP);
         });
 
         addDelayTask(transfer, 200);
@@ -662,8 +657,8 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
     public void transferSequence2(){
         TaskList transfer = new TaskList();
         TaskList movement = new TaskList();
-        intake.setIntakeState(UP);
-        lift.setLiftState(IN);
+        //intake.setIntakeState(UP);
+        //lift.setLiftState(IN);
 
         //used to be y = -180
         addWaypointTask(movement, new Pose(100, -120, Math.toRadians(0)),0.8,0.5,150,false);
@@ -690,7 +685,7 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
         addIntakeTask(transfer, ()->{
             outake.grippedPos();
             intake.initPos();
-            intake.setIntakeState(UP);
+            //intake.setIntakeState(UP);
         });
 
         addDelayTask(transfer, 200);
@@ -810,7 +805,8 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
                 dt.drive(0, 0, 0);
                 quit = true;
             }
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+            return true;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
         }));
 
         sample.addTask(new CustomTask(() -> {
@@ -825,7 +821,8 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
 
         sample.addTask(new CustomTask(() -> {
             intake.out();
-            return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
+            return true;
+            //return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
         queue.addTask(sample);
     }
@@ -858,7 +855,8 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
                 dt.drive(0, 0, 0);
                 quit = true;
             }
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+            return true;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
         }));
 
         sample.addTask(new CustomTask(() -> {
@@ -872,7 +870,8 @@ public class RegularlyUsedSpecimenAuto extends CuttleInitOpMode{
             extendoPosition = 4;
             intake.out();
             intake.clawOpen();
-            return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
+            return true;
+            //return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
         queue.addTask(sample);
     }

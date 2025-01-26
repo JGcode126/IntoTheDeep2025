@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot_V2.Subsystems;
 
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.BACKINTAKE;
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.BARLEFT;
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.BARRIGHT;
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.BUCKET_BAR;
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.FRONTSCORE;
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.GRIPPED;
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.HOLD;
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.PLACED;
-import static org.firstinspires.ftc.teamcode.v2CuttleOutake.OutakeState.READY;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BACKINTAKE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARLEFT;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARRIGHT;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BUCKET_BAR;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.FRONTSCORE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.GRIPPED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.HOLD;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.PLACED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.READY;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -32,8 +32,9 @@ public class v2CuttleOutake {
     }
 
     public void autoAutoHighRungPos(){
-        driveRight.setPosition(0.18);
-        driveLeft.setPosition(1-0.18);
+        driveRight.setPosition(0.4);
+        driveLeft.setPosition(1-0.4);
+        wristCenter();
     }
 
     public void parkPos(){

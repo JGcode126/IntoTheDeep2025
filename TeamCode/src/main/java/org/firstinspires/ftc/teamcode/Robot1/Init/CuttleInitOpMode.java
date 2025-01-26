@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Robot1.Init;
 
-
 import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.IntakeState.LOOKING;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -21,22 +20,21 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.AutoSequence;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Battery;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.BucketAuto;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old.RegularlyUsedBucketAuto;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old.RegularlyUsedSpecimenAuto;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Setup;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.SpecimenAuto;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.TaskManager;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.TeleOp;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.AutoSequenceOLD;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.BatteryOLD;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.BucketAutoOLD;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old.RegularlyUsedBucketAutoOLD;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old.RegularlyUsedSpecimenAutoOLD;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.SetupOLD;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.SpecimenAutoOLD;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.TaskManagerOLD;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.TeleOpOLD;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleDT;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
-
 
 //@Disabled
 @Config
@@ -50,14 +48,14 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
     public CuttleIntake intake;
     public CuttleSlides lift;
     public CuttleOutake outake;
-    public RegularlyUsedSpecimenAuto specimenMethods;
-    public RegularlyUsedBucketAuto bucketMethods;
+    public RegularlyUsedSpecimenAutoOLD specimenMethods;
+    public RegularlyUsedBucketAutoOLD bucketMethods;
 
-    public Setup setup;
-    public AutoSequence auto;
-    public SpecimenAuto specimen;
-    public BucketAuto bucket;
-    public Battery battery;
+    public SetupOLD setup;
+    public AutoSequenceOLD auto;
+    public SpecimenAutoOLD specimen;
+    public BucketAutoOLD bucket;
+    public BatteryOLD battery;
 
 
     // Declare the chassis motors
@@ -224,30 +222,30 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new CuttleOutake(driveServoRight, wristServo, clawServo, driveServoLeft);
 
-        specimenMethods = new RegularlyUsedSpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+        specimenMethods = new RegularlyUsedSpecimenAutoOLD(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);
 
-        bucketMethods = new RegularlyUsedBucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+        bucketMethods = new RegularlyUsedBucketAutoOLD(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);
 
-        setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+        setup = new SetupOLD(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt);
 
-        auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+        auto = new AutoSequenceOLD(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage), new TeleOp(intake, outake,extendo,lift,dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage))/*specimen, bucket*/);
+                new TaskManagerOLD(queue, ptpController, batteryVoltage, optimalVoltage), new TeleOpOLD(intake, outake,extendo,lift,dt,
+                new TaskManagerOLD(queue, ptpController, batteryVoltage, optimalVoltage))/*specimen, bucket*/);
 
-        specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+        specimen = new SpecimenAutoOLD(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage));
+                new TaskManagerOLD(queue, ptpController, batteryVoltage, optimalVoltage));
 
-        bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+        bucket = new BucketAutoOLD(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController,batteryVoltage, optimalVoltage));
+                new TaskManagerOLD(queue, ptpController,batteryVoltage, optimalVoltage));
 
 
-        battery = new Battery(batteryVoltage, optimalVoltage);
+        battery = new BatteryOLD(batteryVoltage, optimalVoltage);
 
         configureOtos();
     }

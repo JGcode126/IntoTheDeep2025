@@ -26,13 +26,19 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
+import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleDT;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 
 
-public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
+public class RegularlyUsedBucketAutoOLD extends CuttleInitOpMode {
 
     ElapsedTime autoTimer;
 
-    public RegularlyUsedBucketAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
+    public RegularlyUsedBucketAutoOLD(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                                    PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
                                    CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt) {
 
@@ -257,7 +263,8 @@ public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
 
             if (autoTimer.seconds() > 3.5) {quit = true;}
 
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+            return true;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
         }));
 
         //addDelayTask(specimen, 500);
@@ -275,8 +282,8 @@ public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
     public void transferSequence(){
         TaskList transfer = new TaskList();
         TaskList movement = new TaskList();
-        intake.setIntakeState(UP);
-        lift.setLiftState(IN);
+        //intake.setIntakeState(UP);
+        //lift.setLiftState(IN);
 
         //used to be y = -180
         addWaypointTask(movement, new Pose(-920, 400, -0.7),0.4,0.1,10,false);
@@ -302,7 +309,7 @@ public class RegularlyUsedBucketAuto extends CuttleInitOpMode{
         addIntakeTask(transfer, ()->{
             outake.grippedPos();
             intake.initPos();
-            intake.setIntakeState(UP);
+            //intake.setIntakeState(UP);
         });
 
         addDelayTask(transfer, 200);

@@ -14,29 +14,29 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
 
-public class AutoSequence extends Setup{
-    SpecimenAuto specimen;
-    BucketAuto bucket;
-    TaskManager manager;
+public class AutoSequenceOLD extends SetupOLD{
+    SpecimenAutoOLD specimen;
+    BucketAutoOLD bucket;
+    TaskManagerOLD manager;
 
-    public AutoSequence(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer,
+    public AutoSequenceOLD(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer,
                         CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                         PTPController ptpController, MotorPositionController liftController,
                         MotorPositionController extController, CuttleExtendo extendo,
-                        CuttleSlides lift, CuttleDT dt, TaskManager manager, TeleOp teleOp/*, SpecimenAuto s, BucketAuto b*/) {
+                        CuttleSlides lift, CuttleDT dt, TaskManagerOLD manager, TeleOpOLD teleOp/*, SpecimenAuto s, BucketAuto b*/) {
 
         super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
         this.manager = manager;
         this.teleOp = teleOp;
 
-        this.specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManager(queue, ptpController));
-        this.bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+        this.specimen = new SpecimenAutoOLD(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManagerOLD(queue, ptpController));
+        this.bucket = new BucketAutoOLD(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController));
+                new TaskManagerOLD(queue, ptpController));
 
     }
-    public AutoSequence(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer,
+    public AutoSequenceOLD(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer,
                         CuttleIntake intake, CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                         PTPController ptpController, MotorPositionController liftController,
                         MotorPositionController extController, CuttleExtendo extendo,

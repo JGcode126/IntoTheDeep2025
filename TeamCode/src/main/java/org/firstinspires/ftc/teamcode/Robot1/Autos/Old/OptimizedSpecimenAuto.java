@@ -16,14 +16,14 @@ import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.queue.TaskList;
 import com.roboctopi.cuttlefish.utils.Pose;
 
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old.RegularlyUsedSpecimenAuto;
 import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
+import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old.RegularlyUsedSpecimenAutoOLD;
 
 @Autonomous
 @Config
 @Disabled
 public class OptimizedSpecimenAuto extends CuttleInitOpMode {
-    RegularlyUsedSpecimenAuto methods;
+    RegularlyUsedSpecimenAutoOLD methods;
     private State currentState;
     double counter = 0;
     public boolean transfering = false;

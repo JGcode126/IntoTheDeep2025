@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot_V2.Subsystems;
 
-import static org.firstinspires.ftc.teamcode.v2CuttleExtendo.ExtendoState.FULL;
-import static org.firstinspires.ftc.teamcode.v2CuttleExtendo.ExtendoState.INE;
-import static org.firstinspires.ftc.teamcode.v2CuttleExtendo.ExtendoState.MIDDLE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo.ExtendoState.FULL;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo.ExtendoState.INE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo.ExtendoState.MIDDLE;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;

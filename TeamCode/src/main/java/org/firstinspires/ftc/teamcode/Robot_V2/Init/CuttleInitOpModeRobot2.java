@@ -1,12 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot_V2.Init;
 
-
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.IntakeState.LOOKING;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.roboctopi.cuttlefish.controller.MecanumController;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
@@ -14,7 +10,6 @@ import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
 import com.roboctopi.cuttlefish.utils.PID;
-import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
@@ -23,20 +18,19 @@ import com.roboctopi.cuttlefishftcbridge.opmodeTypes.GamepadOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.AutoSequence;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Battery;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.BucketAuto;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old.RegularlyUsedBucketAuto;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Old.RegularlyUsedSpecimenAuto;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Setup;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.SpecimenAuto;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.TaskManager;
-import org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.TeleOp;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleDT;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleExtendo;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
+import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.AutoSequence;
+import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.Battery;
+import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.BucketAuto;
+import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.Setup;
+import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.SpecimenAuto;
+import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.TaskManager;
+import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.TeleOp;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleDT;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleHang;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 
@@ -52,7 +46,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public v2CuttleIntake intake;
     public v2CuttleSlides lift;
     public v2CuttleOutake outake;
-    public CuttleHang hang;
+    public v2CuttleHang hang;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -83,6 +77,12 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public SparkFunOTOS.Pose2D pos;
     SparkFunOTOS myOtos;
 
+    public Setup setup;
+    public AutoSequence auto;
+    public SpecimenAuto specimen;
+    public BucketAuto bucket;
+    public Battery battery;
+
     public CuttleEncoder leftEncoder, sideEncoder, rightEncoder;
 
 
@@ -99,7 +99,8 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         ctrlHub = new CuttleRevHub(hardwareMap,CuttleRevHub.HubTypes.CONTROL_HUB);
         expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
 
-
+        int batteryVoltage = 14;
+        double optimalVoltage = 13.9;
 
 
 
@@ -216,7 +217,26 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         intake = new v2CuttleIntake(intakeClaw, intakeTurntable, hardwareMap, light,color);
         lift = new v2CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new v2CuttleOutake(outtakeClawServo, hardwareMap);
-        hang = new CuttleHang(hangL,hangR);
+        hang = new v2CuttleHang(hangL,hangR);
+
+        setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+
+        auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
+                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage), new TeleOp(intake, outake,extendo,lift,dt,
+                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage))/*specimen, bucket*/);
+
+        specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
+                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage));
+
+        bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt,
+                new TaskManager(queue, ptpController,batteryVoltage, optimalVoltage));
+
+
+        battery = new Battery(batteryVoltage, optimalVoltage);
         configureOtos();
     }
     @Override

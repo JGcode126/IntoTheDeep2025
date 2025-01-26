@@ -1,23 +1,20 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot_V2.Subsystems;
 
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.Color.BLUE;
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.Color.RED;
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.Color.YELLOW;
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.IntakeState.DOWN;
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.IntakeState.LOOKING;
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.IntakeState.REJECT;
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.IntakeState.SECURED;
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.IntakeState.TRANSFERED;
-import static org.firstinspires.ftc.teamcode.v2CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.YELLOW;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.DOWN;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.LOOKING;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.REJECT;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.SECURED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.TRANSFERED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.UP;
 
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class v2CuttleIntake {
     public CRServo intakeMotor;

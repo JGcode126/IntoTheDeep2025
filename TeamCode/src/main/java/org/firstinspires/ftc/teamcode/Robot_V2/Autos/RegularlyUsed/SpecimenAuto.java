@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed;
+package org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed;
 
 import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.Color.BLUE;
 import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.Color.RED;
@@ -21,15 +21,20 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleExtendo;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleDT;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 
-public class SpecimenAuto extends AutoSequence{
+public class SpecimenAuto extends AutoSequence {
     private ElapsedTime timer;
     TaskManager manager;
     public boolean samples = false;
 
-    public SpecimenAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake,
+    public SpecimenAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, v2CuttleIntake intake, v2CuttleOutake outake,
                         Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController,
-                        MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt, TaskManager manager) {
+                        MotorPositionController extController, v2CuttleExtendo extendo, v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager) {
         super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
         timer = new ElapsedTime();
         this.manager =  manager;
@@ -39,11 +44,11 @@ public class SpecimenAuto extends AutoSequence{
         loopCounter += 1;
         if (loopCounter == 25 && samples){
             loopCounter= 0;
-            if (intake.getColor() == YELLOW) {
+            /*if (intake.getColor() == YELLOW) {
                 queue.clear();
                 loopCounter = 0;
                 specimenPark(0.6);
-            }
+            }*/
         }
         return loopCounter;
     }
@@ -84,18 +89,18 @@ public class SpecimenAuto extends AutoSequence{
     public void scoringSpecimen(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset,
                                 int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2){
         specimenGrab(extOffset,offsetr,offsety,offsetx);
-        teleOp.justTransferSequence();
+        //teleOp.justTransferSequence();
         scoring(x,y,r,x1,y1,r1,x2,y2,r2);
     }
     public void scoringSpecimenOther(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset,
                                 int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2){
         specimenGrab(extOffset,offsetr,offsety,offsetx);
-        teleOp.justTransferSequenceMore(x,y,r,x1,y1,r1,x2,y2,r2);
+        //teleOp.justTransferSequenceMore(x,y,r,x1,y1,r1,x2,y2,r2);
     }
 
     public void scoringSpecimenFancy(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset){
         specimenGrab(extOffset,offsetr,offsety,offsetx);
-        teleOp.transferSequenceWhileScore(scoreOffset);
+        //teleOp.transferSequenceWhileScore(scoreOffset);
     }
 
     public void scoring(int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2) {
@@ -142,7 +147,7 @@ public class SpecimenAuto extends AutoSequence{
             intake.in();
             intake.clawOpen();
             intake.intakeDown();
-            intake.setIntakeState(LOOKING);
+            //intake.setIntakeState(LOOKING);
             if(timer.seconds() > 2) {
                 extendoPosition = 0;
                 if (timer.seconds() > 3) {
@@ -150,12 +155,13 @@ public class SpecimenAuto extends AutoSequence{
                 }
             }
 
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
+            return true;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
         }));
 
         manager.task(specimen, () -> {
             extendoPosition = 5;
-            intake.setIntakeState(SECURED);
+            //intake.setIntakeState(SECURED);
             intake.clawClose();
         });
 
@@ -187,7 +193,8 @@ public class SpecimenAuto extends AutoSequence{
                 dt.drive(0, 0, 0);
                 quit = true;
             }
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+            return true;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
         }));
 
         manager.task(sample, () -> {
@@ -203,7 +210,8 @@ public class SpecimenAuto extends AutoSequence{
             intake.clawOpen();
             intake.out();
             extendoPosition = 4;
-            return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
+            return true;
+            //return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
 
         queue.addTask(sample);
@@ -242,7 +250,8 @@ public class SpecimenAuto extends AutoSequence{
                 dt.drive(0, 0, 0);
                 quit = true;
             }
-            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+            return true;
+            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
         }));
 
         manager.task(sample, () -> {
@@ -259,7 +268,8 @@ public class SpecimenAuto extends AutoSequence{
             intake.clawOpen();
             extendoPosition = 4;
             this.samples = true;
-            return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
+            return true;
+            //return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
 
         queue.addTask(sample);

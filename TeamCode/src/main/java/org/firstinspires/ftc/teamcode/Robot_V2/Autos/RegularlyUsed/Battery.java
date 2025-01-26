@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed;
+package org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed;
 
 public class Battery {
     //double new Power = powerToBeSentToMotor / batteryVoltage * 13

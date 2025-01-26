@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed;
 
-import static org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.Setup.side;
+import static org.firstinspires.ftc.teamcode.Robot1.RegularlyUsed.SetupOLD.side;
 import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.IntakeState.UP;
 import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides.LiftState.IN;
 
@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
 
-public class TeleOp extends CuttleInitOpMode{
+public class TeleOpOLD extends CuttleInitOpMode{
     public double highChamberPos = 5;
     public double highBucketPos = 14;
 
@@ -23,9 +23,9 @@ public class TeleOp extends CuttleInitOpMode{
     CuttleOutake outake;
     CuttleExtendo extendo;
     CuttleDT dt;
-    TaskManager manager;
+    TaskManagerOLD manager;
 
-    public TeleOp(CuttleIntake intake, CuttleOutake outake, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt, TaskManager manager) {
+    public TeleOpOLD(CuttleIntake intake, CuttleOutake outake, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt, TaskManagerOLD manager) {
 
         this.intake = intake;
         this.lift = lift;

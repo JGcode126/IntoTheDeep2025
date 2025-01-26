@@ -20,14 +20,14 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
 
-public class BucketAuto extends AutoSequence{
+public class BucketAutoOLD extends AutoSequenceOLD{
     private ElapsedTime timer;
-    TaskManager manager;
+    TaskManagerOLD manager;
 
 
-    public BucketAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake,
+    public BucketAutoOLD(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, CuttleIntake intake, CuttleOutake outake,
                       Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController,
-                      MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt, TaskManager manager) {
+                      MotorPositionController extController, CuttleExtendo extendo, CuttleSlides lift, CuttleDT dt, TaskManagerOLD manager) {
         super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
         timer = new ElapsedTime();
         this.manager = manager;

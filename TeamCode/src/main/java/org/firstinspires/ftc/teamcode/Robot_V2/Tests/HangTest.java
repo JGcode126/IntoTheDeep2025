@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot_V2.Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @TeleOp
 public class HangTest extends CuttleInitOpModeRobot2 {
@@ -16,8 +15,8 @@ public class HangTest extends CuttleInitOpModeRobot2 {
     }
     public void mainLoop() {
         super.mainLoop();
-        hang.servoUp();
-        hang.servoDown();
+        //hang.servoUp();
+        //hang.servoDown();
 
         telemetry.update();
     }

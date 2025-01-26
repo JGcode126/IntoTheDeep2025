@@ -1,13 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot_V2.Subsystems;
 
-import static org.firstinspires.ftc.teamcode.v2CuttleSlides.LiftState.HIGHSUB;
-import static org.firstinspires.ftc.teamcode.v2CuttleSlides.LiftState.HIGH_BUCKET;
-import static org.firstinspires.ftc.teamcode.v2CuttleSlides.LiftState.IN;
-import static org.firstinspires.ftc.teamcode.v2CuttleSlides.LiftState.LOWSUB;
-import static org.firstinspires.ftc.teamcode.v2CuttleSlides.LiftState.LOW_BUCKET;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.HIGHSUB;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.HIGH_BUCKET;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.IN;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.LOWSUB;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.LOW_BUCKET;
 
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
