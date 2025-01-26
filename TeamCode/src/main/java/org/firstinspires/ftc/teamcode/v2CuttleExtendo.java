@@ -44,8 +44,8 @@ public class v2CuttleExtendo {
         //7.3 is max
         double NewPosition = position;
         double extraPower = 0;
-        if (position >= 7.3){
-            NewPosition = 7.3;
+        if (position >= 9){
+            NewPosition = 9;
             //extraPower = 0.01;
         }
         if (position <= 0){
@@ -100,14 +100,14 @@ public class v2CuttleExtendo {
                 if(buttonFULLEXTEND){currentState = FULL;}
                 break;
             case MIDDLE:
-                slidePosition = 2.5 + slidePosOffset;
+                slidePosition = 2.25 + slidePosOffset;
                 if(smallExtend){slidePosOffset += 0.25;}
                 if(smallRetract){slidePosOffset -= 0.25;}
                 if(buttonIN){currentState = INE;}
                 if(buttonFULLEXTEND){currentState = FULL;}
                 break;
             case FULL:
-                slidePosition = 4 + slidePosOffset;
+                slidePosition = 4.5 + slidePosOffset;
                 if(smallRetract){slidePosOffset -= 0.25;}
                 if(buttonIN){currentState = INE;}
                 if(buttonMIDDLE){currentState = MIDDLE;}

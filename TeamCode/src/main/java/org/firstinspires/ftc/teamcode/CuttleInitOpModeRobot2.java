@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.IntakeState.LOOKING;
+import static org.firstinspires.ftc.teamcode.v2CuttleIntake.IntakeState.LOOKING;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.roboctopi.cuttlefish.controller.MecanumController;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
@@ -45,13 +46,12 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     // Declare the rev hubs. If you only have one hub connected you can delete one of these
     public CuttleRevHub ctrlHub;
     public CuttleRevHub expHub;
-    public CuttleRevHub servoHub;
 
     public v2CuttleDT dt;
-    public CuttleExtendo extendo;
-    public CuttleIntake intake;
-    public CuttleSlides lift;
-    public CuttleOutake outake;
+    public v2CuttleExtendo extendo;
+    public v2CuttleIntake intake;
+    public v2CuttleSlides lift;
+    public v2CuttleOutake outake;
     public CuttleHang hang;
 
     // Declare the chassis motors
@@ -83,6 +83,9 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public SparkFunOTOS.Pose2D pos;
     SparkFunOTOS myOtos;
 
+    public CuttleEncoder leftEncoder, sideEncoder, rightEncoder;
+
+
     public String color = null;
 
     //public static int method;
@@ -95,6 +98,10 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         //rev hubs
         ctrlHub = new CuttleRevHub(hardwareMap,CuttleRevHub.HubTypes.CONTROL_HUB);
         expHub = new CuttleRevHub(hardwareMap,"Expansion Hub 2");
+
+
+
+
 
         //otos
         myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
@@ -130,11 +137,12 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         rightBackSlides = expHub.getMotor(2);
         leftbackSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackSlides.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-        CuttleEncoder liftEncoder = expHub.getEncoder(2, 141.1*4);
+        CuttleEncoder liftEncoder = ctrlHub.getEncoder(2, 141.1*4);
+        liftEncoder.setDirection(Direction.REVERSE);
 
         //extendo
-        extendoMotor = ctrlHub.getMotor(3);
-        CuttleEncoder extendoEncoder = ctrlHub.getEncoder(3, 141.1*4);
+        extendoMotor = expHub.getMotor(3);
+        CuttleEncoder extendoEncoder = expHub.getEncoder(3, 141.1*4);
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //hang
@@ -147,12 +155,15 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         //intake - all others at servoHub - configure with hardware map
         CuttleServo intakeClaw = ctrlHub.getServo(2);
         CuttleServo intakeTurntable = ctrlHub.getServo(4);
+        CuttleServo light = expHub.getServo(5);
+
 
         //Odometry
-        CuttleEncoder leftEncoder = ctrlHub.getEncoder(1,2000);
-        CuttleEncoder sideEncoder = ctrlHub.getEncoder(3,2000);
-        CuttleEncoder rightEncoder = expHub.getEncoder(1,2000);
-        leftEncoder.setDirection(Direction.REVERSE);
+        leftEncoder = ctrlHub.getEncoder(1,2000);
+        sideEncoder = ctrlHub.getEncoder(3,2000);
+        rightEncoder = expHub.getEncoder(1,2000);
+        //leftEncoder.setDirection(Direction.REVERSE);
+        sideEncoder.setDirection(Direction.REVERSE);
 
 
         // Initialize the mecanum controller
@@ -165,7 +176,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
                 rightEncoder , // Right
                 17.5,
                 288.92500,
-                0.9140322
+                1
         );
 
         otosLocalizer = new ThreeEncoderLocalizer(
@@ -201,10 +212,10 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         // Initialize the queue
         queue = new TaskQueue();
         dt = new v2CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
-        extendo = new CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
-        //intake = new CuttleIntake(intakeLeft, intakeRight, intakeClaw, turntable, hardwareMap, light,color);
-        lift = new CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
-        //outake = new CuttleOutake(driveServoRight, wristServo, clawServo, driveServoLeft);
+        extendo = new v2CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
+        intake = new v2CuttleIntake(intakeClaw, intakeTurntable, hardwareMap, light,color);
+        lift = new v2CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
+        outake = new v2CuttleOutake(outtakeClawServo, hardwareMap);
         hang = new CuttleHang(hangL,hangR);
         configureOtos();
     }
@@ -222,16 +233,20 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         // Update the localizer
         encoderLocalizer.update();
 
-        otosLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
+        //otosLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
 
         lift.setLiftPosition(liftPosition);
-        /*if (intake.intakeState != LOOKING && !gamepad1.share) {
+        extendo.setSlidePosition(extendoPosition);
+/*
+        if (intake.intakeState != LOOKING && !gamepad1.share) {
             extendo.setSlidePosition(extendoPosition);
         }
         if (intake.intakeState == LOOKING && !gamepad1.share){
             extendo.setSlidePositionColor(extendoPosition);
 
-        }*/
+        }
+
+ */
         //extendoPosController.setPosition(extendoPosition);
 
 
