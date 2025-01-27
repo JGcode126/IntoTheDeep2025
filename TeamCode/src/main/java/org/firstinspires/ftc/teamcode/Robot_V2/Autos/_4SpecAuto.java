@@ -34,16 +34,11 @@ public class _4SpecAuto extends CuttleInitOpModeRobot2 {
 
         auto.startSpecimen(distance, 2.4, 0.8, 0.7);
 
-        /*specimen.ttSample(-580, -720,90,-850,-600, 50, -0.25);//first sample
-        specimen.ttSample(-870, -720,90,-1000,-550, 50, -0.25);//second sample
-        specimen.ttSample(2,4, -1180, -740,110,-850,-400, 50, -0.25);//third sample*/
-
-
         specimen.ttSample(-500, -870,100,-850,-700, 50, -0.3);//first sample
         specimen.ttSample(-860, -870,90,-1000,-650, 50, -0.3);//second sample
-        specimen.ttSample(2,4, x1, y1,110,-850,-400, 50, -0.3);//third sample
+        specimen.ttSample(2,4, -1180, -1100,110,-850,-400, 50, -0.3);//third sample
 
-        //specimen.scoringSpecimenFancy(0, -4, 0,0,0);//1st specimen
+        specimen.scoringSpecimenFancy(0, -4, 0,0,0);//1st specimen
         //specimen.scoringSpecimenFancy(0.25, -6,0,0,20);//2nd specimen
         //specimen.scoringSpecimenFancy(0.75,-7,0, 0,50);//3rd specimen
         //specimen.scoringSpecimenFancy(1.5,-9,0, 0,70);//4th specimen

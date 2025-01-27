@@ -80,22 +80,9 @@ public class SpecimenAuto extends AutoSequence {
         queue.addTask(park);
     }
 
-    //TODO:
-    public void scoringSpecimen(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset,
-                                int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2){
-        specimenGrab(extOffset,offsetr,offsety,offsetx);
-        //teleOp.justTransferSequence();
-        scoring(x,y,r,x1,y1,r1,x2,y2,r2);
-    }
-    public void scoringSpecimenOther(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset,
-                                int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2){
-        specimenGrab(extOffset,offsetr,offsety,offsetx);
-        //teleOp.justTransferSequenceMore(x,y,r,x1,y1,r1,x2,y2,r2);
-    }
-
     public void scoringSpecimenFancy(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset){
         specimenGrab(extOffset,offsetr,offsety,offsetx);
-        //teleOp.transferSequenceWhileScore(scoreOffset);
+        teleOp.teleOptransferSequence(scoreOffset);
     }
 
     public void scoring(int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2) {
@@ -133,7 +120,7 @@ public class SpecimenAuto extends AutoSequence {
             liftPosition = 0;
         });
 
-        manager.waypointTask(specimen, new Pose(-600+offsetx, -350+offsety, Math.toRadians(45+offsetr)),0.9,0.1,10,false);
+        manager.waypointTask(specimen, new Pose(-500+offsetx, -450+offsety, Math.toRadians(45+offsetr)),0.9,0.1,10,false);
 
         //manager.delay(specimen, 200);
 
@@ -149,9 +136,7 @@ public class SpecimenAuto extends AutoSequence {
                     timer.reset();
                 }
             }
-
-            return true;
-            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
+            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE;
         }));
 
         manager.task(specimen, () -> {
