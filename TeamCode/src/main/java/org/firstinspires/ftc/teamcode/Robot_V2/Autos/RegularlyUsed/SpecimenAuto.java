@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed;
 
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.Color.BLUE;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.Color.RED;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.Color.YELLOW;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.IntakeState.LOOKING;
-import static org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake.IntakeState.SECURED;
+
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.YELLOW;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
@@ -16,11 +15,6 @@ import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleDT;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleExtendo;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
-import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleDT;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
@@ -44,11 +38,11 @@ public class SpecimenAuto extends AutoSequence {
         loopCounter += 1;
         if (loopCounter == 25 && samples){
             loopCounter= 0;
-            /*if (intake.getColor() == YELLOW) {
+            if (intake.getColor() == YELLOW) {
                 queue.clear();
                 loopCounter = 0;
                 specimenPark(0.6);
-            }*/
+            }
         }
         return loopCounter;
     }
@@ -86,6 +80,7 @@ public class SpecimenAuto extends AutoSequence {
         queue.addTask(park);
     }
 
+    //TODO:
     public void scoringSpecimen(double extOffset,int offsetr,int offsety, int offsetx, int scoreOffset,
                                 int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2){
         specimenGrab(extOffset,offsetr,offsety,offsetx);
@@ -193,8 +188,8 @@ public class SpecimenAuto extends AutoSequence {
                 dt.drive(0, 0, 0);
                 quit = true;
             }
-            return true;
-            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+
+            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
         }));
 
         manager.task(sample, () -> {
@@ -210,8 +205,8 @@ public class SpecimenAuto extends AutoSequence {
             intake.clawOpen();
             intake.out();
             extendoPosition = 4;
-            return true;
-            //return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
+
+            return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
 
         queue.addTask(sample);
@@ -250,8 +245,8 @@ public class SpecimenAuto extends AutoSequence {
                 dt.drive(0, 0, 0);
                 quit = true;
             }
-            return true;
-            //return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+
+            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
         }));
 
         manager.task(sample, () -> {
@@ -268,8 +263,8 @@ public class SpecimenAuto extends AutoSequence {
             intake.clawOpen();
             extendoPosition = 4;
             this.samples = true;
-            return true;
-            //return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
+
+            return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
 
         queue.addTask(sample);

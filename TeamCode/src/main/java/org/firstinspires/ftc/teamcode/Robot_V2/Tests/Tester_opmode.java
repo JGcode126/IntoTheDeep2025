@@ -22,9 +22,4 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
         telemetry.addData("Color:", intake.getColor());
         telemetry.update();
     }
-
-
-
-
-
 }

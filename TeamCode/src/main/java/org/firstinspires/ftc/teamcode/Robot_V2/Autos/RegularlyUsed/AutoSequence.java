@@ -85,7 +85,7 @@ public class AutoSequence extends Setup {
 
         manager.task(scoreSpec, () ->{
             outake.openClaw();
-            liftPosition = 2;
+            liftPosition = height-1;
             extendoPosition = 3;
         });
 
@@ -93,7 +93,7 @@ public class AutoSequence extends Setup {
 
         //first sample values: x = -600, y = -720, r = 90
         //old values x = -150, y = -400, r = 50
-        manager.waypointTask(scoreSpec,  new Pose(-500, -720, Math.toRadians(70)),speed2,0.5,150,false);
+        manager.waypointTask(scoreSpec,  new Pose(-500, -850, Math.toRadians(70)),speed2,0.5,150,false);
 
         manager.task(scoreSpec, () ->{
             outake.transferPos();

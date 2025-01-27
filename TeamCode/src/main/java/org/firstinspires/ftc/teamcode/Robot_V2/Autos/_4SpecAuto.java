@@ -10,12 +10,12 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @Autonomous
 @Config
-public class SpecimenAuto extends CuttleInitOpModeRobot2 {
+public class _4SpecAuto extends CuttleInitOpModeRobot2 {
     public int loopCounter = 0;
     public static int distance = -850;
 
-    public static int x = 0;
-    public static int y = -360;
+    public static int x1 = -1180;
+    public static int y1 = -1100;
     public static int r = 0;
 
     public void onInit(){
@@ -32,8 +32,16 @@ public class SpecimenAuto extends CuttleInitOpModeRobot2 {
         super.main();
         loopCounter = 0;
 
-        auto.startSpecimen(distance, 2, 0.6, 0.7);
-        //auto.allSamples();
+        auto.startSpecimen(distance, 2.4, 0.8, 0.7);
+
+        /*specimen.ttSample(-580, -720,90,-850,-600, 50, -0.25);//first sample
+        specimen.ttSample(-870, -720,90,-1000,-550, 50, -0.25);//second sample
+        specimen.ttSample(2,4, -1180, -740,110,-850,-400, 50, -0.25);//third sample*/
+
+
+        specimen.ttSample(-500, -870,100,-850,-700, 50, -0.3);//first sample
+        specimen.ttSample(-860, -870,90,-1000,-650, 50, -0.3);//second sample
+        specimen.ttSample(2,4, x1, y1,110,-850,-400, 50, -0.3);//third sample
 
         //specimen.scoringSpecimenFancy(0, -4, 0,0,0);//1st specimen
         //specimen.scoringSpecimenFancy(0.25, -6,0,0,20);//2nd specimen
