@@ -15,6 +15,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
+import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
+
 public class v2CuttleOutake {
     CuttleServo claw;
     public Servo driveRight, driveLeft, wrist;
@@ -89,8 +91,8 @@ public class v2CuttleOutake {
     }
     public void backIntakePos(){
         openClaw();
-        driveRight.setPosition(0);
-        driveLeft.setPosition(1);
+        driveRight.setPosition(0.15);
+        driveLeft.setPosition(1-0.15);
         wristCenter();
     }
 
@@ -98,7 +100,7 @@ public class v2CuttleOutake {
         closeClaw();
         driveRight.setPosition(0.80);
         driveLeft.setPosition(1-0.8);
-        wristDown();
+        wristCenter();
     }
 
 
@@ -226,14 +228,17 @@ public class v2CuttleOutake {
                 break;
             case BACKINTAKE:
                 backIntakePos();
-                if (backTransfer){outakeState = FRONTSCORE;}
+                if(backTransfer){
+                    readyCounter += 1;
+                    closeClaw();
+                }
+                if (readyCounter > 5) {
+                    outakeState = FRONTSCORE;
+                    readyCounter = 0;
+                }
                 break;
             case FRONTSCORE:
                 specimenFrontReadyPos();
-                if(ready){
-                    openClaw();
-                    outakeState = READY;
-                }
                 break;
         }
     }

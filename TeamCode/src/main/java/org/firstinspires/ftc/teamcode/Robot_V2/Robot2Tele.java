@@ -3,10 +3,13 @@ package org.firstinspires.ftc.teamcode.Robot_V2;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo.ExtendoState.INE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.TRANSFERED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BACKINTAKE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARLEFT;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARRIGHT;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BUCKET_BAR;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.FRONTSCORE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.READY;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.BACKINTAKEPOS;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -21,6 +24,7 @@ import com.roboctopi.cuttlefish.queue.TaskList;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 
 @TeleOp
 @Config
@@ -87,7 +91,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
                     specimenDropOffSequence();
                 }
             } else{
-                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, false, false);
+                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad1.dpad_down, gamepad1.dpad_up);
             }
         }
 
@@ -138,6 +142,10 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         if(outake.outakeState == READY){
             finalLiftPos = 0;
             lift.setLiftState(IN);
+        }
+        if(outake.outakeState == BACKINTAKE || outake.outakeState == FRONTSCORE){
+            finalLiftPos = 1.6;
+            lift.setLiftState(BACKINTAKEPOS);
         }
 
         if (gamepad2.share){

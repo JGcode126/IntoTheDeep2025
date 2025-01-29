@@ -99,12 +99,15 @@ public class v2CuttleSlides {
                 if(buttonHIGHBUCKET){currentState = HIGH_BUCKET;}
                 if(buttonLOWSUB){currentState = LOWSUB;}
                 break;
+            case BACKINTAKEPOS:
+                liftPosition = 1.6;
+                break;
         }
         return liftPosition;
     }
 
     public enum LiftState {
-        IN, HIGH_BUCKET, LOW_BUCKET, HIGHSUB, LOWSUB
+        IN, HIGH_BUCKET, LOW_BUCKET, HIGHSUB, LOWSUB, BACKINTAKEPOS
     }
 
     public void setLiftState(LiftState state){

@@ -17,7 +17,9 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
     }
     public void mainLoop() {
         super.mainLoop();
-        outake.readyPos();
+        outake.backIntakePos();
+        liftPosition = 1.6;
+
 
         telemetry.addData("Color:", intake.getColor());
         telemetry.update();
