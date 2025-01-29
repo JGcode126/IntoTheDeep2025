@@ -70,16 +70,17 @@ public class AutoSequence extends Setup {
 
     }
 
-    public void startSpecimen(int distance, double height, double speed1, double speed2){
+    public void
+    startSpecimen(int x, int distance, double height, double speed1, double speed2, int x2,int y2,int r2){
         TaskList scoreSpec = new TaskList();
 
         manager.task(scoreSpec, () ->{
             liftPosition = height;
-            outake.autoAutoHighRungPos();
+            outake.autoHighRungPos();
             extendoPosition = 3;
         });
 
-        manager.waypointTask(scoreSpec, new Pose(-100, distance, 0),speed1,0.5,150,false);
+        manager.waypointTask(scoreSpec, new Pose(x, distance, 0),speed1,0.5,150,false);
 
         manager.delay(scoreSpec, 200);
 
@@ -93,7 +94,7 @@ public class AutoSequence extends Setup {
 
         //first sample values: x = -600, y = -720, r = 90
         //old values x = -150, y = -400, r = 50
-        manager.waypointTask(scoreSpec,  new Pose(-500, -850, Math.toRadians(70)),speed2,0.5,150,false);
+        manager.waypointTask(scoreSpec,  new Pose(x2, y2, Math.toRadians(r2)),speed2,0.5,150,false);
 
         manager.task(scoreSpec, () ->{
             outake.transferPos();

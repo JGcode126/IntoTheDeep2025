@@ -26,14 +26,23 @@ public class v2CuttleOutake {
         wrist = hardwareMap.get(Servo.class, "outtake wrist");;
     }
 
-    public void autoHighRungPos(){
-        driveRight.setPosition(0.19);
-        driveLeft.setPosition(1-0.19);
-    }
-
+    //TODO: Delete this??
     public void autoAutoHighRungPos(){
         driveRight.setPosition(0.4);
         driveLeft.setPosition(1-0.4);
+        wristCenter();
+    }
+
+    //For testing
+    public void setPos(double pos){
+        driveRight.setPosition(pos);
+        driveLeft.setPosition(1-pos);
+        wristCenter();
+    }
+
+    public void autoHighRungPos(){
+        driveRight.setPosition(0.38);
+        driveLeft.setPosition(1-0.38);
         wristCenter();
     }
 

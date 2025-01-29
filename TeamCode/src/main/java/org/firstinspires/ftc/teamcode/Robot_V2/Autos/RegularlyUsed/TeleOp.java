@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 
 public class TeleOp extends CuttleInitOpModeRobot2 {
-    public double highChamberPos = 5;
+    public double highChamberPos = 3.6;
     public double highBucketPos = 14;
 
     v2CuttleIntake intake;
@@ -47,7 +47,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
 
         manager.delay(scoring, 1000);
 
-        manager.waypointTask(scoring, new Pose(-100+extraX, -760, Math.toRadians(0)),0.7,0.5,150,false);
+        manager.waypointTask(scoring, new Pose(-100+extraX, -800, Math.toRadians(0)),0.7,0.5,150,false);
 
         manager.delay(scoring, 300);
 
@@ -60,7 +60,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
 
         manager.task(scoring, () -> {
             outake.readyPos();
-            liftPosition = 3;
+            liftPosition = 0;
         });
 
         TaskList transfer = new TaskList();
@@ -76,14 +76,11 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
             outake.readyPos();
             extendoPosition = 0;
             liftPosition = 0;
-            telemetry.addData("tranfer sequence running", true);
         });
 
         manager.delay(transfer, 600);
 
-        manager.task(transfer, () ->{
-            outake.transferPos();
-        });
+        manager.task(transfer, () ->{outake.transferPos();});
 
         manager.delay(transfer,200);
 
@@ -96,16 +93,9 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         manager.delay(transfer,200);
 
         manager.task(transfer, () ->{
-            outake.scorePosMid();
             extendoPosition = 1;
-        });
-
-        manager.delay(transfer,200);
-
-        manager.task(transfer, () ->{
-            extendoPosition = 0;
-            outake.setScoreState(BUCKET_BAR);
-            extendo.setExtendoState(INE);
+            outake.scorePosLeft();
+            liftPosition = highChamberPos;
         });
         
         manager.forkTask(transfer,scoring);

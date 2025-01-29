@@ -119,13 +119,12 @@ public class SpecimenAuto extends AutoSequence {
             extendoPosition = 2;
             liftPosition = 0;
         });
-
-        manager.waypointTask(specimen, new Pose(-500+offsetx, -450+offsety, Math.toRadians(45+offsetr)),0.9,0.1,10,false);
+        manager.waypointTask(specimen, new Pose(-450+offsetx, -500+offsety, Math.toRadians(60+offsetr)),0.9,0.1,10,false);
 
         //manager.delay(specimen, 200);
 
         specimen.addTask(new CustomTask(() -> {
-            extendoPosition = 4+extOffset;
+            extendoPosition = 5+extOffset;
             intake.in();
             intake.clawOpen();
             intake.intakeDown();
@@ -147,7 +146,6 @@ public class SpecimenAuto extends AutoSequence {
 
         queue.addTask(specimen);
     }
-
     public void ttSample(int x1, int y1, int r1, int x2, int y2, int r2, double turn) {
         TaskList sample = new TaskList();
 
@@ -193,6 +191,8 @@ public class SpecimenAuto extends AutoSequence {
 
             return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
+
+        manager.delay(sample,200);
 
         queue.addTask(sample);
     }
@@ -251,6 +251,8 @@ public class SpecimenAuto extends AutoSequence {
 
             return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
+
+        manager.delay(sample, 200);
 
         queue.addTask(sample);
     }
