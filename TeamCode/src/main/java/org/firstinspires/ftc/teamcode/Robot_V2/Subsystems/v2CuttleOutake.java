@@ -12,12 +12,14 @@ import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
 public class v2CuttleOutake {
     CuttleServo claw;
     public Servo driveRight, driveLeft, wrist;
     public v2CuttleOutake.OutakeState outakeState = READY;
+    double readyCounter = 0;
 
     public v2CuttleOutake(CuttleServo clawServo, HardwareMap hardwareMap){
         driveRight = hardwareMap.get(Servo.class, "right outtake");;
@@ -165,22 +167,32 @@ public class v2CuttleOutake {
             case GRIPPED:
                 grippedPos();
                 if(ready){outakeState = READY;}
-                if(bucket_bar){outakeState = BUCKET_BAR;}
+                if(bucket_bar){
+                    readyCounter = 0;
+                    outakeState = BUCKET_BAR;
+                }
                 if(barLeft){outakeState = BARLEFT;}
                 if(barRight){outakeState = BARRIGHT;}
                 if(holding){outakeState = HOLD;}
                 break;
             case HOLD:
                 midHolding();
-                if(bucket_bar){outakeState = BUCKET_BAR;}
+                if(bucket_bar){
+                    readyCounter = 0;
+                    outakeState = BUCKET_BAR;
+                }
                 if(barLeft){outakeState = BARLEFT;}
                 if(barRight){outakeState = BARRIGHT;}
                 break;
             case BUCKET_BAR:
                 scorePosMid();
                 if(ready){
+                    readyCounter += 1;
                     openClaw();
+                }
+                if (readyCounter > 5) {
                     outakeState = READY;
+                    readyCounter = 0;
                 }
                 if(grip){outakeState = GRIPPED;}
                 if(barLeft){outakeState = BARLEFT;}
@@ -193,7 +205,10 @@ public class v2CuttleOutake {
                     outakeState = READY;
                 }
                 if(barLeft){outakeState = BARLEFT;}
-                if(bucket_bar){outakeState = BUCKET_BAR;}
+                if(bucket_bar){
+                    readyCounter = 0;
+                    outakeState = BUCKET_BAR;
+                }
                 if(grip){outakeState = GRIPPED;}
                 break;
             case BARLEFT:
@@ -203,7 +218,10 @@ public class v2CuttleOutake {
                     outakeState = READY;
                 }
                 if(barRight){outakeState = BARRIGHT;}
-                if(bucket_bar){outakeState = BUCKET_BAR;}
+                if(bucket_bar){
+                    readyCounter = 0;
+                    outakeState = BUCKET_BAR;
+                }
                 if(grip){outakeState = GRIPPED;}
                 break;
             case BACKINTAKE:
