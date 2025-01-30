@@ -10,6 +10,7 @@ import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.FRONTSCORE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.READY;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.BACKINTAKEPOS;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.FRONTSCOREPOS;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.IN;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -143,9 +144,14 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             finalLiftPos = 0;
             lift.setLiftState(IN);
         }
-        if(outake.outakeState == BACKINTAKE || outake.outakeState == FRONTSCORE){
-            finalLiftPos = 1.6;
+        if(outake.outakeState == BACKINTAKE){
+            finalLiftPos = 2;
             lift.setLiftState(BACKINTAKEPOS);
+        }
+
+        if (outake.outakeState == FRONTSCORE){
+            finalLiftPos = 4.1;
+            lift.setLiftState(FRONTSCOREPOS);
         }
 
         if (gamepad2.share){

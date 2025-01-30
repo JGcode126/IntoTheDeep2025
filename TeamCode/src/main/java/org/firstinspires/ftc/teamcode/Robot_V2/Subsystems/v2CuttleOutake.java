@@ -22,6 +22,7 @@ public class v2CuttleOutake {
     public Servo driveRight, driveLeft, wrist;
     public v2CuttleOutake.OutakeState outakeState = READY;
     double readyCounter = 0;
+    boolean skipStep = false;
 
     public v2CuttleOutake(CuttleServo clawServo, HardwareMap hardwareMap){
         driveRight = hardwareMap.get(Servo.class, "right outtake");;
@@ -106,7 +107,7 @@ public class v2CuttleOutake {
 
 
     public void closeClaw(){
-        claw.setPosition(0.5);
+        claw.setPosition(0.7);
     }
 
     public void openClaw(){
@@ -188,11 +189,12 @@ public class v2CuttleOutake {
                 break;
             case BUCKET_BAR:
                 scorePosMid();
-                if(ready){
+                if(ready || skipStep){
                     readyCounter += 1;
                     openClaw();
                 }
                 if (readyCounter > 5) {
+                    skipStep = false;
                     outakeState = READY;
                     readyCounter = 0;
                 }
@@ -239,6 +241,15 @@ public class v2CuttleOutake {
                 break;
             case FRONTSCORE:
                 specimenFrontReadyPos();
+                if(ready){
+                    readyCounter += 1;
+                    openClaw();
+                }
+                if (readyCounter > 10) {
+                    skipStep = true;
+                    readyCounter = 0;
+                    outakeState = BUCKET_BAR;
+                }
                 break;
         }
     }
