@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @Autonomous
 @Config
-public class _4SpecAuto extends CuttleInitOpModeRobot2 {
+public class _5SpecAuto extends CuttleInitOpModeRobot2 {
     public int loopCounter = 0;
 
     public void onInit(){
@@ -28,17 +28,18 @@ public class _4SpecAuto extends CuttleInitOpModeRobot2 {
         super.main();
         loopCounter = 0;
 
-        auto.startSpecimen(50, -850, 2.7, 0.8, 0.7, -430, -650, 80, 3.0);
+        auto.startSpecimen(80, -850, 2.7, 0.7, 0.6, -650, -800, 80,1.0);
 
-        specimen.ttSample(-430,-850 ,100,-800,-700 ,50, -0.3);//first sample
-        specimen.ttSample(-790,-900,90,-990,-750,50, -0.3);//second sample
-        specimen.ttSample(2,4, -1080,-1100,110,-1000,-600,50,4.0);//third sample
+        specimen.ttSampleOther(1.0,4,-730,-860 ,110,-780,-700 ,65, -0.3);//first sample
+        specimen.ttSampleOther(5,4,-755,-700,110,-780,-700,65, -0.3);//second sample
+        specimen.ttSample(3,6, -1100,-780,135,-1000,-600,50,2.0);//third sample
 
-        specimen.scoringSpecimenFancy(0, -4, 0,0,100, -850);//1st specimen
-        specimen.scoringSpecimenFancy(0.25, -6,0,0,120,-850);//2nd specimen
+        //-450+offsetx, -500+offsety, Math.toRadians(60+offsetr))
+        specimen.scoringSpecimenFancy(0, 10, 100,200,100, -850);//1st specimen
+        /*specimen.scoringSpecimenFancy(0.25, -6,0,0,120,-850);//2nd specimen
         specimen.scoringSpecimenFancy(0.75,-7,0, 0,150,-850);//3rd specimen
 
-        specimen.specimenPark(1);
+        specimen.specimenPark(1);*/
     }
 
     public void mainLoop() {

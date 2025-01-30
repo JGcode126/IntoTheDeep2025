@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 
 public class TeleOp extends CuttleInitOpModeRobot2 {
-    public double highChamberPos = 3.6;
+    public double highChamberPos = 5;
     public double highBucketPos = 14;
 
     v2CuttleIntake intake;
@@ -40,14 +40,14 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
 
     }
 
-    public void teleOptransferSequence(double extraX){
+    public void teleOptransferSequence(double extraX, int y){
         TaskList scoring = new TaskList();
 
         manager.waypointTask(scoring, new Pose(0, -300, Math.toRadians(0)),0.8,0.6,150,false);
 
         manager.delay(scoring, 1000);
 
-        manager.waypointTask(scoring, new Pose(-100+extraX, -800, Math.toRadians(0)),0.7,0.5,150,false);
+        manager.waypointTask(scoring, new Pose(-100+extraX, y, Math.toRadians(0)),0.7,0.5,150,false);
 
         manager.delay(scoring, 300);
 
@@ -94,7 +94,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
 
         manager.task(transfer, () ->{
             extendoPosition = 1;
-            outake.scorePosLeft();
+            outake.scorePosRight();
             liftPosition = highChamberPos;
         });
         

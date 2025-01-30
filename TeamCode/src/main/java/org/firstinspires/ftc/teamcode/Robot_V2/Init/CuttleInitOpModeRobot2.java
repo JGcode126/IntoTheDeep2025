@@ -220,20 +220,20 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         hang = new v2CuttleHang(hangL,hangR);
 
         setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt);
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt, hang);
 
         auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
                 new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage), new TeleOp(intake, outake,extendo,lift,dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage))/*specimen, bucket*/);
+                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage)), hang);
 
         specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage));
+                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage), hang);
 
         bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController,batteryVoltage, optimalVoltage));
+                new TaskManager(queue, ptpController,batteryVoltage, optimalVoltage), hang);
 
 
         battery = new Battery(batteryVoltage, optimalVoltage);

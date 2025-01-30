@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleDT;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleHang;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
@@ -28,26 +29,27 @@ public class AutoSequence extends Setup {
                         v2CuttleIntake intake, v2CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                         PTPController ptpController, MotorPositionController liftController,
                         MotorPositionController extController, v2CuttleExtendo extendo,
-                        v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager, TeleOp teleOp/*, SpecimenAuto s, BucketAuto b*/) {
+                        v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager, TeleOp teleOp, v2CuttleHang hang) {
 
-        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
+        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang);
         this.manager = manager;
         this.teleOp = teleOp;
 
         this.specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManager(queue, ptpController));
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManager(queue, ptpController), hang);
         this.bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController));
+                new TaskManager(queue, ptpController), hang);
 
     }
+
     public AutoSequence(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer,
                         v2CuttleIntake intake, v2CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                         PTPController ptpController, MotorPositionController liftController,
                         MotorPositionController extController, v2CuttleExtendo extendo,
-                        v2CuttleSlides lift, v2CuttleDT dt) {
+                        v2CuttleSlides lift, v2CuttleDT dt, v2CuttleHang hang) {
 
-        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt);
+        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang);
     }
 
     public void testTele(){/*teleOp.testingIfWorks();*/}
@@ -57,21 +59,20 @@ public class AutoSequence extends Setup {
         //teleOp.transferSequence();
         bucket.scoreSample(xpos);
     }
-    public void scoringSpec3Fancy(){
-        specimen.scoringSpecimenFancy(0, -4, 0,0,0);
-        specimen.scoringSpecimenFancy(0.25, -6,0,0,20);
-        specimen.scoringSpecimenFancy(0.75,-7,0, 0,50);
-    }
+    public void testScoring(double highChamberPos) {
+        TaskList transfer = new TaskList();
 
-    public void allSamples(){
-        specimen.ttSample(-580, -720,90,-850,-600, 50, -0.25);//first sample
-        specimen.ttSample(-870, -720,90,-1000,-550, 50, -0.25);//second sample
-        specimen.ttSample(2,4, -1180, -740,110,-850,-400, 50, -0.25);//third sample
+        manager.task(transfer, () -> {
+            extendoPosition = 1;
+            outake.scorePosLeft();
+            liftPosition = highChamberPos;
+        });
 
+        manager.addTask(transfer);
     }
 
     public void
-    startSpecimen(int x, int distance, double height, double speed1, double speed2, int x2,int y2,int r2){
+    startSpecimen(int x, int distance, double height, double speed1, double speed2, int x2,int y2,int r2, double extPos){
         TaskList scoreSpec = new TaskList();
 
         manager.task(scoreSpec, () ->{
@@ -87,7 +88,9 @@ public class AutoSequence extends Setup {
         manager.task(scoreSpec, () ->{
             outake.openClaw();
             liftPosition = height-1;
-            extendoPosition = 3;
+            extendoPosition = extPos;
+            intake.intakeDown();
+            intake.turntableRight();
         });
 
         manager.delay(scoreSpec, 300);
@@ -99,7 +102,7 @@ public class AutoSequence extends Setup {
         manager.task(scoreSpec, () ->{
             outake.transferPos();
             liftPosition = 0;
-            extendoPosition = 0;
+            extendoPosition = extPos;
             outake.readyPos();
             intake.intakeDown();
         });

@@ -9,11 +9,6 @@ import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 public class v2CuttleHang {
     public CuttleServo hangR, hangL;
 
-    /*public CuttleHang(HardwareMap hardwareMap){
-        hangR = hardwareMap.get(CRServo.class,"hangR");
-        hangL = hardwareMap.get(CRServo.class, "hangL");
-    }*/
-
     public v2CuttleHang(CuttleServo servo1, CuttleServo servo2){
         hangR = servo1;
         hangL = servo2;

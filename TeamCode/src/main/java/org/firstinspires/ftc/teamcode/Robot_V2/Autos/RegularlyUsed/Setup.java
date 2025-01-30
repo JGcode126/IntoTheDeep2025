@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleSlides;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleDT;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleHang;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
@@ -29,7 +30,7 @@ public class Setup extends CuttleInitOpModeRobot2 {
 
     public Setup(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, v2CuttleIntake intake, v2CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                  PTPController ptpController, MotorPositionController liftController, MotorPositionController extController,
-                 v2CuttleExtendo extendo, v2CuttleSlides lift, v2CuttleDT dt) {
+                 v2CuttleExtendo extendo, v2CuttleSlides lift, v2CuttleDT dt, v2CuttleHang hang) {
         //Initializing values
         this.otosLocalizer = otos;
         this.encoderLocalizer = encoderLocalizer;
@@ -43,6 +44,7 @@ public class Setup extends CuttleInitOpModeRobot2 {
         this.lift = lift;
         this.extendo = extendo;
         this.dt = dt;
+        this.hang = hang;
 
         manager = new TaskManager(queue, ptpController);
         teleOp = new TeleOp(intake,outake, extendo, lift, dt, manager);
@@ -60,6 +62,8 @@ public class Setup extends CuttleInitOpModeRobot2 {
         //set slide home
         liftPosController.setHome();
         extendoPosController.setHome();
+
+        hang.initHang();
     }
 
     //prints out all data, odometry and otos
