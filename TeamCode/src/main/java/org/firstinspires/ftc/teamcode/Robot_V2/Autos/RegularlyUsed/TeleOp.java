@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 
 public class TeleOp extends CuttleInitOpModeRobot2 {
-    public double highChamberPos = 5;
+    public double highChamberPos = 4.9;
     public double highBucketPos = 14;
 
     v2CuttleIntake intake;

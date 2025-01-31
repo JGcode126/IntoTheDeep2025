@@ -82,17 +82,17 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
                 if(outake.outakeState == BARLEFT){
                     outake.scorePosLeft();
-                    if (gamepad2.dpad_right){outake.setScoreState(BARRIGHT);}
+                    if (gamepad2.dpad_left){outake.setScoreState(BARRIGHT);}
                 }
                 if(outake.outakeState == BARRIGHT){
                     outake.scorePosRight();
-                    if (gamepad2.dpad_left){outake.setScoreState(BARLEFT);}
+                    if (gamepad2.dpad_right){outake.setScoreState(BARLEFT);}
                 }
                 if (gamepad2.a){
                     specimenDropOffSequence();
                 }
             } else{
-                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad1.dpad_down, gamepad1.dpad_up);
+                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left, gamepad1.dpad_down, gamepad1.dpad_up);
             }
         }
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Robot_V2.Autos;
+package org.firstinspires.ftc.teamcode.Robot_V2.Autos.Old;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @Autonomous
 @Config
+@Disabled
 public class _4SpecAuto extends CuttleInitOpModeRobot2 {
     public int loopCounter = 0;
 

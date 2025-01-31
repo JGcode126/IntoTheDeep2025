@@ -37,7 +37,7 @@ public class SpecimenAuto extends AutoSequence {
 
     public int yellowPark(int loopCounter){
         loopCounter += 1;
-        if (loopCounter == 25 && samples){
+        if (loopCounter == 25){
             loopCounter= 0;
             if (intake.getColor() == YELLOW) {
                 queue.clear();
