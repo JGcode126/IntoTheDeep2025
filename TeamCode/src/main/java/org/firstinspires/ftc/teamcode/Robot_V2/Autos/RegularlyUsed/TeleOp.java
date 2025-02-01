@@ -101,4 +101,48 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         manager.forkTask(transfer,scoring);
     }
 
+    public void bucketTransfer(int x, int y, double r){
+        TaskList scoring = new TaskList();
+
+        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.6,0.6,150,false);
+
+        TaskList transfer = new TaskList();
+
+        manager.task(transfer, () -> {
+            intake.setIntakeState(UP);
+            lift.setLiftState(IN);
+        });
+
+        manager.task(transfer, () ->{
+            intake.armUp();
+            intake.clawServo.setPosition(0.45);
+            outake.readyPos();
+            extendoPosition = 0;
+            liftPosition = 0;
+        });
+
+        //changed from 600
+        manager.delay(transfer, 600);
+
+        manager.task(transfer, () ->{outake.transferPos();});
+
+        manager.delay(transfer,200);
+
+        manager.task(transfer, () ->{
+            outake.grippedPos();
+            intake.initPos();
+            intake.setIntakeState(UP);
+        });
+
+        manager.delay(transfer,200);
+
+        manager.task(transfer, () ->{
+            extendoPosition = 1;
+            liftPosition = highBucketPos;
+        });
+
+        manager.delay(transfer, 200);
+
+        manager.forkTask(transfer,scoring);
+    }
 }

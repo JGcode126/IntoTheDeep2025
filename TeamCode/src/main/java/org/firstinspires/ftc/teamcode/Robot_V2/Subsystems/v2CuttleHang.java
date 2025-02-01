@@ -29,6 +29,11 @@ public class v2CuttleHang {
         hangR.setPosition(0.45);
     }
 
+    public void parkHeight(){
+        hangL.setPosition(0.65);
+        hangR.setPosition(0.35);
+    }
+
     public void setHeight(double hL, double hR){
         hangR.setPosition(hR);
         hangL.setPosition(hL);

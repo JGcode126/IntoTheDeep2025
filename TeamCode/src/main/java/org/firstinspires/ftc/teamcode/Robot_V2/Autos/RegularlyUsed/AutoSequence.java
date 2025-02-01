@@ -54,11 +54,6 @@ public class AutoSequence extends Setup {
 
     public void testTele(){/*teleOp.testingIfWorks();*/}
 
-    public void scoringBuckets(int xpos, int xfinishpos, int deg){
-        bucket.intakeSample(xpos, deg);
-        //teleOp.transferSequence();
-        bucket.scoreSample(xpos);
-    }
     public void testScoring(double highChamberPos) {
         TaskList transfer = new TaskList();
 

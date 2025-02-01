@@ -7,36 +7,36 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
+import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @Autonomous(name = "BUCKET", group = "Example")
 @Config
-@Disabled
-public class bucket extends CuttleInitOpMode {
+public class bucket extends CuttleInitOpModeRobot2 {
     public void onInit() {
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        bucketMethods.initRobot();
+        setup.initRobot();
 
-        specimenMethods.test = true;
-        specimenMethods.side = "left";
+        setup.test = false;
+        setup.side = "right";
+        setup.color = "blue";
     }
 
     public void main(){
         super.main();
 
-        //bucketMethods.scoreFirstSample(-870);
-        bucketMethods.scoreFirstSample(-1100, 280,-870);
+        bucket.scoreFirstSample(-180, -780,60, -300, -780);
 
-        bucketMethods.scoring(-870, -1130,0);
-        bucketMethods.scoring(-1130, -1200,0);
-        bucketMethods.scoring(-1200, -400,15);//deg used to be 20
-        bucketMethods.park();
+        bucket.scoringBuckets(-300, -780, 80, -200, -780, 60, 100);
+        bucket.scoringBuckets(-300, -780, 109, -210, -780, 60, 130);
+        bucket.scoringBuckets(-300, -780, 130, -220, -780, 60, 90);
 
+        bucket.park(-1500, -500, 200);
     }
 
     public void mainLoop() {
         super.mainLoop();
-        specimenMethods.telemetryData();
+        setup.telemetryData();
     }
 }

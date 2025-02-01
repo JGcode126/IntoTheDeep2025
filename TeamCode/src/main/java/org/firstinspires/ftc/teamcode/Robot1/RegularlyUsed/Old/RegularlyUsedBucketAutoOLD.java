@@ -163,11 +163,8 @@ public class RegularlyUsedBucketAutoOLD extends CuttleInitOpMode {
             liftPosition = 14;
             outake.scorePosMid();
         });
-        //x used to be -980, -1000 still works
+
         addWaypointTask(scoringSample, new Pose(xPos, yPos, -0.7),0.6,0.6,10,false);
-
-
-        //addWaypointTask(scoringSample, new Pose(-1200, 260, -0.7),0.8,0.5,150,false);
 
         addIntakeTask(scoringSample, () -> {
             outake.openClaw();
@@ -321,26 +318,6 @@ public class RegularlyUsedBucketAutoOLD extends CuttleInitOpMode {
 
 
         });
-
-        /*if(side == "right") {
-            addIntakeTask(transfer, () -> {
-                extendoPosition = 1;
-                outake.scorePosLeft();
-                liftPosition = highChamberPos;
-
-                transfering = false;
-            });
-        }
-
-        else{
-            addIntakeTask(transfer, () -> {
-                extendoPosition = 1;
-                outake.scorePosMid();
-                liftPosition = highBucketPos;
-
-                transfering = false;
-            });
-        }*/
 
         addDelayTask(transfer, 200);
 
