@@ -28,7 +28,7 @@ public class _4Spec extends CuttleInitOpModeRobot2 {
         super.main();
         loopCounter = 0;
 
-        auto.startSpecimen(80, -900, 2.7, 0.7, 0.6, -650, -800, 80,1.0);
+        auto.startSpecimen(80, -860, 2.7, 0.7, 0.6, -650, -800, 80,1.0);
 
         specimen.ttSampleOther(1.0,4,-730,-860 ,110,-780,-700 ,60, -0.3);//first sample
         specimen.ttSampleOther(5,4,-755,-700,110,-780,-700,65, -0.3);//second sample
