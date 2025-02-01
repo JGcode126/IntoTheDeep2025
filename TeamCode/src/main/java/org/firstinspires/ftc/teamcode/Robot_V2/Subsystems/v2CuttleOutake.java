@@ -107,7 +107,7 @@ public class v2CuttleOutake {
 
 
     public void closeClaw(){
-        claw.setPosition(0.7);
+        claw.setPosition(0.4);
     }
 
     public void openClaw(){

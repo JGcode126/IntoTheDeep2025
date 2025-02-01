@@ -151,7 +151,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         CuttleServo hangR = expHub.getServo(4);
 
         //outtake - all others at servoHub - configure with hardware map
-        CuttleServo outtakeClawServo = ctrlHub.getServo(0);
+        CuttleServo outtakeClawServo = ctrlHub.getServo(3);
 
         //intake - all others at servoHub - configure with hardware map
         CuttleServo intakeClaw = ctrlHub.getServo(2);
