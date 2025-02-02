@@ -121,6 +121,11 @@ public class v2CuttleIntake {
         turntable.setPosition(turntableInitPos);
         intakeMotor.setPower(0);
     }
+
+    public void armMiddle(){
+        leftServo.setPosition(0.08);
+        rightServo.setPosition(1-0.08);
+    }
     //close claw pos 0.957
     public void intakePos(double turntableAngle){
         leftServo.setPosition(0.025);

@@ -30,15 +30,16 @@ public class _5Spec extends CuttleInitOpModeRobot2 {
 
         auto.startSpecimen(80, -860, 2.7, 0.7, 0.6, -650, -800, 80,1.0);
 
-        specimen.ttSampleOther(1.0,4,-730,-860 ,110,-780,-700 ,60, -0.3);//first sample
-        specimen.ttSampleOther(5,4,-755,-700,110,-780,-700,65, -0.3);//second sample
+        specimen.ttSampleOther(1.0,4,-705,-860 ,90,-760,-690 ,60, -0.3);//first sample
+        //x1: -755, y1 used to be -700
+        specimen.ttSampleOther(5,5,-760,-690,90,-780,-700,50, -0.3);//second sample
         specimen.ttSample(3,6, -1100,-780,135,-1000,-600,50,2.0);//third sample
 
         //-450+offsetx, -500+offsety, Math.toRadians(60+offsetr))
         specimen.scoringSpecimenFancy(0, 10, 100,0,100, -850);//1st specimen
-        specimen.scoringSpecimenFancy(0.25, -6,100,0,120,-850);//2nd specimen
-        specimen.scoringSpecimenFancy(0.75,-7,100, 0,150,-850);//3rd specimen
-        specimen.scoringSpecimenFancy(1.0,-10,100, 0,180,-850);//3rd specimen
+        specimen.scoringSpecimenFancy(0.25, -6,100,-20,120,-850);//2nd specimen
+        specimen.scoringSpecimenFancy(0.75,-7,100, -20,150,-850);//3rd specimen
+        specimen.scoringSpecimenFancy(1.0,-10,100, -20,180,-850);//3rd specimen
 
         specimen.specimenPark(1);
     }

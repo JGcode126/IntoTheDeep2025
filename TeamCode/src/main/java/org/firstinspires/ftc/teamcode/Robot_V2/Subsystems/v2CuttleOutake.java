@@ -61,13 +61,14 @@ public class v2CuttleOutake {
         driveRight.setPosition(0.80);
         driveLeft.setPosition(1-0.8);
         closeClaw();
+        wristCenter();
     }
 
     public void readyPos(){
         wristCenter();
         driveRight.setPosition(0.85);
         driveLeft.setPosition(1-0.85);
-        openClaw();
+        closeClaw();
     }
 
     public void midHolding(){

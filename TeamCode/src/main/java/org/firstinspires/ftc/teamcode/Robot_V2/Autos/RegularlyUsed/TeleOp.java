@@ -78,7 +78,8 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
             liftPosition = 0;
         });
 
-        manager.delay(transfer, 600);
+        //used to be 600
+        manager.delay(transfer, 400);
 
         manager.task(transfer, () ->{outake.transferPos();});
 

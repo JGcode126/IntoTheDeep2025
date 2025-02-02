@@ -100,6 +100,7 @@ public class AutoSequence extends Setup {
             extendoPosition = extPos;
             outake.readyPos();
             intake.intakeDown();
+            intake.in();
         });
 
         queue.addTask(scoreSpec);

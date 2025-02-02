@@ -37,7 +37,7 @@ public class SpecimenAuto extends AutoSequence {
 
     public int yellowPark(int loopCounter){
         loopCounter += 1;
-        if (loopCounter == 25){
+        if (loopCounter == 5){
             loopCounter= 0;
             if (intake.getColor() == YELLOW) {
                 queue.clear();
@@ -158,7 +158,7 @@ public class SpecimenAuto extends AutoSequence {
             intake.in();
         });
 
-        manager.waypointTask(sample, new Pose(x1, y1, Math.toRadians(r1)), 0.4, 0.1, 10, false);
+        manager.waypointTask(sample, new Pose(x1, y1, Math.toRadians(r1)), 0.35, 0.1, 10, false);
 
         sample.addTask(new CustomTask(() -> {
             intake.in();
@@ -166,8 +166,8 @@ public class SpecimenAuto extends AutoSequence {
 
             //turn = -0.12
             //145
-            if (encoderLocalizer.getPos().getR() < Math.toRadians(125)) {
-                dt.drive(0.1, 0.2, turn);
+            if (encoderLocalizer.getPos().getR() < Math.toRadians(145)) {
+                dt.drive(0.15, 0.3, turn);
             }
             else {
                 dt.drive(0, 0, 0);
@@ -178,15 +178,16 @@ public class SpecimenAuto extends AutoSequence {
         }));
 
         manager.task(sample, () -> {
-            extendoPosition = 2;
+            extendoPosition = 1;
             intake.turntableMiddle();
             intake.clawClose();
         });
 
         //x2 = -850, y2 = -400, turn = 70
-        manager.waypointTask(sample, new Pose(x2, y2, Math.toRadians(r2)), 1, 0.1, 100, false);
+        manager.waypointTask(sample, new Pose(x2, y2, Math.toRadians(r2)), 0.7, 0.1, 100, false);
 
         sample.addTask(new CustomTask(() -> {
+            intake.armMiddle();
             intake.clawOpen();
             intake.out();
             extendoPosition = extOut;
@@ -194,7 +195,11 @@ public class SpecimenAuto extends AutoSequence {
             return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
 
-        manager.delay(sample,200);
+        manager.task(sample, () -> {
+            extendoPosition = 2;
+        });
+
+        manager.delay(sample,300);
 
         queue.addTask(sample);
     }
@@ -272,7 +277,7 @@ public class SpecimenAuto extends AutoSequence {
             extendoPosition = extPos2;
         });
 
-        manager.delay(sample, 400);
+        manager.delay(sample, 200);
 
         sample.addTask(new CustomTask(() -> {
             intake.in();
@@ -301,6 +306,7 @@ public class SpecimenAuto extends AutoSequence {
         manager.waypointTask(sample, new Pose(x2, y2, Math.toRadians(r2)), 1, 0.1, 100, false);
 
         sample.addTask(new CustomTask(() -> {
+            intake.armMiddle();
             intake.out();
             intake.clawOpen();
             extendoPosition = extOut;
@@ -308,6 +314,10 @@ public class SpecimenAuto extends AutoSequence {
 
             return intake.getColor() != YELLOW && intake.getColor() != RED && intake.getColor() != BLUE;
         }));
+
+        manager.task(sample, () -> {
+            extendoPosition = 2;
+        });
 
         manager.delay(sample, 200);
 
