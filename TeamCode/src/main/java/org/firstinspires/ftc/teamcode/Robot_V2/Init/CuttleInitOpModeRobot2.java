@@ -159,6 +159,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         CuttleServo light = expHub.getServo(5);
 
 
+
         //Odometry
         leftEncoder = ctrlHub.getEncoder(1,2000);
         sideEncoder = ctrlHub.getEncoder(3,2000);

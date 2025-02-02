@@ -1,8 +1,13 @@
 package org.firstinspires.ftc.teamcode.Robot_V2;
 
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo.ExtendoState.INE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.TRANSFERED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.BLUESIGN;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.NEUTRALSIGN;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.REDSIGN;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BACKINTAKE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARLEFT;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARRIGHT;
@@ -25,6 +30,7 @@ import com.roboctopi.cuttlefish.queue.TaskList;
 import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 
 @TeleOp
@@ -37,6 +43,8 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
     public boolean autoPosing = false;
     double savex1,savey1, saver1;
     double savex2,savey2, saver2;
+    v2CuttleIntake.Color rejectColor = null;
+    v2CuttleIntake.Color inColor = null;
     public void onInit() {
         super.onInit();
         //intake.initPos();
@@ -51,6 +59,14 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         encoderLocalizer.reset();
         outake.readyPos();
         hang.teleHeight();
+        if (intake.getSignColor() == BLUESIGN){
+            rejectColor = BLUE;
+            inColor = RED;
+        }
+        if (intake.getSignColor() == REDSIGN){
+            rejectColor = RED;
+            inColor = BLUE;
+        }
     }
     public void mainLoop() {
         super.mainLoop();
@@ -61,7 +77,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         }
 
         if (transfering == false) {
-            intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x);
+            intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
             if(gamepad1.share){
                 extendoMotor.setPower(-0.5);
                 rightBackSlides.setPower(-0.4);
@@ -162,6 +178,18 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             encoderLocalizer.getPos().setR(0);
         }
 
+        if(gamepad1.share){
+            if (inColor == BLUE){
+                inColor = RED;
+                rejectColor = BLUE;
+            }
+            if (inColor == RED){
+                inColor = BLUE;
+                rejectColor = RED;
+            }
+
+        }
+
         /*
         if(intake.getColor() == RED){
             intake.lightRed();
@@ -175,7 +203,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
 
          */
 
-
+        telemetry.addData("alliance", inColor);
         telemetry.addData("intake state", intake.intakeState);
         telemetry.addData("outtake state", outake.outakeState);
         telemetry.addData("lift state", lift.currentState);

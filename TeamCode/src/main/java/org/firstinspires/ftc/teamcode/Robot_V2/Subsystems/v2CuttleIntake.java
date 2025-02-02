@@ -9,16 +9,24 @@ import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.SECURED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.TRANSFERED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.UP;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.BLUESIGN;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.NEUTRALSIGN;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.REDSIGN;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Robot1.Subsystems.CuttleIntake;
+
 public class v2CuttleIntake {
     public CRServo intakeMotor;
     public Servo leftServo, rightServo;
+    public ColorRangeSensor signFinder;
     DigitalChannel pin0, pin1;
 
     CuttleServo lightbulb;
@@ -44,6 +52,7 @@ public class v2CuttleIntake {
         pin1 = hardwareMap.get(DigitalChannel.class, "digital1");
         pin0.setMode(DigitalChannel.Mode.INPUT);
         pin1.setMode(DigitalChannel.Mode.INPUT);
+        signFinder = hardwareMap.get(ColorRangeSensor.class, "color");
     }
 
     public void lightRed(){
@@ -114,8 +123,8 @@ public class v2CuttleIntake {
     }
     //close claw pos 0.957
     public void intakePos(double turntableAngle){
-        leftServo.setPosition(0);
-        rightServo.setPosition(1);
+        leftServo.setPosition(0.025);
+        rightServo.setPosition(1-0.025);
         turntable.setPosition(turntableAngle);
         clawServo.setPosition(clawInit);
     }
@@ -143,8 +152,28 @@ public class v2CuttleIntake {
         return color;
     }
 
-    public void intakeMachineColor(boolean down, double looking, boolean up, double reject, double turn, Color inColor, Color rejectColor){
+    public SignColor getSignColor(){
+        SignColor signColor = null;
 
+        if(signFinder.red() > signFinder.blue() && signFinder.getDistance(DistanceUnit.CM) < 2.5){
+            signColor = REDSIGN;
+        }
+        else if(signFinder.blue() > signFinder.red() && signFinder.getDistance(DistanceUnit.CM) < 2.5){
+            signColor = BLUESIGN;
+        }
+        else if(signFinder.getDistance(DistanceUnit.CM) > 2.5){
+            signColor = NEUTRALSIGN;
+        }
+        /*
+        else{
+            color = null;
+        }
+
+         */
+        return signColor;
+    }
+
+    public void intakeMachineColor(boolean down, double looking, boolean up, double reject, double turn, Color inColor, Color rejectColor){
         switch (intakeState){
             case UP:
                 initPos();
@@ -171,9 +200,10 @@ public class v2CuttleIntake {
 
                 if(down){intakeState = DOWN;}
                 if(up){intakeState = UP;}
-                if (getColor() == YELLOW || getColor() == inColor){intakeState = SECURED;}
-                if (getColor() == rejectColor){intakeState = REJECT;}
-                if(reject > 0.1){intakeState = REJECT;}
+                if (getColor() == inColor || getColor() == YELLOW){
+                    intakeState = SECURED;
+                }
+                if(reject > 0.1 || getColor() == rejectColor){intakeState = REJECT;}
                 break;
             case SECURED:
                 intakePos(turntableInitPos);
@@ -194,8 +224,7 @@ public class v2CuttleIntake {
                 intakePos(turntableInitPos);
                 out();
                 lightPurple();
-                if(getColor() != YELLOW || getColor() != inColor){intakeState = DOWN;}
-                if(getColor() == rejectColor){intakeState = REJECT;}
+                if(getColor() != YELLOW || getColor() != RED || getColor() != BLUE){intakeState = DOWN;}
                 if(up){intakeState = UP;}
                 if(down){intakeState = DOWN;}
         }
@@ -267,6 +296,10 @@ public class v2CuttleIntake {
 
     public enum Color {
         BLUE, RED, YELLOW
+    }
+
+    public enum SignColor {
+        BLUESIGN, REDSIGN, NEUTRALSIGN
     }
 
     public void setIntakeState(IntakeState state){
