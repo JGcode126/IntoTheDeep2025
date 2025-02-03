@@ -77,7 +77,8 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         }
 
         if (transfering == false) {
-            intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
+            //intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
+            intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x);
             if(gamepad1.share){
                 extendoMotor.setPower(-0.5);
                 rightBackSlides.setPower(-0.4);
