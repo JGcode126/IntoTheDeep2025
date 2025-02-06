@@ -27,7 +27,7 @@ public class v2CuttleIntake {
     public CRServo intakeMotor;
     public Servo leftServo, rightServo;
     public ColorRangeSensor signFinder;
-    DigitalChannel pin0, pin1;
+    public DigitalChannel pin0, pin1;
 
     CuttleServo lightbulb;
     public CuttleServo turntable;

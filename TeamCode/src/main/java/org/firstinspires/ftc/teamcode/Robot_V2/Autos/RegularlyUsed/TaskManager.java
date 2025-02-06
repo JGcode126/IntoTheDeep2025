@@ -15,6 +15,8 @@ import com.roboctopi.cuttlefish.utils.Pose;
 public class TaskManager{
     TaskQueue queue;
     PTPController ptpController;
+    PTPController otosController;
+    PTPController fusionController;
     Battery battery;
 
     public TaskManager(TaskQueue queue, PTPController ptpController) {
@@ -22,10 +24,11 @@ public class TaskManager{
         this.ptpController = ptpController;
     }
 
-    public TaskManager(TaskQueue queue, PTPController ptpController, int voltage, double optimalSpeed) {
+    public TaskManager(TaskQueue queue, PTPController ptpController, PTPController ptpOtosController, PTPController ptpFusionController) {
         this.queue = queue;
         this.ptpController = ptpController;
-        this.battery = new Battery(voltage, optimalSpeed);
+        this.otosController = ptpOtosController;
+        this.fusionController = ptpFusionController;
     }
 
     public void forkTask(Task task1, Task task2) {//fork tasks, will this work??
@@ -38,16 +41,20 @@ public class TaskManager{
         queue.addTask(task);
     }
 
-    //Add position task (basic)
+    //basic driving
     public void waypointTask(TaskList task, Pose pose) {task.addTask(new PointTask(new Waypoint(pose) , ptpController));}
 
-    //if want to switch through oto and odo
-    public void waypointTask(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough, PTPController controller) {
-        taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), controller));
-    }
+
     //Gets in other stuff too -- power, rSlop, tSlop, passthrough
+    //if want to switch through oto, odo, and fusion
     public void waypointTask(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
         taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), ptpController));
+    }
+    public void waypointTaskOtos(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
+        taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), otosController));
+    }
+    public void waypointTaskFusion(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {
+        taskList.addTask(new PointTask(new Waypoint(pose, power, rSlop, tSlop, passthrough), fusionController));
     }
 
     public void waypointTaskWithBattery(TaskList taskList, Pose pose, double power, double rSlop, double tSlop, boolean passthrough) {

@@ -86,24 +86,26 @@ public class SpecimenAuto extends AutoSequence {
         teleOp.teleOptransferSequence(scoreOffset, y);
     }
 
-    public void scoring(int x, int y, int r, int x1, int y1, int r1, int x2, int y2, int r2) {
+    public void scoring(int x, int y, int r) {
         TaskList scoring = new TaskList();
         manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.8,0.8,150,true);
 
-        manager.waypointTask(scoring, new Pose(x1, y1, Math.toRadians(r1)),0.8,0.6,150,false);
-
-        manager.delay(scoring, 300);
-
-        manager.task(scoring, () -> {
-            outake.openClaw();
-            outake.wristCenter();
+        manager.task(scoring, ()->{
+            liftPosition = 2.4;
+            outake.backIntakePos();
         });
 
-        manager.waypointTask(scoring, new Pose(x2, y2, Math.toRadians(r2)),0.8,0.8,150,false);
+        manager.delay(scoring, 400);
 
-        manager.task(scoring, () -> {
-            outake.readyPos();
-            liftPosition = 3;
+        manager.task(scoring, ()->{
+            outake.closeClaw();
+        });
+
+        manager.delay(scoring, 1000);
+
+        manager.task(scoring, ()->{
+            liftPosition = 3.7;
+            outake.specimenFrontReadyPos();
         });
 
         queue.addTask(scoring);

@@ -89,6 +89,9 @@ public class Setup extends CuttleInitOpModeRobot2 {
         otosLocalizer.update();//updating otos values
         Pose currentPos = otosLocalizer.getPos();//setting position of otos to current pos
 
+        telemetry.addData("pin0", intake.pin0.getState());
+        telemetry.addData("pin1", intake.pin1.getState());
+
         telemetry.addData("Intake Color", intake.getColor());//print out intake color
 
         //print out oto values

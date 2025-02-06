@@ -206,7 +206,10 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         }
 
          */
+        telemetry.addData("pin0", intake.pin0.getState());
+        telemetry.addData("pin1", intake.pin1.getState());
 
+        telemetry.addData(" ", " ");
         telemetry.addData("alliance", inColor);
         telemetry.addData("intake state", intake.intakeState);
         telemetry.addData("outtake state", outake.outakeState);

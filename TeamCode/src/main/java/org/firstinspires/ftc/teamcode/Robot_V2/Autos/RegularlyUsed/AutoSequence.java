@@ -52,7 +52,17 @@ public class AutoSequence extends Setup {
         super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang);
     }
 
-    public void testTele(){/*teleOp.testingIfWorks();*/}
+    public void testDriveFusion(int x, int y, double r, double speed){
+        TaskList drive = new TaskList();
+
+        manager.waypointTaskFusion(drive, new Pose(x,y, Math.toRadians(r)), speed, 0.5, 150, false);
+    }
+
+    public void testDriveOtos(int x, int y, double r, double speed){
+        TaskList drive = new TaskList();
+
+        manager.waypointTaskOtos(drive, new Pose(x,y, Math.toRadians(r)), speed, 0.5, 150, false);
+    }
 
     public void testScoring(double highChamberPos) {
         TaskList transfer = new TaskList();

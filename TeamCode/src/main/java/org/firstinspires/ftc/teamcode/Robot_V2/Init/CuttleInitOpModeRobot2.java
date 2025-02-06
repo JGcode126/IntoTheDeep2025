@@ -10,6 +10,7 @@ import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
 import com.roboctopi.cuttlefish.utils.PID;
+import com.roboctopi.cuttlefish.utils.Pose;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
@@ -64,13 +65,16 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     // Declare the localizer
     public ThreeEncoderLocalizer encoderLocalizer;
     public ThreeEncoderLocalizer otosLocalizer;
+    public ThreeEncoderLocalizer fusionLocalizer;
 
     public MotorPositionController liftPosController;
     public MotorPositionController extendoPosController;
 
     // Declare the PTPController
     public PTPController ptpController;
-    public PTPController ptpOdoController;
+    public PTPController ptpOtosController;
+    public PTPController ptpFusionController;
+
 
     // Declare the task queue
     public TaskQueue queue;
@@ -101,8 +105,6 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
 
         int batteryVoltage = 14;
         double optimalVoltage = 13.9;
-
-
 
         //otos
         myOtos = hardwareMap.get(SparkFunOTOS.class, "otos");
@@ -190,26 +192,43 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
                 0.9140322
         );
 
+        fusionLocalizer = new ThreeEncoderLocalizer(
+                leftEncoder  , // Left
+                sideEncoder  , // Side
+                rightEncoder , // Right
+                17.5,
+                288.92500,
+                0.9140322
+        );
+
         extendoPosController = new MotorPositionController(0,extendoMotor, extendoEncoder, true);
         extendoPosController.setPid(new PID(1.7, 0, 0.04, 0,1));
         liftPosController = new MotorPositionController(0, rightBackSlides, liftEncoder, true);
 
         // Initialize the PTP Controller
         ptpController = new PTPController(chassis, encoderLocalizer);//for odo
-        ptpOdoController = new PTPController(chassis, otosLocalizer);//for otos something that I want to try to use
-        //for right now for oto
-        //ptpController = new PTPController(chassis, otosLocalizer);//for odo
+        ptpOtosController = new PTPController(chassis, otosLocalizer);//for otos something that I want to try to use
+        ptpFusionController = new PTPController(chassis, fusionLocalizer);
 
-
-
-        /*ptpController.setTranslational_PD_ctrlr(new PID(
+        //Otos tuning PID
+        /*ptpOtosController.setTranslational_PD_ctrlr(new PID(
                 0.015,0,0.002,0,1
         ));//0.00025
-        ptpController.setRotational_PID_ctrlr(new PID(3.2,0.0,0,0,1));
-        ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.25);
-        ptpController.getAntistallParams().setMoveSpeedAntistallThreshold(0.1);
-        ptpController.getAntistallParams().setRotatePowerAntistallThreshold(0.25);
-        ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.1);*/
+        ptpOtosController.setRotational_PID_ctrlr(new PID(3.2,0.0,0,0,1));
+        ptpOtosController.getAntistallParams().setMovePowerAntistallThreshold(0.25);
+        ptpOtosController.getAntistallParams().setMoveSpeedAntistallThreshold(0.1);
+        ptpOtosController.getAntistallParams().setRotatePowerAntistallThreshold(0.25);
+        ptpOtosController.getAntistallParams().setRotateSpeedAntistallThreshold(0.1);*/
+
+        //Fusion tuning PID
+        /*ptpFusionController.setTranslational_PD_ctrlr(new PID(
+                0.015,0,0.002,0,1
+        ));//0.00025
+        ptpFusionController.setRotational_PID_ctrlr(new PID(3.2,0.0,0,0,1));
+        ptpOtosController.getAntistallParams().setMovePowerAntistallThreshold(0.25);
+        ptpOtosController.getAntistallParams().setMoveSpeedAntistallThreshold(0.1);
+        ptpOtosController.getAntistallParams().setRotatePowerAntistallThreshold(0.25);
+        ptpOtosController.getAntistallParams().setRotateSpeedAntistallThreshold(0.1);*/
 
         // Initialize the queue
         queue = new TaskQueue();
@@ -225,16 +244,18 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
 
         auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage), new TeleOp(intake, outake,extendo,lift,dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage)), hang);
+                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController), new TeleOp(intake, outake,extendo,lift,dt,
+                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController)), hang);
 
         specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController, batteryVoltage, optimalVoltage), hang);
+                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController), hang);
 
         bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController,batteryVoltage, optimalVoltage), hang);
+                new TaskManager(queue, ptpController,ptpOtosController, ptpFusionController), hang);
+
+
 
 
         battery = new Battery(batteryVoltage, optimalVoltage);
@@ -253,8 +274,9 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
 
         // Update the localizer
         encoderLocalizer.update();
-
-        //otosLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
+        otosLocalizer.setPos(new Pose(pos.x, pos.y, pos.h)); //Using otos
+        double[] fusionLocation = sensorFusion(50,50);
+        fusionLocalizer.setPos(new Pose(fusionLocation[0], fusionLocation[1], fusionLocation[2]));
 
         lift.setLiftPosition(liftPosition);
         extendo.setSlidePosition(extendoPosition);
