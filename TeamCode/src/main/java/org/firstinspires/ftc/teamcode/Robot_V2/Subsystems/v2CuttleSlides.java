@@ -21,7 +21,7 @@ public class v2CuttleSlides {
     CuttleEncoder liftmotorEncoder;
     MotorPositionController liftPosController;
     //private LiftState currentState = IN;
-    double liftPosition, positionOffset = 0;
+    double liftPosition, positionOffset = 0, positionOffset2 = 0;
 
     private PIDController controller;
     public static double p = 1, i = 0.0, d = 0.04;
@@ -100,7 +100,8 @@ public class v2CuttleSlides {
                 if(buttonLOWSUB){currentState = LOWSUB;}
                 break;
             case BACKINTAKEPOS:
-                liftPosition = 2 + positionOffset;
+                //2
+                liftPosition = 2.4 + positionOffset;
                 if(upOffset){positionOffset += 0.05;}
                 if(downOffset){positionOffset -= 0.05;}
                 if(buttonIN){currentState = IN;}
@@ -110,9 +111,9 @@ public class v2CuttleSlides {
                 if(buttonLOWSUB){currentState = LOWSUB;}
                 break;
             case FRONTSCOREPOS:
-                liftPosition = 3.8 + positionOffset;
-                if(upOffset){positionOffset += 0.2;}
-                if(downOffset){positionOffset -= 0.25;}
+                liftPosition = 3.7 + positionOffset2;
+                if(upOffset){positionOffset2 += 0.2;}
+                if(downOffset){positionOffset2 -= 0.25;}
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonHIGHSUB){currentState = HIGHSUB;}

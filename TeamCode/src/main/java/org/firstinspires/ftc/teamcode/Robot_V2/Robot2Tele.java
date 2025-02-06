@@ -91,6 +91,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             } else {
                 if (!gamepad1.share) {
                     finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
+                    //finalExtendoPos = extendo.scaryJoystickExtendo(-gamepad2.left_stick_y);
                 }
             }
             if (!gamepad1.share) {
@@ -109,7 +110,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
                     specimenDropOffSequence();
                 }
             } else{
-                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left, gamepad1.dpad_down, gamepad1.dpad_up);
+                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left, gamepad1.dpad_down, gamepad1.dpad_up, gamepad1.b);
             }
         }
 

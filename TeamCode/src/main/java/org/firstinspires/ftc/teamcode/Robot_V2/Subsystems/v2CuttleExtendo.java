@@ -19,6 +19,7 @@ public class v2CuttleExtendo {
     MotorPositionController slidePosController;
     private ExtendoState currentState = INE;
     double slidePosition, slidePosOffset;
+    double extendoPower = 0;
 
     private PIDController controller;
     private final double ticks_in_degree = 384.5/360.0;
@@ -88,6 +89,22 @@ public class v2CuttleExtendo {
 
     public void resetSlides(){
         slidePosController.setHome();
+    }
+
+    public double scaryJoystickExtendo(double joysticky){
+        if (getPos() > 0 && getPos() < 5.1) {
+            //extendoMotor.setPower(joysticky);
+            return joysticky * 5.1;
+        }
+        if (getPos() < 0){
+            //extendoMotor.setPower(0.1);
+            return 0.1;
+        }
+        if (getPos() > 5.1){
+            //extendoMotor.setPower(-0.1);
+            return 5.05;
+        }
+        return 0;
     }
 
     public double extendoMachine(boolean buttonIN, boolean buttonMIDDLE, boolean buttonFULLEXTEND, boolean smallExtend, boolean smallRetract){

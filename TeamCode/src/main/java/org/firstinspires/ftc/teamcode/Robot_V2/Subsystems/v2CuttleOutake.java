@@ -80,8 +80,8 @@ public class v2CuttleOutake {
 
     public void transferPos(){
         wristCenter();
-        driveRight.setPosition(0.95);
-        driveLeft.setPosition(1-0.95);
+        driveRight.setPosition(0.97);
+        driveLeft.setPosition(1-0.97);
         openClaw();
     }
 
@@ -93,8 +93,9 @@ public class v2CuttleOutake {
     }
     public void backIntakePos(){
         openClaw();
-        driveRight.setPosition(0.15);
-        driveLeft.setPosition(1-0.15);
+        //0.15
+        driveRight.setPosition(0.1);
+        driveLeft.setPosition(1-0.1);
         wristCenter();
     }
 
@@ -157,7 +158,7 @@ public class v2CuttleOutake {
 
 
 
-    public void outakeMachine(boolean ready, boolean place, boolean grip, boolean holding, boolean bucket_bar, boolean barLeft, boolean barRight, boolean back, boolean backTransfer){
+    public void outakeMachine(boolean ready, boolean place, boolean grip, boolean holding, boolean bucket_bar, boolean barLeft, boolean barRight, boolean back, boolean backTransfer, boolean altReady){
         //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
         switch (outakeState){
             case READY:
@@ -249,7 +250,7 @@ public class v2CuttleOutake {
                 break;
             case FRONTSCORE:
                 specimenFrontReadyPos();
-                if(ready){
+                if(altReady){
                     readyCounter += 1;
                     openClaw();
                 }
