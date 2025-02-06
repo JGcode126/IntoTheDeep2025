@@ -100,7 +100,9 @@ public class v2CuttleSlides {
                 if(buttonLOWSUB){currentState = LOWSUB;}
                 break;
             case BACKINTAKEPOS:
-                liftPosition = 2;
+                liftPosition = 2 + positionOffset;
+                if(upOffset){positionOffset += 0.05;}
+                if(downOffset){positionOffset -= 0.05;}
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
@@ -108,7 +110,7 @@ public class v2CuttleSlides {
                 if(buttonLOWSUB){currentState = LOWSUB;}
                 break;
             case FRONTSCOREPOS:
-                liftPosition = 4.1;
+                liftPosition = 3.8 + positionOffset;
                 if(upOffset){positionOffset += 0.2;}
                 if(downOffset){positionOffset -= 0.25;}
                 if(buttonIN){currentState = IN;}

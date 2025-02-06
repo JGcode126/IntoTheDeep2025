@@ -99,7 +99,7 @@ public class v2CuttleOutake {
     }
 
     public void specimenFrontReadyPos(){
-        closeClaw();
+        closeClawBakSpec();
         driveRight.setPosition(0.80);
         driveLeft.setPosition(1-0.8);
         wristCenter();
@@ -108,7 +108,10 @@ public class v2CuttleOutake {
 
 
     public void closeClaw(){
-        claw.setPosition(0.4);
+        claw.setPosition(0.38);
+    }
+    public void closeClawBakSpec(){
+        claw.setPosition(0.32);
     }
 
     public void openClaw(){
@@ -233,11 +236,15 @@ public class v2CuttleOutake {
                 backIntakePos();
                 if(backTransfer){
                     readyCounter += 1;
-                    closeClaw();
+                    closeClawBakSpec();
                 }
                 if (readyCounter > 5) {
                     outakeState = FRONTSCORE;
                     readyCounter = 0;
+                }
+                if(ready){
+                    openClaw();
+                    outakeState = READY;
                 }
                 break;
             case FRONTSCORE:

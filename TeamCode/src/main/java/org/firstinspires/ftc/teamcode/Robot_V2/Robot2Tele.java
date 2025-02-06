@@ -94,7 +94,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
                 }
             }
             if (!gamepad1.share) {
-                finalLiftPos = lift.liftMachine(gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options, gamepad2.right_bumper, gamepad1.dpad_up, gamepad1.dpad_down);
+                finalLiftPos = lift.liftMachine(gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options, gamepad2.right_bumper, gamepad1.right_bumper, gamepad1.left_bumper);
             }
             if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
                 if(outake.outakeState == BARLEFT){
@@ -123,7 +123,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         if (!autoPosing) {
             dt.driveDO(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x, gamepad1.right_trigger, gamepad1.left_trigger, -encoderLocalizer.getPos().getR());
         }
-
+        /*
         if (autoPosing && gamepad1.right_stick_x != 0) {
             //dt.driveDO(-gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x, gamepad1.right_trigger, gamepad1.left_trigger, -encoderLocalizer.getPos().getR());
             queue.clear();
@@ -151,6 +151,8 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             autoPos2();
         }
 
+         */
+
 
         if (intake.intakeState == TRANSFERED){
             transfering = true;
@@ -162,12 +164,12 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             lift.setLiftState(IN);
         }
         if(outake.outakeState == BACKINTAKE){
-            finalLiftPos = 2;
+            //finalLiftPos = 2;
             lift.setLiftState(BACKINTAKEPOS);
         }
 
         if (outake.outakeState == FRONTSCORE){
-            finalLiftPos = 4.1;
+            //finalLiftPos = 3.8;
             lift.setLiftState(FRONTSCOREPOS);
         }
 
