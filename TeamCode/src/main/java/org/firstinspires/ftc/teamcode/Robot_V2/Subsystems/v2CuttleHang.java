@@ -10,28 +10,28 @@ public class v2CuttleHang {
     public CuttleServo hangR, hangL;
 
     public v2CuttleHang(CuttleServo servo1, CuttleServo servo2){
-        hangR = servo1;
-        hangL = servo2;
+        hangL = servo1;
+        hangR = servo2;
     }
 
     public void initHang(){
-        hangL.setPosition(0.5);
         hangR.setPosition(0.5);
+        hangL.setPosition(0.5);
     }
 
     public void teleHeight(){
-        hangL.setPosition(0.79);
-        hangR.setPosition(0.2);
+        hangR.setPosition(0.9);
+        hangL.setPosition(0.08);
     }
 
     public void hangHeight(){
-        hangL.setPosition(0.55);
-        hangR.setPosition(0.45);
+        hangR.setPosition(0.15);
+        hangL.setPosition(0.85);
     }
 
     public void parkHeight(){
-        hangL.setPosition(0.65);
-        hangR.setPosition(0.35);
+        hangR.setPosition(0.65);
+        hangL.setPosition(0.35);
     }
 
     public void setHeight(double hL, double hR){

@@ -14,11 +14,13 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
     }
     public void main() {
         super.main();
+        hang.teleHeight();
     }
     public void mainLoop() {
         super.mainLoop();
-        outake.backIntakePos();
-        liftPosition = 1.6;
+        if (gamepad2.share){
+            hang.hangHeight();
+        }
 
 
         telemetry.addData("Color:", intake.getColor());
