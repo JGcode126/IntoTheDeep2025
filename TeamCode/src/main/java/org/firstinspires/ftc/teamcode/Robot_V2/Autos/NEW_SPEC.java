@@ -29,26 +29,29 @@ public class NEW_SPEC extends CuttleInitOpModeRobot2 {
         specimen.scoreOther(-150,950,0, 0.6);
 
         specimen.sweepSetup(500,600,-30);
-        specimen.sampleSweep(5, 500,600,-30,500,600,-110);
+        specimen.sampleSweep(5, 500,600,-30,500,600,-110, 700);
 
-        specimen.sweepSetup(700,600,-30);
-        specimen.sampleSweep(5, 700,600,-30,700,600,-110);
+        specimen.sweepSetup(770,670,-30);
+        specimen.sampleSweep(5, 770,670,-30,770,670,-110, 700);
 
-        specimen.scoreSetup();
-        specimen.scoring(750,400,0, 750,0,0);
-        specimen.score(0,600,0,-50,920,0);
-
-        specimen.scoreSetup();
-        specimen.scoring(750,400,0, 750,0,0);
-        specimen.score(0,600,0,-50,920,0);
+        specimen.sweepSetup(970,870,-30);
+        specimen.sampleSweep(5, 970,870,-30,970,870,-110, 1500);
 
         specimen.scoreSetup();
-        specimen.scoring(750,400,0, 750,0,0);
-        specimen.score(0,600,0,-100,920,0);
+        specimen.intakeOffWall(900,400,0, 900,40,0);
+        specimen.score(0,600,0,-200,1000,0);
 
         specimen.scoreSetup();
-        specimen.scoring(750,400,0, 750,0,0);
-        specimen.score(0,600,0,-50,920,0);
+        specimen.intakeOffWall(900,400,0, 900,40,0);
+        specimen.score(0,600,0,-170,1000,0);
+
+        specimen.scoreSetup();
+        specimen.intakeOffWall(900,400,0, 900,40,0);
+        specimen.score(0,600,0,-140,1000,0);
+
+        specimen.scoreSetup();
+        specimen.intakeOffWall(900,400,0, 900,40,0);
+        specimen.score(0,600,0,-100,1000,0);
     }
 
     public void mainLoop() {

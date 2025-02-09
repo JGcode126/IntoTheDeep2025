@@ -210,6 +210,13 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
 
         // Initialize the PTP Controller
         ptpController = new PTPController(chassis, encoderLocalizer);//for odo
+        ptpController.setRotational_PID_ctrlr(new PID(1.2,0.0,0.1,0,1));
+        ptpController.setTranslational_PD_ctrlr(new PID(0.008,0.0,0.0003,0,1));
+        ptpController.getAntistallParams().setMovePowerAntistallThreshold(0.3);
+        ptpController.getAntistallParams().setMoveSpeedAntistallThreshold(0.2);
+        ptpController.getAntistallParams().setRotatePowerAntistallThreshold(0.25);
+        ptpController.getAntistallParams().setRotateSpeedAntistallThreshold(0.1);
+
         ptpOtosController = new PTPController(chassis, otosLocalizer);//for otos something that I want to try to use
         ptpFusionController = new PTPController(chassis, fusionLocalizer);
 

@@ -112,7 +112,7 @@ public class v2CuttleOutake {
         claw.setPosition(0.38);
     }
     public void closeClawBakSpec(){
-        claw.setPosition(0.32);
+        claw.setPosition(0.35);
     }
 
     public void openClaw(){
