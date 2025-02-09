@@ -89,7 +89,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         if (transfering == false) {
             //intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
             intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x);
-            if(gamepad1.share){
+            if(gamepad1.b){
                 extendoMotor.setPower(-0.5);
                 rightBackSlides.setPower(-0.4);
                 leftbackSlides.setPower(0.4);
@@ -99,12 +99,12 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
                 finalLiftPos = 0;
 
             } else {
-                if (!gamepad1.share) {
+                if (!gamepad1.b) {
                     finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
                     //finalExtendoPos = extendo.scaryJoystickExtendo(-gamepad2.left_stick_y);
                 }
             }
-            if (!gamepad1.share) {
+            if (!gamepad1.b) {
                 finalLiftPos = lift.liftMachine(gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options, gamepad2.right_bumper, gamepad1.right_bumper, gamepad1.left_bumper);
             }
             if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
@@ -120,12 +120,12 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
                     specimenDropOffSequence();
                 }
             } else{
-                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left, gamepad1.dpad_down, gamepad1.dpad_up, gamepad1.b);
+                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left, gamepad1.dpad_down, gamepad1.dpad_up, gamepad1.share);
             }
         }
 
 
-        if (!gamepad1.share) {
+        if (!gamepad1.b) {
             liftPosition = finalLiftPos;
             extendoPosition = finalExtendoPos;
         }
@@ -198,7 +198,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             encoderLocalizer.getPos().setR(0);
         }
 
-        if(gamepad1.share){
+        if(gamepad1.b){
             if (inColor == BLUE){
                 inColor = RED;
                 rejectColor = BLUE;

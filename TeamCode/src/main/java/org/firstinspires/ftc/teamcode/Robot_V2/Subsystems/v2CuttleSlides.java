@@ -101,7 +101,7 @@ public class v2CuttleSlides {
                 break;
             case BACKINTAKEPOS:
                 //2
-                liftPosition = 2.4 + positionOffset;
+                liftPosition = 2.6 + positionOffset;
                 if(upOffset){positionOffset += 0.05;}
                 if(downOffset){positionOffset -= 0.05;}
                 if(buttonIN){currentState = IN;}
