@@ -59,7 +59,7 @@ public class v2CuttleDT {
             releaseAngle = Math.toDegrees(rotation);
         } else{
             targetAngle = releaseAngle;
-            inputTurn = PID(targetAngle-Math.toDegrees(rotation), 0.0001,0,0.00);
+            inputTurn = PID(targetAngle-Math.toDegrees(rotation), 0.000,0,0.00);
         }
 
         if (fast > 0.02) {

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Robot_V2.Init;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.roboctopi.cuttlefish.controller.MecanumController;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
@@ -26,6 +27,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.Setup;
 import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.SpecimenAuto;
 import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.TaskManager;
 import org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed.TeleOp;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.TimeBasedCuttleHang;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleDT;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleHang;
@@ -48,6 +50,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public v2CuttleSlides lift;
     public v2CuttleOutake outake;
     public v2CuttleHang hang;
+    public TimeBasedCuttleHang timeHang;
 
     // Declare the chassis motors
     public CuttleMotor leftFrontMotor;
@@ -180,7 +183,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
                 rightEncoder , // Right
                 17.5,
                 288.92500,
-                1
+                0.909272
         );
 
         otosLocalizer = new ThreeEncoderLocalizer(
@@ -238,6 +241,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         lift = new v2CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new v2CuttleOutake(outtakeClawServo, hardwareMap);
         hang = new v2CuttleHang(hangL,hangR);
+        timeHang = new TimeBasedCuttleHang(hardwareMap);
 
         setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt, hang);

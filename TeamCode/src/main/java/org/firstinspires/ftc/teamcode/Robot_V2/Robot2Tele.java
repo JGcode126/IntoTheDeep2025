@@ -21,7 +21,9 @@ import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.DelayTask;
@@ -41,14 +43,18 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
     double counter = 0;
     public boolean transfering = false;
     public boolean autoPosing = false;
+    public boolean hanging= false;
     double savex1,savey1, saver1;
     double savex2,savey2, saver2;
     v2CuttleIntake.Color rejectColor = null;
     v2CuttleIntake.Color inColor = null;
+    ElapsedTime hangTimer;
+
     public void onInit() {
         super.onInit();
         //intake.initPos();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        hangTimer = new ElapsedTime();
     }
     public void main() {
         super.main();
@@ -58,7 +64,6 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         //encoderLocalizer.getPos().setR(Math.PI/2);
         encoderLocalizer.reset();
         outake.readyPos();
-        hang.teleHeight();
         if (intake.getSignColor() == BLUESIGN){
             rejectColor = BLUE;
             inColor = RED;
@@ -67,9 +72,14 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             rejectColor = RED;
             inColor = BLUE;
         }
+        hangTimer.reset();
     }
     public void mainLoop() {
         super.mainLoop();
+
+        if (hangTimer.seconds() < 4){
+            //timeHang.hangUp(hangTimer.seconds());
+        }
 
         if (intake.intakeState == TRANSFERED && transfering == true){
             teleOptransferSequence();
@@ -175,8 +185,13 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         }
 
         if (gamepad2.share){
-            hang.hangHeight();
+            hangTimer.reset();
+            hanging = true;
             outake.setScoreState(BUCKET_BAR);
+        }
+
+        if (hanging = true){
+            //timeHang.hangDown(hangTimer.seconds());
         }
 
         if (gamepad1.options){
