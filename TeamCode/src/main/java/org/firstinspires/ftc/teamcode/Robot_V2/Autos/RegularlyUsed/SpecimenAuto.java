@@ -96,9 +96,7 @@ public class SpecimenAuto extends AutoSequence {
 
         manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.8,0.8,150,false);
 
-        manager.delay(scoring, 500);
-
-        manager.waypointTask(scoring, new Pose(x2, y2, Math.toRadians(r2)),0.8,0.8,150,false);
+        manager.waypointTask(scoring, new Pose(x2, y2, Math.toRadians(r2)),0.4,0.2,150,false);
 
         manager.delay(scoring, 500);
 
@@ -108,27 +106,64 @@ public class SpecimenAuto extends AutoSequence {
             liftPosition = 3;
         });
 
-
         queue.addTask(scoring);
     }
 
-    public void score(int x, int y, int r) {
+    public void score(int x, int y, int r, int x2, int y2, int r2) {
         TaskList posScoring = new TaskList();
         TaskList scoringScoring = new TaskList();
 
         manager.task(scoringScoring, () -> {
-            liftPosition = 3.7;
+            liftPosition = 3.8;
         });
 
         manager.waypointTask(posScoring, new Pose(x, y, Math.toRadians(r)), 0.8, 0.8, 150, false);
+
+        manager.waypointTask(posScoring, new Pose(x2, y2, Math.toRadians(r2)), 0.8, 0.8, 150, false);
 
         manager.task(scoringScoring, () -> {
             outake.specimenFrontReadyPos();
         });
 
-        manager.delay(posScoring, 1000000);
+        manager.forkTask(posScoring,scoringScoring);
+
+        TaskList release = new TaskList();
+
+        manager.delay(release, 500);
+
+        manager.task(release, () -> {
+            outake.openClaw();
+            liftPosition = 0;
+        });
+
+        manager.addTask(release);
+    }
+
+    public void scoreOther(int x, int y, int r, double speed) {
+        TaskList posScoring = new TaskList();
+        TaskList scoringScoring = new TaskList();
+
+        manager.task(scoringScoring, () -> {
+            outake.specimenFrontReadyPos();
+            liftPosition = 3.8;
+        });
+
+        manager.waypointTask(posScoring, new Pose(x, y-200, Math.toRadians(r)), speed, 0.8, 150, false);
+        manager.waypointTask(posScoring, new Pose(x, y, Math.toRadians(r)), speed, 0.6, 150, false);
+
 
         manager.forkTask(posScoring,scoringScoring);
+
+        TaskList release = new TaskList();
+
+        manager.delay(release, 500);
+
+        manager.task(release, () -> {
+            outake.openClaw();
+            liftPosition = 3;
+        });
+
+        manager.addTask(release);
     }
 
     public void specimenGrab(double extOffset, int offsetr, int offsety, int offsetx) {
@@ -226,6 +261,42 @@ public class SpecimenAuto extends AutoSequence {
         queue.addTask(sample);
     }
 
+    public void sampleSweep(double extPos, int x1, int y1, int r1, int x2, int y2, int r2) {
+        TaskList sample = new TaskList();
+
+        manager.task(sample, () -> {
+            extendoPosition = extPos;
+            intake.intakeDown();
+            intake.turntableMiddle();
+            intake.in();
+        });
+
+        manager.waypointTask(sample, new Pose(x1, y1, Math.toRadians(r1)), 0.35, 0.1, 10, false);
+
+        //manager.waypointTask(sample, new Pose(x2, y2, Math.toRadians(r2)), 0.2, 0.1, 100, false);
+
+        manager.task(sample, () -> {
+            dt.drive(0,0,0.3);
+        });
+
+        manager.delay(sample, 1000);
+
+        queue.addTask(sample);
+    }
+
+    public void sweepSetup(int x1, int y1, int r1) {
+        TaskList sweepSetup = new TaskList();
+
+        manager.waypointTask(sweepSetup, new Pose(x1, y1, Math.toRadians(r1)), 0.8, 0.1, 10, false);
+
+        manager.task(sweepSetup, () -> {
+            liftPosition = 0;
+            extendoPosition = 0;
+        });
+
+        queue.addTask(sweepSetup);
+    }
+
     public void ttSample(int x1, int y1, int r1, int x2, int y2, int r2, double turn) {
         TaskList sample = new TaskList();
 
@@ -285,7 +356,9 @@ public class SpecimenAuto extends AutoSequence {
         TaskList setup = new TaskList();
 
         manager.task(setup, ()->{
-            liftPosition = 2.4;
+            extendoPosition = 0;
+            intake.armUp();
+            liftPosition = 2.7;
             outake.backIntakePos();
             outake.openClaw();
         });

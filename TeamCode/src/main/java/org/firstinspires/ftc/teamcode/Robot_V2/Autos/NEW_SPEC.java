@@ -26,16 +26,29 @@ public class NEW_SPEC extends CuttleInitOpModeRobot2 {
         super.main();
         loopCounter = 0;
 
-        auto.startSpecimen(80, -860, 2, 0.7, 0.6, -650, -800, 80,1.0);
+        specimen.scoreOther(-150,950,0, 0.6);
 
-        /*specimen.ttSampleOther(1.0,4,-705,-860 ,90,-760,-690 ,60, -0.3);//first sample
-        specimen.ttSampleOther(5,5,-760,-690,90,-780,-700,50, -0.3);//second sample*/
-        //specimen.ttSample(3,6, -1100,-780,135,-1000,-600,50,2.0);//third sample
+        specimen.sweepSetup(500,600,-30);
+        specimen.sampleSweep(5, 500,600,-30,500,600,-110);
+
+        specimen.sweepSetup(700,600,-30);
+        specimen.sampleSweep(5, 700,600,-30,700,600,-110);
 
         specimen.scoreSetup();
-        specimen.scoring(-900,-400,200, -900,-100,200);
-        specimen.score(0,-800,200);
+        specimen.scoring(750,400,0, 750,0,0);
+        specimen.score(0,600,0,-50,920,0);
 
+        specimen.scoreSetup();
+        specimen.scoring(750,400,0, 750,0,0);
+        specimen.score(0,600,0,-50,920,0);
+
+        specimen.scoreSetup();
+        specimen.scoring(750,400,0, 750,0,0);
+        specimen.score(0,600,0,-100,920,0);
+
+        specimen.scoreSetup();
+        specimen.scoring(750,400,0, 750,0,0);
+        specimen.score(0,600,0,-50,920,0);
     }
 
     public void mainLoop() {

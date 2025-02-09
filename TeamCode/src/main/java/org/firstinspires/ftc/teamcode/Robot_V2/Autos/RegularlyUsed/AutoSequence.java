@@ -76,8 +76,7 @@ public class AutoSequence extends Setup {
         manager.addTask(transfer);
     }
 
-    public void
-    startSpecimen(int x, int distance, double height, double speed1, double speed2, int x2,int y2,int r2, double extPos){
+    public void startSpecimen(int x, int distance, double height, double speed1, double speed2, int x2,int y2,int r2, double extPos){
         TaskList scoreSpec = new TaskList();
 
         manager.task(scoreSpec, () ->{
@@ -115,4 +114,6 @@ public class AutoSequence extends Setup {
 
         queue.addTask(scoreSpec);
     }
+
+
 }
