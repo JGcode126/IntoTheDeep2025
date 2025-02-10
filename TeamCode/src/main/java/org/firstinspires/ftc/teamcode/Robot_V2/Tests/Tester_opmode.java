@@ -20,12 +20,13 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
     public void main() {
         super.main();
         timer.reset();
-        queue.addTask(new PointTask(new Waypoint(new Pose(0, 1000, 0)), ptpController));
+        //queue.addTask(new PointTask(new Waypoint(new Pose(0, 1000, 0)), ptpController));
 
     }
     public void mainLoop() {
         super.mainLoop();
 
+        timeHang.hangDown(4);
 
 
         telemetry.addData("Color:", intake.getColor());
