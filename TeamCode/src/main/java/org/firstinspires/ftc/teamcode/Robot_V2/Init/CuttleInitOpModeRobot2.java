@@ -278,6 +278,9 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public void mainLoop() {
         super.mainLoop();
 
+        telemetry.addData("voltage:", ctrlHub.getBatteryVoltage());
+
+
         pos = myOtos.getPosition();
         // Pull bulk data from both hubs
         ctrlHub.pullBulkData();
