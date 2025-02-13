@@ -14,8 +14,8 @@ public class TimeBasedCuttleHang {
 
     public void hangUp(double time){
         if (time < 3.8) {
-            Lhang.setPower(1);
-            Rhang.setPower(-1);
+            Lhang.setPower(-1);
+            Rhang.setPower(1);
         } else {
             Lhang.setPower(0);
             Rhang.setPower(0);
@@ -24,8 +24,8 @@ public class TimeBasedCuttleHang {
 
     public void hangUpAuto(double time){
         if (time < 1) {
-            Lhang.setPower(1);
-            Rhang.setPower(-1);
+            Lhang.setPower(-1);
+            Rhang.setPower(1);
         } else {
             Lhang.setPower(0);
             Rhang.setPower(0);
@@ -34,8 +34,8 @@ public class TimeBasedCuttleHang {
 
     public void hangDown(double time){
         if (time < 6) {
-            Lhang.setPower(-1);
-            Rhang.setPower(1);
+            Lhang.setPower(1);
+            Rhang.setPower(-1);
         } else {
             Lhang.setPower(0);
             Rhang.setPower(0);
