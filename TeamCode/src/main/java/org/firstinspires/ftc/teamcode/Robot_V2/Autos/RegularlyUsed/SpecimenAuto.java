@@ -59,7 +59,7 @@ public class SpecimenAuto extends AutoSequence {
         });
 
         //tSlop used to be 10, rSlop used to be 0.1
-        manager.waypointTask(park, new Pose(1100, 0, Math.toRadians(90)),speed,0.2,50,false);
+        manager.waypointTask(park, new Pose(1100, 100, Math.toRadians(90)),speed,0.2,200,false);
 
         queue.addTask(park);
     }
@@ -94,8 +94,8 @@ public class SpecimenAuto extends AutoSequence {
             intake.armUp();
         });
 
-        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.8,0.8,50,false);
-        manager.delay(scoring, 250);
+        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.8,0.8,200,false);
+        //manager.delay(scoring, 250);
 
         manager.waypointTask(scoring, new Pose(x2, y2, Math.toRadians(r2)),0.4,0.3,30,false);
 
@@ -130,14 +130,23 @@ public class SpecimenAuto extends AutoSequence {
 
         TaskList release = new TaskList();
 
-        manager.delay(release, 3);
+        //manager.delay(release, 3);
 
         manager.task(release, () -> {
             outake.openClaw();
-            liftPosition = 0;
         });
 
-        //manager.waypointTask(posScoring, new Pose(x2, y+200, Math.toRadians(r)), 0.8, 0.8, 15, false);
+        manager.delay(release, 250);
+
+        manager.task(release, () -> {
+            liftPosition = 2.8;
+        });
+
+        //manager.waypointTask(posScoring, new Pose(x, y+200, Math.toRadians(r2)), 0.5, 0.8, 15, false);
+
+        //manager.task(release, () -> {liftPosition = 0;});
+
+        //manager.waypointTask(posScoring, new Pose(x, y, Math.toRadians(r)), 0.8, 0.8, 15, false);
 
         manager.addTask(release);
     }
@@ -166,9 +175,9 @@ public class SpecimenAuto extends AutoSequence {
             liftPosition = 3;
         });
 
-        manager.delay(release, 200);
+        //manager.delay(release, 300);
 
-        manager.waypointTask(posScoring, new Pose(x, y-200, Math.toRadians(r)), 0.8, 0.6, 150, false);
+        manager.waypointTask(release, new Pose(x+50, y-300, Math.toRadians(r)), 0.8, 0.6, 150, false);
 
         manager.addTask(release);
     }
