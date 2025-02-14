@@ -38,19 +38,19 @@ public class NEW_SPEC extends CuttleInitOpModeRobot2 {
         specimen.sampleSweep(4.8, 970,870,-60,970,870,-110, 700);
 
         specimen.scoreSetup();
-        specimen.intakeOffWall(900,200,0, 920,50,0);
+        specimen.intakeOffWall(900,300,0, 920,50,0);
         specimen.score(-30,600,0,-50,950,0);
 
         specimen.scoreSetup();
-        specimen.intakeOffWall(900,200,0, 920,50,0);
+        specimen.intakeOffWall(900,300,0, 920,50,0);
         specimen.score(-90,600,0,-110,950,0);
 
         specimen.scoreSetup();
-        specimen.intakeOffWall(900,200,0, 920,50,0);
+        specimen.intakeOffWall(900,300,0, 920,50,0);
         specimen.score(-140,600,0,-160,950,0);
 
         specimen.scoreSetup();
-        specimen.intakeOffWall(900,200,0, 900,50,0);
+        specimen.intakeOffWall(900,300,0, 900,50,0);
         specimen.score(-230,600,0,-250,950,0);
 
         specimen.specimenPark(1);
