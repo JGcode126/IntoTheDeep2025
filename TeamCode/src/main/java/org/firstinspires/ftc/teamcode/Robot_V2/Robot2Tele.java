@@ -41,6 +41,8 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
     double finalExtendoPos = 0;
     double finalLiftPos = 0;
     double counter = 0;
+    private double lastJoystickInput = 0;
+    private final double joystickFilter = 0.2; // Low-pass filter coefficient
     public boolean transfering = false;
     public boolean autoPosing = false;
     public boolean hanging= false;
@@ -88,7 +90,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
 
         if (transfering == false) {
             //intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
-            intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x);
+            intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.left_stick_x);
             if(gamepad1.b){
                 extendoMotor.setPower(-0.5);
                 rightBackSlides.setPower(-0.4);
@@ -100,8 +102,12 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
 
             } else {
                 if (!gamepad1.b) {
-                    finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
-                    //finalExtendoPos = extendo.scaryJoystickExtendo(-gamepad2.left_stick_y);
+                    //finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
+                    double rawJoystickInput = -gamepad2.right_stick_y; // Joystick control
+                    lastJoystickInput = (joystickFilter * rawJoystickInput) + ((1 - joystickFilter) * lastJoystickInput);
+                    finalExtendoPos += lastJoystickInput * 1.5;  // Smoother adjustments
+
+                    finalExtendoPos = Math.max(0, Math.min(finalExtendoPos, 5.2));  // Limit range
                 }
             }
             if (!gamepad1.b) {
