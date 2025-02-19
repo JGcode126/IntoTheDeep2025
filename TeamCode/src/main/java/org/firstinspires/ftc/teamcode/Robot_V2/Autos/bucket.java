@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
-@Autonomous(name = "BUCKET", group = "Example")
+@Autonomous(name = "bucket", group = "Example")
 @Config
 public class bucket extends CuttleInitOpModeRobot2 {
     public void onInit() {
@@ -26,13 +26,13 @@ public class bucket extends CuttleInitOpModeRobot2 {
     public void main(){
         super.main();
 
-        bucket.scoreFirstSample(-300, -500,50, -400, -500);
+        bucket.scoreFirstSample(-300, -500,50, -420, -500);
 
-        bucket.scoringBuckets(-400, -500, 70, -320, -500, 50, 90);
-        bucket.scoringBuckets(-400, -500, 90, -320, -500, 50, 115);
-        bucket.scoringBuckets(-400, -500, 115, -320, -500, 50, 90);
+        bucket.scoringBuckets(-420, -500, 70, -320, -500, 50, 90);
+        bucket.scoringBuckets(-420, -500, 90, -320, -500, 50, 110);
+        bucket.scoringBuckets(-420, -500, 110, -320, -500, 50, 0);
 
-        bucket.park(-1500, 500, 0);
+        bucket.park(-1300, 0, 0);
     }
 
     public void mainLoop() {

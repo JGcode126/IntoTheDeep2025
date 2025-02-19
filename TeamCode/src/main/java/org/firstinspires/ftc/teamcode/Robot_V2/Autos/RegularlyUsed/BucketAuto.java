@@ -46,7 +46,7 @@ public class BucketAuto extends AutoSequence {
 
         manager.waypointTask(park, new Pose(x, y, Math.toRadians(r)),0.9,0.5,100,false);
 
-        manager.task(park, () -> {dt.drive(0.2,0,0);});
+        manager.task(park, () -> {dt.drive(0.5,0,0);});
 
         queue.addTask(park);
     }
@@ -63,7 +63,7 @@ public class BucketAuto extends AutoSequence {
         manager.waypointTask(scoringSample, new Pose(x+20, y, Math.toRadians(r1)),0.6,0.1,10,false);
 
         //changed from 300
-        manager.delay(scoringSample, 200);
+        //manager.delay(scoringSample, 200);
 
         manager.task(scoringSample, () -> {
             outake.scorePosMid();
@@ -76,7 +76,7 @@ public class BucketAuto extends AutoSequence {
             outake.openClaw();
         });
 
-        manager.delay(scoringSample, 200);
+        //manager.delay(scoringSample, 200);
 
         manager.waypointTask(scoringSample, new Pose(x-20, y, Math.toRadians(r1)),0.6,0.1,10,false);
 
@@ -104,7 +104,8 @@ public class BucketAuto extends AutoSequence {
 
         manager.waypointTask(sample, new Pose(x, y, Math.toRadians(deg)),0.9,0.1,10,false);
 
-        manager.delay(sample, 400);
+        //changed from 400
+        manager.delay(sample, 200);
 
         sample.addTask(new CustomTask(() -> {
             boolean quit = false;
