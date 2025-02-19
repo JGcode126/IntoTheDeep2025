@@ -52,8 +52,8 @@ public class v2CuttleOutake {
     }
 
     public void parkPos(){
-        driveRight.setPosition(0.35);
-        driveLeft.setPosition(1-0.35);
+        driveRight.setPosition(0.5);
+        driveLeft.setPosition(1-0.5);
         wristCenter();
     }
 

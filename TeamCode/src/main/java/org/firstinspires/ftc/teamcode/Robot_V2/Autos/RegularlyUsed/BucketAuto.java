@@ -46,7 +46,10 @@ public class BucketAuto extends AutoSequence {
 
         manager.waypointTask(park, new Pose(x, y, Math.toRadians(r)),0.9,0.5,100,false);
 
-        manager.task(park, () -> {dt.drive(0.5,0,0);});
+        manager.task(park, () -> {
+            dt.drive(-0.5,0,0);
+            outake.parkPos();
+        });
 
         queue.addTask(park);
     }
@@ -100,12 +103,13 @@ public class BucketAuto extends AutoSequence {
             intake.in();
             extendoPosition = 0;
             liftPosition = 0;
+            //intake.turntableCustom(0.7);
         });
 
         manager.waypointTask(sample, new Pose(x, y, Math.toRadians(deg)),0.9,0.1,10,false);
 
         //changed from 400
-        manager.delay(sample, 200);
+        //manager.delay(sample, 200);
 
         sample.addTask(new CustomTask(() -> {
             boolean quit = false;
