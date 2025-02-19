@@ -26,7 +26,7 @@ public class NEW_SPEC extends CuttleInitOpModeRobot2 {
         super.main();
         loopCounter = 0;
 
-        specimen.scoreOther(-150,950,0, 0.6);
+        specimen.scoreOther(-150,1000,0, 0.6);
 
         specimen.sweepSetup(500,600,-30);
         specimen.sampleSweep(4.9, 500,600,-30,500,600,-110, 600);
