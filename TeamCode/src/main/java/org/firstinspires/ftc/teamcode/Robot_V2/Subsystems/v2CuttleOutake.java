@@ -163,7 +163,7 @@ public class v2CuttleOutake {
         switch (outakeState){
             case READY:
                 readyPos();
-                openClaw();
+                //openClaw();
                 if(place){outakeState = PLACED;}
                 if (back) {outakeState = BACKINTAKE;}
                 break;
