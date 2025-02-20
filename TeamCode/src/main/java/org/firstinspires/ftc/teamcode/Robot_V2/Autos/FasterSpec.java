@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
-@Autonomous(name = "5+0_Specimen", group = "Example")
+@Autonomous(name = "5+1_Specimen", group = "Example")
 @Config
-public class NEW_SPEC extends CuttleInitOpModeRobot2 {
+public class FasterSpec extends CuttleInitOpModeRobot2 {
     public int loopCounter = 0;
 
     public void onInit(){
@@ -26,34 +26,39 @@ public class NEW_SPEC extends CuttleInitOpModeRobot2 {
         super.main();
         loopCounter = 0;
 
-        specimen.scoreOther(-150,1000,0, 0.6,0.4);
+        specimen.scoreOther(-150,1000,0, 0.8,0.6);
 
         specimen.sweepSetup(500,600,-30);
-        specimen.sampleSweep(4.9, 500,600,-30,600,0.3);
+        specimen.sampleSweep(4.9, 500,600,-30, 300,0.6);
 
         specimen.sweepSetup(770,670,-40);
-        specimen.sampleSweep(5.2, 770,670,-40,600,0.3);
+        specimen.sampleSweep(5.2, 770,670,-40,300,0.6);
 
         specimen.sweepSetup(970,870,-60);
-        specimen.sampleSweep(4.8, 970,870,-60,700,0.3);
+        specimen.sampleSweep(4.8, 970,870,-60,200,0.6);
 
         specimen.scoreSetup();
-        specimen.intakeOffWall(900,400,0, 920,50,0,0.1);
-        specimen.score(-30,600,0,-70,950,0,0.8,0.5);
+        specimen.intakeOffWall(900,400,0, 920,50,0,0.4);
+        specimen.score(-30,600,0,-70,950,0,1,0.8);
 
         specimen.scoreSetup();
-        specimen.intakeOffWall(900,400,0, 920,50,0,0.1);
-        specimen.score(-90,600,0,-130,950,0,0.8,0.5);
+        specimen.intakeOffWall(900,400,0, 920,50,0,0.4);
+        specimen.score(-90,600,0,-130,950,0,1,0.8);
 
         specimen.scoreSetup();
-        specimen.intakeOffWall(900,400,0, 920,50,0,0.1);
-        specimen.score(-140,600,0,-180,950,0,0.8,0.5);
+        specimen.intakeOffWall(900,400,0, 920,50,0,0.4);
+        specimen.score(-140,600,0,-180,950,0,1,0.8);
 
         specimen.scoreSetup();
-        specimen.intakeOffWall(900,400,0, 900,50,0,0.1);
-        specimen.score(-230,600,0,-270,950,0,0.8,0.5);
+        specimen.intakeOffWall(900,400,0, 900,50,0,0.4);
+        specimen.score(-230,600,0,-270,950,0,1,0.8);
 
-        specimen.specimenPark(1);
+        specimen.scoreSetup();
+        specimen.intakeOffWall(900,400,0, 900,50,0,0.4);
+        specimen.scoreBucket(-1000,600,0,-270,950,0,1,0.8);
+
+
+        //specimen.specimenPark(1);
         //specimen.extendoPark();
     }
 
