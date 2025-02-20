@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
-@Autonomous
+@Autonomous(name = "5+0_Specimen", group = "Example")
 @Config
 public class NEW_SPEC extends CuttleInitOpModeRobot2 {
     public int loopCounter = 0;
