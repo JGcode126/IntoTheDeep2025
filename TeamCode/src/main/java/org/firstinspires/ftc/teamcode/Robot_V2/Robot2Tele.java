@@ -75,14 +75,11 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             rejectColor = RED;
             inColor = BLUE;
         }
-        hangTimer.reset();
+        //hangTimer.reset();
+        hang.teleHeight();
     }
     public void mainLoop() {
         super.mainLoop();
-
-        if (hangTimer.seconds() < 4){
-            //timeHang.hangUp(hangTimer.seconds());
-        }
 
         if (intake.intakeState == TRANSFERED && transfering == true){
             teleOptransferSequence();
@@ -193,9 +190,9 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         }
 
         if (gamepad2.share){
-            hangTimer.reset();
+            hang.hangHeight();
             hanging = true;
-            outake.setScoreState(BUCKET_BAR);
+            finalExtendoPos = 2.1;
         }
 
         if (hanging = true){

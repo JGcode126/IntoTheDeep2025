@@ -20,8 +20,8 @@ public class v2CuttleHang {
     }
 
     public void teleHeight(){
-        hangR.setPosition(0.9);
-        hangL.setPosition(0.08);
+        hangR.setPosition(0.96);
+        hangL.setPosition(0.04);
     }
 
     public void hangHeight(){

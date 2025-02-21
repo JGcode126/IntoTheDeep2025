@@ -152,8 +152,8 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         extendoMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //hang
-        CuttleServo hangL = ctrlHub.getServo(5);
-        CuttleServo hangR = expHub.getServo(4);
+        CuttleServo hangL = expHub.getServo(1);
+        CuttleServo hangR = expHub.getServo(5);
 
         //outtake - all others at servoHub - configure with hardware map
         CuttleServo outtakeClawServo = ctrlHub.getServo(0);
