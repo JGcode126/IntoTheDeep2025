@@ -75,7 +75,7 @@ public class v2CuttleSlides {
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case HIGH_BUCKET:
-                liftPosition = 14; //good
+                liftPosition = 10; //good
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonLOWSUB){currentState = LOWSUB;}

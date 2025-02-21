@@ -21,12 +21,12 @@ public class v2CuttleHang {
 
     public void teleHeight(){
         hangR.setPosition(0.96);
-        hangL.setPosition(0.04);
+        hangL.setPosition(0.025);
     }
 
     public void hangHeight(){
         hangR.setPosition(0.15);
-        hangL.setPosition(0.85);
+        hangL.setPosition(0.88);
     }
 
     public void parkHeight(){
