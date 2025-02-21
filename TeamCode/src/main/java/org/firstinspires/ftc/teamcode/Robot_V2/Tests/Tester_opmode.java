@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 @Config
 public class Tester_opmode extends CuttleInitOpModeRobot2 {
     ElapsedTime timer;
+    public static double pos = 0;
     public void onInit() {
         super.onInit();
         timer = new ElapsedTime();
@@ -20,13 +21,15 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
     public void main() {
         super.main();
         timer.reset();
+        liftPosController.setHome();
         //queue.addTask(new PointTask(new Waypoint(new Pose(0, 1000, 0)), ptpController));
 
     }
     public void mainLoop() {
         super.mainLoop();
 
-        timeHang.hangDown(4);
+        //timeHang.hangDown(4);
+        liftPosition = pos;
 
 
         telemetry.addData("Color:", intake.getColor());

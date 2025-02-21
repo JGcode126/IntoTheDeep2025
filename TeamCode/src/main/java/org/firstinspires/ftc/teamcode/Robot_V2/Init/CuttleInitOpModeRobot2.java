@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Robot_V2.Init;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.MecanumController;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
@@ -98,6 +99,12 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     //public static int method;
     public static double extendoPosition;
     public static double liftPosition;
+    private double profiledTarget = 0;  // Smoothly updated target position
+    private double currentVelocity = 0;
+    private final double MAX_VELOCITY = 15; // Adjust for your motor (ticks/sec)
+    private final double MAX_ACCELERATION = 2.6; // Adjust (ticks/sec^2)
+    private ElapsedTime timer = new ElapsedTime();
+    boolean resetTimer = true;
 
     @Override
     public void onInit()
@@ -279,6 +286,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         super.mainLoop();
 
         telemetry.addData("voltage:", ctrlHub.getBatteryVoltage());
+        telemetry.addData("current slide target", liftPosition);
 
 
         pos = myOtos.getPosition();
@@ -292,6 +300,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         double[] fusionLocation = sensorFusion(50,50);
         fusionLocalizer.setPos(new Pose(fusionLocation[0], fusionLocation[1], fusionLocation[2]));
 
+        //setSlidePosition(liftPosition);
         lift.setLiftPosition(liftPosition);
         extendo.setSlidePosition(extendoPosition);
 /*
@@ -311,6 +320,73 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         queue.update();
         //extendoPosController.loop();
 
+    }
+
+
+    public void setSlidePosition(double targetPosition) {
+        double distance = targetPosition;
+        if (resetTimer == true){
+            timer.reset();
+            resetTimer = false;
+        }
+        double elapsedTime = timer.seconds();
+        //timer.reset();
+
+
+        // Compute motion profile reference position
+        profiledTarget = motionProfile(MAX_ACCELERATION, MAX_VELOCITY, distance, elapsedTime);
+
+
+        // Send the profiled position to your PID
+        lift.setLiftPosition(profiledTarget);
+        System.out.println(profiledTarget);
+
+    }
+
+    // Motion Profile Calculation
+    private double motionProfile(double maxAcceleration, double maxVelocity, double distance, double elapsedTime) {
+        double accelerationDt = maxVelocity / maxAcceleration;
+        double halfwayDistance = distance / 2;
+        double accelerationDistance = 0.5 * maxAcceleration * Math.pow(accelerationDt, 2);
+
+        // Adjust if we can't reach max velocity
+        if (accelerationDistance > halfwayDistance) {
+            accelerationDt = Math.sqrt(halfwayDistance / (0.5 * maxAcceleration));
+            accelerationDistance = 0.5 * maxAcceleration * Math.pow(accelerationDt, 2);
+        }
+
+        // Recalculate max velocity
+        maxVelocity = maxAcceleration * accelerationDt;
+        double decelerationDt = accelerationDt;
+        double cruiseDistance = distance - (2 * accelerationDistance);
+        double cruiseDt = cruiseDistance / maxVelocity;
+        double decelerationTime = accelerationDt + cruiseDt;
+        double totalDt = accelerationDt + cruiseDt + decelerationDt;
+
+        // If motion profile is complete, return the final distance
+        if (elapsedTime > totalDt) {
+            resetTimer = true;
+            return distance;
+        }
+
+        // Acceleration phase
+        if (elapsedTime < accelerationDt) {
+            return 0.5 * maxAcceleration * Math.pow(elapsedTime, 2);
+        }
+        // Cruising phase
+        else if (elapsedTime < decelerationTime) {
+            accelerationDistance = 0.5 * maxAcceleration * Math.pow(accelerationDt, 2);
+            double cruiseCurrentDt = elapsedTime - accelerationDt;
+            return accelerationDistance + (maxVelocity * cruiseCurrentDt);
+        }
+        // Deceleration phase
+        else {
+            accelerationDistance = 0.5 * maxAcceleration * Math.pow(accelerationDt, 2);
+            cruiseDistance = maxVelocity * cruiseDt;
+            double decelerationElapsed = elapsedTime - decelerationTime;
+            return accelerationDistance + cruiseDistance + (maxVelocity * decelerationElapsed) -
+                    (0.5 * maxAcceleration * Math.pow(decelerationElapsed, 2));
+        }
     }
 
     public double[] sensorFusion(double otosChange, double odoChange){
