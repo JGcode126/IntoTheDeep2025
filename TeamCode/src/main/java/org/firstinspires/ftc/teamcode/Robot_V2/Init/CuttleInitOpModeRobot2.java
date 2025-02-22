@@ -273,20 +273,20 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
         timeHang = new TimeBasedCuttleHang(hardwareMap);
 
         setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt, hang);
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt, hang, sweeper);
 
         auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
                 new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController), new TeleOp(intake, outake,extendo,lift,dt,
-                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController)), hang);
+                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController)), hang, sweeper);
 
         specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController), hang);
+                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController), hang, sweeper);
 
         bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController,ptpOtosController, ptpFusionController), hang);
+                new TaskManager(queue, ptpController,ptpOtosController, ptpFusionController), hang, sweeper);
 
 
 

@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleHang;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSweep;
 
 public class SpecimenAuto extends AutoSequence {
     private ElapsedTime timer;
@@ -29,8 +30,9 @@ public class SpecimenAuto extends AutoSequence {
 
     public SpecimenAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, v2CuttleIntake intake, v2CuttleOutake outake,
                         Telemetry telemetry, TaskQueue queue, PTPController ptpController, MotorPositionController liftController,
-                        MotorPositionController extController, v2CuttleExtendo extendo, v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager, v2CuttleHang hang) {
-        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang);
+                        MotorPositionController extController, v2CuttleExtendo extendo, v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager,
+                        v2CuttleHang hang, v2CuttleSweep sweeper) {
+        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang, sweeper);
         timer = new ElapsedTime();
         this.manager =  manager;
     }

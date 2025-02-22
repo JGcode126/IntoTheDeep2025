@@ -26,15 +26,15 @@ public class bucket extends CuttleInitOpModeRobot2 {
     public void main(){
         super.main();
 
-        bucket.scoreFirstSample(-280, -500,50, -420, -300);
+        bucket.scoreFirstSample(-280, -470,50, -380, -300,90);
 
-        bucket.scoringBuckets(-420, -300, 90, -300, -500, 50, 90);
-        bucket.scoringBuckets(-420, -500, 90, -300, -500, 50, 120);
-        bucket.scoringBuckets(-600, -350, 140, -300, -500, 50, 90);
+        bucket.scoringBuckets(-420, -250, 90, 5,-300, -500, 50, 90, -300, -500);
+        bucket.scoringBuckets(-420, -500, 90, 5,-300, -500, 50, 160, -600, -300);
+        bucket.scoringBuckets(-850, -300, 160, 2,-300, -400, 50, 0, -1300, 0);
 
-        //bucket.messUpMiddle(-1300, 0, 0, -1300, 500, 0);
+        bucket.middle(-1400, 0, 0, -1350, 500, 0,-300, -300, 50, 180, -1400, 0);
 
-        bucket.park(-1250, 0, 180);
+        bucket.park(-1250, 400, 180);
     }
 
     public void mainLoop() {

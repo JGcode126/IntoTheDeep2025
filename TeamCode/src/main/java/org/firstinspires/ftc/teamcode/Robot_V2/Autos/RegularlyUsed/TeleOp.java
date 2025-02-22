@@ -105,7 +105,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
     public void bucketTransfer(int x, int y, double r){
         TaskList scoring = new TaskList();
 
-        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.6,0.6,150,false);
+        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.8,0.6,150,false);
 
         TaskList transfer = new TaskList();
 
@@ -138,11 +138,11 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         manager.delay(transfer,200);
 
         manager.task(transfer, () ->{
-            extendoPosition = 1;
+            extendoPosition = 0;
             liftPosition = highBucketPos;
         });
 
-        manager.delay(transfer, 200);
+        //manager.delay(transfer, 200);
 
         manager.forkTask(transfer,scoring);
     }

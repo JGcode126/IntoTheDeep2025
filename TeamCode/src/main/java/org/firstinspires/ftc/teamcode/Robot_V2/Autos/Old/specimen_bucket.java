@@ -29,9 +29,9 @@ public class specimen_bucket extends CuttleInitOpModeRobot2 {
 
         specimen.scoreSpecBucket(-500,1500,90, 0.6,0.4);
 
-        bucket.scoringBuckets(-420, -300, 90, -300, -500, 50, 90);
-        bucket.scoringBuckets(-420, -500, 90, -300, -500, 50, 120);
-        bucket.scoringBuckets(-600, -350, 140, -300, -500, 50, 90);
+        bucket.scoringBuckets(-420, -300, 90, 5,-300, -500, 50, 90, -300, -500);
+        bucket.scoringBuckets(-420, -500, 90, 5,-300, -500, 50, 120, -300, -500);
+        bucket.scoringBuckets(-600, -350, 140, 3,-300, -500, 50, 90, -300, -500);
         //bucket.messUpMiddle(-1300, 0, 0, -1300, 500, 0);
 
         bucket.park(-1200, 0, 180);

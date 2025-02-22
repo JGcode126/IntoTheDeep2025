@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleHang;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSweep;
 
 public class AutoSequence extends Setup {
     SpecimenAuto specimen;
@@ -29,17 +30,17 @@ public class AutoSequence extends Setup {
                         v2CuttleIntake intake, v2CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                         PTPController ptpController, MotorPositionController liftController,
                         MotorPositionController extController, v2CuttleExtendo extendo,
-                        v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager, TeleOp teleOp, v2CuttleHang hang) {
+                        v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager, TeleOp teleOp, v2CuttleHang hang, v2CuttleSweep sweeper) {
 
-        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang);
+        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang, sweeper);
         this.manager = manager;
         this.teleOp = teleOp;
 
         this.specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
-                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManager(queue, ptpController), hang);
+                ptpController, liftPosController, extendoPosController, extendo, lift, dt, new TaskManager(queue, ptpController), hang, sweeper);
         this.bucket = new BucketAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
-                new TaskManager(queue, ptpController), hang);
+                new TaskManager(queue, ptpController), hang, sweeper);
 
     }
 
@@ -47,9 +48,9 @@ public class AutoSequence extends Setup {
                         v2CuttleIntake intake, v2CuttleOutake outake, Telemetry telemetry, TaskQueue queue,
                         PTPController ptpController, MotorPositionController liftController,
                         MotorPositionController extController, v2CuttleExtendo extendo,
-                        v2CuttleSlides lift, v2CuttleDT dt, v2CuttleHang hang) {
+                        v2CuttleSlides lift, v2CuttleDT dt, v2CuttleHang hang, v2CuttleSweep sweeper) {
 
-        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang);
+        super(otos, encoderLocalizer, intake, outake, telemetry, queue, ptpController, liftController, extController, extendo, lift, dt, hang, sweeper);
     }
 
     public void testDriveFusion(int x, int y, double r, double speed){
