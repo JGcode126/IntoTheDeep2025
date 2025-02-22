@@ -149,35 +149,15 @@ public class SpecimenAuto extends AutoSequence {
         TaskList posScoring = new TaskList();
         TaskList scoringScoring = new TaskList();
 
-        manager.task(scoringScoring, () -> {
-            liftPosition = 0;
-        });
+        manager.task(scoringScoring, () -> {liftPosition = 0;});
+
+        manager.delay(scoringScoring, 500);
 
         manager.waypointTask(posScoring, new Pose(x, y, Math.toRadians(r)), speed1, 0.8, 150, false);
 
-        //manager.waypointTask(posScoring, new Pose(x2, y2, Math.toRadians(r2)), 0.5, 0.8, 15, false);
-
-        manager.task(scoringScoring, () -> {
-            outake.scorePosMid();
-        });
+        manager.task(scoringScoring, () -> {outake.scorePosMid();});
 
         manager.forkTask(posScoring,scoringScoring);
-
-        /*TaskList release = new TaskList();
-
-        //manager.delay(release, 3);
-
-        manager.task(release, () -> {
-            outake.openClaw();
-        });
-
-        //manager.delay(release, 250);
-
-        manager.task(release, () -> {
-            liftPosition = 2.8;
-        });
-
-        manager.addTask(release);*/
     }
 
     public void scoreOther(int x, int y, int r, double speed, double speed2) {
@@ -190,6 +170,37 @@ public class SpecimenAuto extends AutoSequence {
         });
 
         manager.waypointTask(posScoring, new Pose(x, y-200, Math.toRadians(r)), speed, 0.8, 150, false);
+        manager.waypointTask(posScoring, new Pose(x, y, Math.toRadians(r)), speed2, 0.6, 150, false);
+
+
+        manager.forkTask(posScoring,scoringScoring);
+
+        TaskList release = new TaskList();
+
+        //manager.delay(release, 250);
+
+        manager.task(release, () -> {
+            outake.openClaw();
+            liftPosition = 3;
+        });
+
+        //manager.delay(release, 300);
+
+        manager.waypointTask(release, new Pose(x+50, y-300, Math.toRadians(r)), 0.8, 0.6, 150, false);
+
+        manager.addTask(release);
+    }
+
+    public void scoreSpecBucket(int x, int y, int r, double speed, double speed2) {
+        TaskList posScoring = new TaskList();
+        TaskList scoringScoring = new TaskList();
+
+        manager.task(scoringScoring, () -> {
+            outake.specimenFrontReadyPos();
+            liftPosition = 3.8;
+        });
+
+        manager.waypointTask(posScoring, new Pose(x+200, y, Math.toRadians(r)), speed, 0.8, 150, false);
         manager.waypointTask(posScoring, new Pose(x, y, Math.toRadians(r)), speed2, 0.6, 150, false);
 
 
@@ -306,7 +317,7 @@ public class SpecimenAuto extends AutoSequence {
         queue.addTask(sample);
     }
 
-    public void sampleSweep(double extPos, int x1, int y1, int r1, int delay_time,double sweepSpeed) {
+    public void sampleSweep(double extPos, int x1, int y1, int r1, int delay_time, double beforeSpeed, double sweepSpeed) {
         TaskList sample = new TaskList();
 
         manager.task(sample, () -> {
@@ -315,7 +326,7 @@ public class SpecimenAuto extends AutoSequence {
             intake.turntableMiddle();
         });
 
-        manager.waypointTask(sample, new Pose(x1, y1, Math.toRadians(r1)), 0.35, 0.5, 10, false);
+        manager.waypointTask(sample, new Pose(x1, y1, Math.toRadians(r1)), beforeSpeed, 0.5, 10, false);
 
         manager.task(sample, () -> {
             dt.drive(0,0.33,sweepSpeed);

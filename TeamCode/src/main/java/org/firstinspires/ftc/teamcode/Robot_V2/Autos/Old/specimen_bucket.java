@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Robot_V2.Autos;
+package org.firstinspires.ftc.teamcode.Robot_V2.Autos.Old;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -9,9 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
-@Autonomous(name = "bucket", group = "Example")
+//@Autonomous(name = "1+3_bucket", group = "Example")
 @Config
-public class bucket extends CuttleInitOpModeRobot2 {
+@Disabled
+public class specimen_bucket extends CuttleInitOpModeRobot2 {
     public void onInit() {
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -26,15 +27,14 @@ public class bucket extends CuttleInitOpModeRobot2 {
     public void main(){
         super.main();
 
-        bucket.scoreFirstSample(-280, -500,50, -420, -300);
+        specimen.scoreSpecBucket(-500,1500,90, 0.6,0.4);
 
         bucket.scoringBuckets(-420, -300, 90, -300, -500, 50, 90);
         bucket.scoringBuckets(-420, -500, 90, -300, -500, 50, 120);
         bucket.scoringBuckets(-600, -350, 140, -300, -500, 50, 90);
-
         //bucket.messUpMiddle(-1300, 0, 0, -1300, 500, 0);
 
-        bucket.park(-1250, 0, 180);
+        bucket.park(-1200, 0, 180);
     }
 
     public void mainLoop() {

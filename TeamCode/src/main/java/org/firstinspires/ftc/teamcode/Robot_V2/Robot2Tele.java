@@ -192,7 +192,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         if (gamepad2.share){
             hang.hangHeight();
             outake.setScoreState(BUCKET_BAR);
-            finalExtendoPos = 3;
+            finalExtendoPos = 5;
         }
 
         if (hanging = true){

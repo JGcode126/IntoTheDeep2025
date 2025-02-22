@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @Autonomous(name = "5+0_Specimen", group = "Example")
 @Config
-public class NEW_SPEC extends CuttleInitOpModeRobot2 {
+public class _5Specimen extends CuttleInitOpModeRobot2 {
     public int loopCounter = 0;
 
     public void onInit(){
@@ -29,13 +29,13 @@ public class NEW_SPEC extends CuttleInitOpModeRobot2 {
         specimen.scoreOther(-150,1000,0, 0.6,0.4);
 
         specimen.sweepSetup(500,600,-30);
-        specimen.sampleSweep(4.9, 500,600,-30,600,0.3);
+        specimen.sampleSweep(4.9, 500,600,-30,700,0.35,0.3);
 
         specimen.sweepSetup(770,670,-40);
-        specimen.sampleSweep(5.2, 770,670,-40,600,0.3);
+        specimen.sampleSweep(5.2, 770,670,-40,700,0.35,0.3);
 
         specimen.sweepSetup(970,870,-60);
-        specimen.sampleSweep(4.8, 970,870,-60,700,0.3);
+        specimen.sampleSweep(4.8, 970,870,-60,700,0.35,0.3);
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 920,50,0,0.4);

@@ -285,7 +285,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public void mainLoop() {
         super.mainLoop();
 
-        telemetry.addData("voltage:", ctrlHub.getBatteryVoltage());
+        //telemetry.addData("voltage:", ctrlHub.getBatteryVoltage());
         telemetry.addData("current slide target", liftPosition);
 
 

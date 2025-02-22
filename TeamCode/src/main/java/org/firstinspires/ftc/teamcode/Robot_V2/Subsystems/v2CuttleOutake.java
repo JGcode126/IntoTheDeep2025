@@ -80,15 +80,15 @@ public class v2CuttleOutake {
 
     public void transferPos(){
         wristCenter();
-        driveRight.setPosition(0.97);
-        driveLeft.setPosition(1-0.97);
+        driveRight.setPosition(0.985);
+        driveLeft.setPosition(1-0.985);
         openClaw();
     }
 
     public void grippedPos(){
         closeClaw();
-        driveRight.setPosition(0.95);
-        driveLeft.setPosition(1-0.95);
+        driveRight.setPosition(0.96);
+        driveLeft.setPosition(1-0.96);
         wristCenter();
     }
     public void backIntakePos(){

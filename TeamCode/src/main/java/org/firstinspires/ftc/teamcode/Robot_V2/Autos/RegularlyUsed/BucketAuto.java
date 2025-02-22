@@ -60,6 +60,21 @@ public class BucketAuto extends AutoSequence {
         scoreSample(scoreX, scoreY, scoreR, r);
     }
 
+    public void messUpMiddle(int x, int y, double r,int x2, int y2, double r2){
+        TaskList mess = new TaskList();
+
+        manager.waypointTask(mess, new Pose(x, y, Math.toRadians(r)),0.9,0.5,100,false);
+
+        manager.waypointTask(mess, new Pose(x2, y2, Math.toRadians(r2)),0.9,0.5,100,false);
+
+        manager.task(mess, () -> {
+            extendoPosition = 5;
+            intake.armUp();
+        });
+
+        queue.addTask(mess);
+    }
+
     public void scoreSample(double x, double y, double r1, double r2) {
         TaskList scoringSample = new TaskList();
 
