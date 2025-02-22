@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode.Robot_V2.Init;
 
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.gamepad.ButtonReader;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -35,15 +39,17 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleHang;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSweep;
 import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 
 
 //@Disabled
 @Config
-public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
+public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
     // Declare the rev hubs. If you only have one hub connected you can delete one of these
     public CuttleRevHub ctrlHub;
     public CuttleRevHub expHub;
+    public GamepadEx toolOp;
 
     public v2CuttleDT dt;
     public v2CuttleExtendo extendo;
@@ -51,6 +57,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
     public v2CuttleSlides lift;
     public v2CuttleOutake outake;
     public v2CuttleHang hang;
+    public v2CuttleSweep sweeper;
     public TimeBasedCuttleHang timeHang;
 
     // Declare the chassis motors
@@ -162,6 +169,9 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         CuttleServo hangL = expHub.getServo(1);
         CuttleServo hangR = expHub.getServo(5);
 
+        //sweeper
+        CuttleServo sweepServo = expHub.getServo(3);
+
         //outtake - all others at servoHub - configure with hardware map
         CuttleServo outtakeClawServo = ctrlHub.getServo(0);
 
@@ -169,6 +179,10 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         CuttleServo intakeClaw = ctrlHub.getServo(2);
         CuttleServo intakeTurntable = ctrlHub.getServo(4);
         CuttleServo light = expHub.getServo(4);
+
+        //gamepadEx
+        toolOp = new GamepadEx(gamepad1);
+
 
 
 
@@ -255,6 +269,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
         lift = new v2CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new v2CuttleOutake(outtakeClawServo, hardwareMap);
         hang = new v2CuttleHang(hangL,hangR);
+        sweeper = new v2CuttleSweep(sweepServo);
         timeHang = new TimeBasedCuttleHang(hardwareMap);
 
         setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
@@ -287,6 +302,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
 
         //telemetry.addData("voltage:", ctrlHub.getBatteryVoltage());
         telemetry.addData("current slide target", liftPosition);
+        toolOp.readButtons();
 
 
         pos = myOtos.getPosition();
@@ -388,6 +404,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode {
                     (0.5 * maxAcceleration * Math.pow(decelerationElapsed, 2));
         }
     }
+
 
     public double[] sensorFusion(double otosChange, double odoChange){
         double otosR = myOtos.getPosition().h;

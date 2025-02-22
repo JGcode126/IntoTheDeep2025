@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Robot_V2;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo.ExtendoState.INE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.LOOKING;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.TRANSFERED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.UP;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.BLUESIGN;
@@ -22,6 +23,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.Waypoint;
@@ -37,7 +39,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 
 @TeleOp
 @Config
-public class Robot2Tele extends CuttleInitOpModeRobot2 {
+public class Robot2Tele extends CuttleInitOpModeRobot2{
     double finalExtendoPos = 0;
     double finalLiftPos = 0;
     double counter = 0;
@@ -45,6 +47,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
     private final double joystickFilter = 0.2; // Low-pass filter coefficient
     double preFinalInput;
     public boolean transfering = false;
+    public boolean sweeping = false;
     public boolean autoPosing = false;
     public boolean hanging= false;
     double savex1,savey1, saver1;
@@ -77,6 +80,8 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         }
         //hangTimer.reset();
         hang.teleHeight();
+        sweeper.broomIn();
+        sweeping = false;
     }
     public void mainLoop() {
         super.mainLoop();
@@ -194,10 +199,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
             outake.setScoreState(BUCKET_BAR);
             finalExtendoPos = 5;
         }
-
-        if (hanging = true){
-            //timeHang.hangDown(hangTimer.seconds());
-        }
+        
 
         if (gamepad1.options){
             encoderLocalizer.getPos().setR(0);
@@ -212,8 +214,18 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
                 inColor = BLUE;
                 rejectColor = RED;
             }
-
         }
+
+        if (toolOp.isDown(GamepadKeys.Button.A)&& toolOp.stateJustChanged(GamepadKeys.Button.A) && intake.intakeState != LOOKING) {
+            housekeeping();
+        }
+        if (toolOp.isDown(GamepadKeys.Button.Y)&& toolOp.stateJustChanged(GamepadKeys.Button.Y) && intake.intakeState != LOOKING) {
+            sweeper.broomStraight();
+        }
+        if (toolOp.isDown(GamepadKeys.Button.X)&& toolOp.stateJustChanged(GamepadKeys.Button.X) && intake.intakeState != LOOKING) {
+            sweeper.broomIn();
+        }
+
 
         /*
         if(intake.getColor() == RED){
@@ -227,10 +239,11 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         }
 
          */
-        telemetry.addData("pin0", intake.pin0.getState());
-        telemetry.addData("pin1", intake.pin1.getState());
+        //telemetry.addData("pin0", intake.pin0.getState());
+        //telemetry.addData("pin1", intake.pin1.getState());
 
-        telemetry.addData(" ", " ");
+        //telemetry.addData(" ", " ");
+        telemetry.addData("sweeping?", sweeping);
         telemetry.addData("alliance", inColor);
         telemetry.addData("intake state", intake.intakeState);
         telemetry.addData("outtake state", outake.outakeState);
@@ -314,23 +327,20 @@ public class Robot2Tele extends CuttleInitOpModeRobot2 {
         queue.addTask(deliver);
     }
 
-    void frontScoreSequence(){
-        TaskList frontScore = new TaskList();
-        System.out.println("yes");
-        lift.setLiftState(IN);
-        outake.setScoreState(READY);
-        frontScore.addTask(new CustomTask(()->{
-
+    void housekeeping(){
+        TaskList housekeeping = new TaskList();
+        sweeping = false;
+        housekeeping.addTask(new CustomTask(()->{
+            sweeper.broomOut();
             return true;
         }));
-        frontScore.addTask(new DelayTask(400));
-        frontScore.addTask(new CustomTask(()->{
-            outake.readyPos();
-            finalLiftPos = 0;
-            dt.drive(0,0,0);
+        housekeeping.addTask(new DelayTask(400));
+        housekeeping.addTask(new CustomTask(()->{
+            sweeper.broomIn();
+            sweeping = false;
             return true;
         }));
-        queue.addTask(frontScore);
+        queue.addTask(housekeeping);
     }
 
     void hardResetExtendo(){
