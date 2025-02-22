@@ -123,7 +123,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         });
 
         //changed from 600
-        manager.delay(transfer, 600);
+        manager.delay(transfer, 400);
 
         manager.task(transfer, () ->{outake.transferPos();});
 

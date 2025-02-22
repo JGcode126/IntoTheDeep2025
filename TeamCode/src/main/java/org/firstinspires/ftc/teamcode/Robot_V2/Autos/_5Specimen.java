@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
-@Autonomous(name = "5+0_Specimen", group = "Example")
+@Autonomous(name = "specimen_5", group = "Example")
 @Config
 public class _5Specimen extends CuttleInitOpModeRobot2 {
     public int loopCounter = 0;
@@ -39,19 +39,19 @@ public class _5Specimen extends CuttleInitOpModeRobot2 {
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 920,50,0,0.4);
-        specimen.score(-30,600,0,-70,950,0,0.8,0.5);
+        specimen.score(-30,600,0,-100,950,0,0.8,0.5);
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 920,50,0,0.4);
-        specimen.score(-90,600,0,-130,950,0,0.8,0.5);
+        specimen.score(-90,600,0,-150,950,0,0.8,0.5);
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 920,50,0,0.4);
-        specimen.score(-140,600,0,-180,950,0,0.8,0.5);
+        specimen.score(-140,600,0,-200,950,0,0.8,0.5);
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 900,50,0,0.4);
-        specimen.score(-230,600,0,-270,950,0,0.8,0.5);
+        specimen.score(-230,600,0,-250,950,0,0.8,0.5);
 
         specimen.specimenPark(1);
         //specimen.extendoPark();

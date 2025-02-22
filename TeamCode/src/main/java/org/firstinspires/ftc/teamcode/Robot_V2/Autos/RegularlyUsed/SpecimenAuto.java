@@ -53,15 +53,18 @@ public class SpecimenAuto extends AutoSequence {
         TaskList park = new TaskList();
 
         manager.task(park, () -> {
-            outake.readyPos();
             intake.off();
             intake.initPos();
             extendoPosition = 0;
-            liftPosition = 0;
         });
 
         //tSlop used to be 10, rSlop used to be 0.1
         manager.waypointTask(park, new Pose(1100, 200, Math.toRadians(0)),speed,0.2,200,false);
+
+        manager.task(park, () -> {
+            outake.readyPos();
+            liftPosition = 0;
+        });
 
         queue.addTask(park);
     }

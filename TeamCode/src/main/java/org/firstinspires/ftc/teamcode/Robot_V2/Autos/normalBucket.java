@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
-@Autonomous(name = "bucket_5", group = "Example")
+@Autonomous(name = "bucket_4", group = "Example")
 @Config
-public class bucket extends CuttleInitOpModeRobot2 {
+public class normalBucket extends CuttleInitOpModeRobot2 {
     public void onInit() {
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -30,11 +30,9 @@ public class bucket extends CuttleInitOpModeRobot2 {
 
         bucket.scoringBuckets(-420, -250, 90, 5,-300, -450, 50, 90, -300, -500);
         bucket.scoringBuckets(-420, -500, 90, 5,-300, -450, 50, 160, -600, -300);
-        bucket.scoringBuckets(-850, -300, 160, 2,-300, -350, 50, 0, -1300, 0);
+        bucket.scoringBuckets(-850, -300, 160, 2,-300, -350, 50, 180, -1300, 0);
 
-        bucket.middle(-1400, 0, 0, -1350, 500, 0,-300, -350, 50, 180, -1400, 0);
-
-        bucket.park(-1250, 400, 180);
+        bucket.park(-1300, 400, 180);
     }
 
     public void mainLoop() {

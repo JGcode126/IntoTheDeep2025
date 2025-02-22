@@ -48,7 +48,7 @@ public class BucketAuto extends AutoSequence {
         manager.waypointTask(park, new Pose(x, y, Math.toRadians(r)),0.9,0.5,100,false);
 
         manager.task(park, () -> {
-            dt.drive(-0.5,0,0);
+            dt.drive(-0.2,0,0);
             outake.parkPos();
         });
 
@@ -81,15 +81,15 @@ public class BucketAuto extends AutoSequence {
             sweeper.broomOut();
         });
 
-        manager.delay(mess, 400);
+        manager.delay(mess, 300);
 
         manager.task(mess, () -> {
             sweeper.broomIn();
         });
 
-       manager.delay(mess, 400);
+       manager.delay(mess, 300);
 
-       manager.waypointTask(mess, new Pose(x2, y2-10, Math.toRadians(r2)),0.9,0.5,100,false);
+       //manager.waypointTask(mess, new Pose(x2, y2, Math.toRadians(r2)),0.9,0.5,100,false);
 
         mess.addTask(new CustomTask(() -> {
             boolean quit = false;
@@ -98,7 +98,7 @@ public class BucketAuto extends AutoSequence {
             intake.clawOpen();
             intake.intakeDown();
 
-            //if (timer.seconds() > 5) {quit = true;}
+            if (timer.seconds() > 8) {quit = true;}
             if(intake.getColor() == BLUE){
                 intake.out();
             }
@@ -135,7 +135,7 @@ public class BucketAuto extends AutoSequence {
             outake.readyPos();
         });
 
-        manager.waypointTask(scoringSample, new Pose(endX,endY, Math.toRadians(r2)),0.8,0.1,150,false);
+        manager.waypointTask(scoringSample, new Pose(endX,endY, Math.toRadians(r2)),0.8,0.6,150,false);
 
         queue.addTask(scoringSample);
     }
