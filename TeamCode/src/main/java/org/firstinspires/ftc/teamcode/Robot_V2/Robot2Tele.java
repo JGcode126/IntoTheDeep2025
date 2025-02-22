@@ -91,48 +91,58 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             telemetry.addData("running", true);
         }
 
-        if (transfering == false) {
-            //intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
+        if (!transfering) {
+            // intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
             intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.left_stick_x);
-            if(gamepad1.b){
+
+            if (gamepad1.b) {
                 extendoMotor.setPower(-0.5);
-                rightBackSlides.setPower(-0.4);
-                leftbackSlides.setPower(0.4);
+                rightBackSlides.setPower(-0.8);
+                leftbackSlides.setPower(0.8);
                 liftPosController.setHome();
                 extendoPosController.setHome();
                 finalExtendoPos = 0;
                 finalLiftPos = 0;
-
             } else {
-                if (!gamepad1.b) {
-                    //finalExtendoPos = extendo.extendoMachine(gamepad1.a, gamepad1.x, gamepad1.y, gamepad1.right_bumper, gamepad1.left_bumper);
-                    double rawJoystickInput = -gamepad2.right_stick_y; // Joystick control
-
-                    lastJoystickInput = (joystickFilter * rawJoystickInput) + ((1 - joystickFilter) * lastJoystickInput);
-                    finalExtendoPos += lastJoystickInput * 1.5;  // Smoother adjustments
-
-                    finalExtendoPos = Math.max(0, Math.min(finalExtendoPos, 5.15));  // Limit range
-                }
+                // Joystick-controlled extendo movement
+                double rawJoystickInput = -gamepad2.right_stick_y;
+                lastJoystickInput = (joystickFilter * rawJoystickInput) + ((1 - joystickFilter) * lastJoystickInput);
+                finalExtendoPos += lastJoystickInput * 1.5;
+                finalExtendoPos = Math.max(0, Math.min(finalExtendoPos, 5.15)); // Ensure limits
             }
+
             if (!gamepad1.b) {
-                finalLiftPos = lift.liftMachine(gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options, gamepad2.right_bumper, gamepad1.right_bumper, gamepad1.left_bumper);
+                finalLiftPos = lift.liftMachine(
+                        gamepad2.b, gamepad2.x, gamepad2.y, gamepad2.options,
+                        gamepad2.right_bumper, gamepad1.right_bumper, gamepad1.left_bumper
+                );
             }
-            if (outake.outakeState == BARLEFT || outake.outakeState == BARRIGHT){
-                if(outake.outakeState == BARLEFT){
+
+            switch (outake.outakeState) {
+                case BARLEFT:
                     outake.scorePosLeft();
-                    if (gamepad2.dpad_left){outake.setScoreState(BARRIGHT);}
-                }
-                if(outake.outakeState == BARRIGHT){
+                    if (gamepad2.dpad_left) outake.setScoreState(BARRIGHT);
+                    break;
+
+                case BARRIGHT:
                     outake.scorePosRight();
-                    if (gamepad2.dpad_right){outake.setScoreState(BARLEFT);}
-                }
-                if (gamepad2.a){
-                    specimenDropOffSequence();
-                }
-            } else{
-                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left, gamepad1.dpad_down, gamepad1.dpad_up, gamepad1.share);
+                    if (gamepad2.dpad_right) outake.setScoreState(BARLEFT);
+                    break;
+
+                default:
+                    if (gamepad2.a) {
+                        specimenDropOffSequence();
+                    } else {
+                        outake.outakeMachine(
+                                gamepad2.a, false, false, false,
+                                gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left,
+                                gamepad1.dpad_down, gamepad1.dpad_up, gamepad1.share
+                        );
+                    }
+                    break;
             }
         }
+
 
 
         if (!gamepad1.b) {
@@ -179,19 +189,20 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             transfering = true;
         }
 
-
-        if(outake.outakeState == READY){
-            finalLiftPos = 0;
-            lift.setLiftState(IN);
-        }
-        if(outake.outakeState == BACKINTAKE){
-            //finalLiftPos = 2;
-            lift.setLiftState(BACKINTAKEPOS);
-        }
-
-        if (outake.outakeState == FRONTSCORE){
-            //finalLiftPos = 3.8;
-            lift.setLiftState(FRONTSCOREPOS);
+        switch (outake.outakeState) {
+            case READY:
+                finalLiftPos = 0;
+                lift.setLiftState(IN);
+                break;
+            case BACKINTAKE:
+                lift.setLiftState(BACKINTAKEPOS);
+                break;
+            case FRONTSCORE:
+                lift.setLiftState(FRONTSCOREPOS);
+                break;
+            default:
+                // Handle unexpected states if necessary
+                break;
         }
 
         if (gamepad2.share){
@@ -199,7 +210,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             outake.setScoreState(BUCKET_BAR);
             finalExtendoPos = 5;
         }
-        
+
 
         if (gamepad1.options){
             encoderLocalizer.getPos().setR(0);
