@@ -30,9 +30,9 @@ public class normalBucket extends CuttleInitOpModeRobot2 {
 
         bucket.scoringBuckets(-420, -250, 90, 5,-300, -450, 50, 90, -300, -500);
         bucket.scoringBuckets(-420, -500, 90, 5,-300, -450, 50, 160, -600, -300);
-        bucket.scoringBuckets(-850, -300, 160, 2,-300, -350, 50, 180, -1300, 0);
+        bucket.scoringBuckets(-850, -300, 160, 1,-300, -350, 50, 180, -1400, 0);
 
-        bucket.park(-1300, 400, 180);
+        bucket.park(-1400, 400, 180);
     }
 
     public void mainLoop() {

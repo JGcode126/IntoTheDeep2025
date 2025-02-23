@@ -59,12 +59,15 @@ public class SpecimenAuto extends AutoSequence {
         });
 
         //tSlop used to be 10, rSlop used to be 0.1
-        manager.waypointTask(park, new Pose(1100, 200, Math.toRadians(0)),speed,0.2,200,false);
+        manager.waypointTask(park, new Pose(300, 600, Math.toRadians(0)),speed,0.2,200,false);
 
         manager.task(park, () -> {
             outake.readyPos();
             liftPosition = 0;
         });
+
+        manager.waypointTask(park, new Pose(1100, 200, Math.toRadians(0)),speed,0.2,200,false);
+
 
         queue.addTask(park);
     }
@@ -131,9 +134,13 @@ public class SpecimenAuto extends AutoSequence {
             outake.specimenFrontReadyPos();
         });
 
+        //manager.waypointTask(posScoring, new Pose(x2+50, y2, Math.toRadians(r2)), speed2, 0.8, 25, false);
+
         manager.forkTask(posScoring,scoringScoring);
 
         TaskList release = new TaskList();
+
+        //manager.waypointTask(release, new Pose(x2+30, y2, Math.toRadians(r2)), speed2, 0.8, 15, false);
 
         //manager.delay(release, 3);
 
@@ -339,7 +346,7 @@ public class SpecimenAuto extends AutoSequence {
 
         manager.delay(sample, delay_time);
         manager.task(sample, () -> {
-           extendoPosition = 3;
+           extendoPosition = 2;
         });
 
         queue.addTask(sample);
@@ -352,7 +359,7 @@ public class SpecimenAuto extends AutoSequence {
 
         manager.task(sweepSetup, () -> {
             liftPosition = 0;
-            //extendoPosition = 0;
+            extendoPosition = 3;
         });
 
         queue.addTask(sweepSetup);
