@@ -21,8 +21,7 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
     public void main() {
         super.main();
         timer.reset();
-        liftPosController.setHome();
-        //queue.addTask(new PointTask(new Waypoint(new Pose(0, 1000, 0)), ptpController));
+
 
     }
     public void mainLoop() {
@@ -31,8 +30,9 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
         //timeHang.hangDown(4);
         liftPosition = pos;
 
+        System.out.println(dt.leftBackMotor.getCurrent());
 
-        telemetry.addData("Color:", intake.getColor());
+        telemetry.addData("draw", dt.leftBackMotor.getCurrent());
         telemetry.update();
     }
 }

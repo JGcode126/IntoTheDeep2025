@@ -30,13 +30,13 @@ public class FasterSpec extends CuttleInitOpModeRobot2 {
 
         specimen.scoreOther(-150,900,0, 0.6,0.8);
 
-        specimen.sweepSetup(500,600,-30,0.5);
+        //specimen.sweepSetup(500,600,-30,0.5);
         specimen.sampleSweep(4.9, 500,600,-30, 300,0.5,0.8);
 
-        specimen.sweepSetup(770,670,-40,0.5);
+        //specimen.sweepSetup(770,670,-40,0.5);
         specimen.sampleSweep(5.2, 770,670,-40,300,0.5,0.8);
 
-        specimen.sweepSetup(970,870,-60,0.5);
+        //specimen.sweepSetup(970,870,-60,0.5);
         specimen.sampleSweep(4.8, 970,870,-60,200,0.5,0.8);
 
         specimen.scoreSetup();
