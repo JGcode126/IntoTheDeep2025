@@ -26,42 +26,40 @@ public class _5Specimen extends CuttleInitOpModeRobot2 {
         super.main();
         loopCounter = 0;
 
-        specimen.scoreOther(-150,1000,0, 0.6,0.4);
-/*
-        specimen.sweepSetup(500,600,-15,0.8);
+        specimen.scoreOther(-130,1000,0, 0.6,0.4);
+        /*specimen.sweepSetup(500,600,-15,0.8);
         specimen.sampleSweep(2.6, 500,600,-15,1050,0.35,0.25);
 
         specimen.sweepSetup(770,670,-30,0.8);
         specimen.sampleSweep(4.8, 770,670,-30,920,0.35,0.3);
 
         specimen.sweepSetup(970,870,-60,0.8);
-        specimen.sampleSweep(4.5, 970,870,-60,920,0.35,0.3);
+        specimen.sampleSweep(4.5, 970,870,-60,920,0.35,0.3);*/
 
- */
-        specimen.sweepSetup(500,600,-30);
-        specimen.sampleSweep(4.9, 500,600,-30,710,0.35,0.3);
+        specimen.sweepSetup(510,600,-30);
+        specimen.sampleSweep(4.9, 500,600,-30,770,0.35,0.3);
 
         specimen.sweepSetup(770,670,-40);
-        specimen.sampleSweep(5.2, 770,670,-40,710,0.35,0.3);
+        specimen.sampleSweep(5.2, 770,670,-40,730,0.35,0.3);
 
-        specimen.sweepSetup(970,870,-60);
-        specimen.sampleSweep(4.8, 970,870,-60,720,0.35,0.3);
+        specimen.sweepSetup(975,870,-60);
+        specimen.sampleSweep(4.8, 970,870,-60,750,0.35,0.3);
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 1000,50,0,0.4);
-        specimen.score(-90,600,0,-60,950,0,0.8,0.5);//-30
+        specimen.score(-40,600,0,-10,950,0,0.8,0.5);//-30
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
-        specimen.score(-90,600,0,-120,950,0,0.8,0.5);//-90
+        specimen.score(-110,600,0,-80,950,0,0.8,0.5);//-90
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
-        specimen.score(-140,600,0,-220,950,0,0.8,0.5);//-140
+        specimen.score(-170,600,0,-140,950,0,0.8,0.5);//-140
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
-        specimen.score(-230,600,0,-290,950,0,0.8,0.5);//-230
+        specimen.score(-230,600,0,-200,950,0,0.8,0.5);//-230
 
         specimen.specimenPark(1);
         //specimen.extendoPark();

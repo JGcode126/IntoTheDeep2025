@@ -58,8 +58,8 @@ public class v2CuttleOutake {
     }
 
     public void initAutoPos(){
-        driveRight.setPosition(0.80);
-        driveLeft.setPosition(1-0.8);
+        driveRight.setPosition(0.83);
+        driveLeft.setPosition(1-0.83);
         closeClaw();
         wristCenter();
     }

@@ -58,13 +58,14 @@ public class Setup extends CuttleInitOpModeRobot2 {
         encoderLocalizer.reset();//reset odo
 
         //inti intake and outake
-        //outake.initAutoPos();
-        outake.specimenFrontReadyPos();
+        outake.initAutoPos();
+        //outake.specimenFrontReadyPos();
         intake.initPos();
 
         //set slide home
         liftPosController.setHome();
         extendoPosController.setHome();
+        sweeper.broomIn();
 
         hang.initHang();
     }

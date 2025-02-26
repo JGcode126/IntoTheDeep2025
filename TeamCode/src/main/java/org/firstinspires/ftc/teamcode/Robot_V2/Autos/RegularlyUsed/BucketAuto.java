@@ -116,19 +116,24 @@ public class BucketAuto extends AutoSequence {
     public void scoreSample(double x, double y, double r1, double r2, double endX, double endY) {
         TaskList scoringSample = new TaskList();
 
-        manager.waypointTask(scoringSample, new Pose(x+20, y, Math.toRadians(r1)),0.8,0.1,10,false);
+        manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.8,0.1,10,false);
 
         manager.task(scoringSample, () -> {
             outake.scorePosMid();
         });
 
-        manager.delay(scoringSample, 500);
+        manager.waypointTask(scoringSample, new Pose(x+70, y, Math.toRadians(r1)),0.6,0.1,10,false);
+
+
+        //manager.delay(scoringSample, 100);
 
         manager.task(scoringSample, () -> {
             outake.openClaw();
         });
 
-        manager.waypointTask(scoringSample, new Pose(x-20, y, Math.toRadians(r1)),0.6,0.1,20,false);
+       manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.6,0.1,20,false);
+
+        //manager.waypointTask(scoringSample, new Pose(endX,endY, Math.toRadians(r2)),0.8,0.6,150,false);
 
         manager.task(scoringSample, () -> {
             liftPosition = 0;
@@ -191,7 +196,9 @@ public class BucketAuto extends AutoSequence {
             outake.scorePosMid();
         });
 
-        manager.delay(scoringSample, 500);
+        manager.waypointTask(scoringSample, new Pose(xPos+70, yPos-20, Math.toRadians(r)),0.6,0.1,10,false);
+
+        manager.delay(scoringSample, 600);
 
         manager.task(scoringSample, () -> {
             outake.openClaw();});

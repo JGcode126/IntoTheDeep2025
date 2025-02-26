@@ -25,6 +25,8 @@ public class normalBucket extends CuttleInitOpModeRobot2 {
 
     public void main(){
         super.main();
+        liftPosController.setHome();
+        extendoPosController.setHome();
 
         bucket.scoreFirstSample(-280, -440,50, -380, -250,90);
 

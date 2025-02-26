@@ -141,11 +141,11 @@ public class SpecimenAuto extends AutoSequence {
         //manager.waypointTask(posScoring, new Pose(x2, y2, Math.toRadians(r2)), speed2, 0.8, 15, false);
 
         posScoring.addTask(new CustomTask(() -> {
-            dt.drive(0.6,0,0);
+            dt.drive(0.58,0,0);
             return true;
         }));
 
-        manager.delay(posScoring, 450);
+        manager.delay(posScoring, 450);//450
         posScoring.addTask(new CustomTask(() -> {
             dt.drive(0,0,0);
             return true;
@@ -199,7 +199,7 @@ public class SpecimenAuto extends AutoSequence {
 
         manager.task(scoringScoring, () -> {
             outake.specimenFrontReadyPos();
-            liftPosition = 3.8;
+            liftPosition = 3.62;
         });
 
         manager.waypointTask(posScoring, new Pose(x, y-200, Math.toRadians(r)), speed, 0.8, 150, false);
