@@ -268,8 +268,8 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
         intake = new v2CuttleIntake(intakeClaw, intakeTurntable, hardwareMap, light,color);
         lift = new v2CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new v2CuttleOutake(outtakeClawServo, hardwareMap);
-        hang = new v2CuttleHang(hangL,hangR);
-        sweeper = new v2CuttleSweep(sweepServo);
+        hang = new v2CuttleHang(hangL,hangR, hardwareMap);
+        sweeper = new v2CuttleSweep(sweepServo, hardwareMap);
         timeHang = new TimeBasedCuttleHang(hardwareMap);
 
         setup = new Setup(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,

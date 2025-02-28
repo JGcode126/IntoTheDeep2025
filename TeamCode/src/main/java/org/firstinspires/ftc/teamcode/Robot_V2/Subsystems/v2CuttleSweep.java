@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Robot_V2.Subsystems;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
 public class v2CuttleSweep {
-    public CuttleServo broom;
+    public Servo broom;
 
-    public v2CuttleSweep(CuttleServo servo1){
-        broom = servo1;
+    public v2CuttleSweep(CuttleServo servo1, HardwareMap hardwareMap){
+        broom = hardwareMap.get(Servo.class, "broom");
     }
 
     public void broomIn(){

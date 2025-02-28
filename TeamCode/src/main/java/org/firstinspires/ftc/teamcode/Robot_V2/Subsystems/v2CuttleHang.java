@@ -7,11 +7,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
 public class v2CuttleHang {
-    public CuttleServo hangR, hangL;
+    //public CuttleServo hangR, hangL;
+    public Servo hangL,hangR;
 
-    public v2CuttleHang(CuttleServo servo1, CuttleServo servo2){
-        hangL = servo1;
-        hangR = servo2;
+    public v2CuttleHang(CuttleServo servo1, CuttleServo servo2, HardwareMap hardwareMap){
+        hangL = hardwareMap.get(Servo.class, "hangL");
+        hangR = hardwareMap.get(Servo.class, "hangR");
     }
 
     public void initHang(){
