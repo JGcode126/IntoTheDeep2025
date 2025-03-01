@@ -145,21 +145,24 @@ public class BucketAuto extends AutoSequence {
 
             if (intake.getColor() == BLUE) {
                 intake.out();
-                doSeperateLineup = true;
+                //doSeperateLineup = true;
             }
 
-            return intake.getColor() == YELLOW || intake.getColor() == RED || doSeperateLineup;
+            return intake.getColor() == YELLOW || intake.getColor() == RED;
         }));
+        /*
 
         mess.addTask(new CustomTask(() -> {
             if (doSeperateLineup){
-                
+
                 return false;
             } else {
                 return true;
             }
 
         }));
+
+         */
 
 
         manager.delay(mess, 200);
