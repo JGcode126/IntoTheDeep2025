@@ -24,6 +24,8 @@ public class bucket extends CuttleInitOpModeRobot2 {
         super.onInit();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
+        setup.initRobot();
+
         out = outColor;
         in = inColor;
     }
@@ -31,17 +33,16 @@ public class bucket extends CuttleInitOpModeRobot2 {
     public void main(){
         super.main();
 
-        super.main();
         liftPosController.setHome();
         extendoPosController.setHome();
 
         bucket.scoreFirstSample2(-280, -440,50, -370, -270,90,200);
 
         bucket.scoringBuckets2(-420, -270, 90, 5,-300, -470, 50, 200);
-        bucket.scoringBuckets2(-420, -500, 90, 5,-300, -470, 50, 200);
+        bucket.scoringBuckets2(-420, -515, 90, 5,-300, -470, 50, 200);
         bucket.scoringBucketsLast(-850, -300, 160, 1,-270, -370, 50, 200);
 
-        bucket.middle(-1500, 0, 0, -1400, 500, 0,-280, -350, 50, 180, -1500, 0, out, in);
+        bucket.middle(-1300, 0, 0, -1400, 500, 0,-280, -350, 50, 180, -1500, 0, out, in);
 
         bucket.park(-1500, 400, 180);
     }

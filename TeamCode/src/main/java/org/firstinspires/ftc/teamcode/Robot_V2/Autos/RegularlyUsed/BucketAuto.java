@@ -22,8 +22,6 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSweep;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class BucketAuto extends AutoSequence {
     private ElapsedTime timer;
     TaskManager manager;
@@ -76,17 +74,38 @@ public class BucketAuto extends AutoSequence {
     }
 
     public void middle(int x, int y, double r,int x2, int y2, double r2, int scoreX, int scoreY, double scoreR, double r3, int endX, int endY, v2CuttleIntake.Color in, v2CuttleIntake.Color out) {
-        messUpMiddle(x, y, r, x2, y2, r2, in, out);
+        messUpMiddleRed(x, y, r, x2, y2, r2, in, out);
         teleOp.bucketTransfer(scoreX, scoreY, scoreR);
         scoreSample(scoreX, scoreY, scoreR, r3, endX, endY);
     }
 
-    public void messUpMiddle(int x, int y, double r,int x2, int y2, double r2, v2CuttleIntake.Color colorIN, v2CuttleIntake.Color colorOUT){
+    public void messUpMiddleRed(int x, int y, double r, int x2, int y2, double r2, v2CuttleIntake.Color colorIN, v2CuttleIntake.Color colorOUT){
         TaskList mess = new TaskList();
 
-        manager.waypointTask(mess, new Pose(x, y, Math.toRadians(r)),0.9,0.5,100,false);
 
-        manager.waypointTask(mess, new Pose(x2, y2, Math.toRadians(r2)),0.9,0.5,100,false);
+        manager.waypointTask(mess, new Pose(x, y, Math.toRadians(r)),0.9,0.2,75,false);
+
+        //manager.waypointTask(mess, new Pose(x2, y2, Math.toRadians(r2)),0.9,0.5,100,false);
+        mess.addTask(new CustomTask(() -> {
+            dt.drive(0.7,0,0);
+            return true;
+        }));
+
+        manager.delay(mess, 450);
+        mess.addTask(new CustomTask(() -> {
+            dt.drive(0,0,0);
+            return true;
+        }));
+        mess.addTask(new CustomTask(() -> {
+            dt.drive(0.3,0,0);
+            return true;
+        }));
+
+        manager.delay(mess, 200);
+        mess.addTask(new CustomTask(() -> {
+            dt.drive(0,0,0);
+            return true;
+        }));
 
         manager.task(mess, () -> {
             extendoPosition = 0;
@@ -118,7 +137,32 @@ public class BucketAuto extends AutoSequence {
 
         manager.delay(mess, 400);
 
+        mess.addTask(new CustomTask(() -> {
+            intake.in();
+            extendoPosition = 1.5;
+            boolean quit = false;
+            //turn = -0.12
+            //145
 
+            if (intake.getColor() == BLUE) {
+                intake.out();
+                mess.kill();
+                quit = true;
+            }
+
+            return intake.getColor() == YELLOW || intake.getColor() == RED || quit;
+        }));
+
+        /*
+        manager.delay(mess, 200);
+        manager.task(mess, () -> {
+            intake.clawClose();
+        });
+        manager.delay(mess, 200);
+
+
+        //whats an atomic boolean lmao
+        //i detect the work of chatgpt here
         AtomicBoolean in = new AtomicBoolean(false);
 
         mess.addTask(new CustomTask(() -> {
@@ -160,9 +204,14 @@ public class BucketAuto extends AutoSequence {
 
         manager.task(mess, () -> {
             intake.clawClose();
+            intake.off();
+            intake.armUp();
         });
 
+         */
+
         queue.addTask(mess);
+
     }
 
     public void scoreSample(double x, double y, double r1, double r2, double endX, double endY) {
@@ -223,10 +272,16 @@ public class BucketAuto extends AutoSequence {
             outake.openClaw();
             //intake.intakeDown();
             intake.clawOpen();
-            intake.in();
+            //intake.in();
         });
 
         manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.6,0.1,20,false);
+
+        manager.task(scoringSample, () -> {
+            outake.readyPos();
+        });
+
+        manager.delay(scoringSample, 100);
 
         manager.task(scoringSample, () -> {
             liftPosition = 0;

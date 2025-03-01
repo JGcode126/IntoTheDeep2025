@@ -403,8 +403,8 @@ public class SpecimenAuto extends AutoSequence {
         manager.task(sample, () -> {
             dt.drive(0,0.33,sweepSpeed);
         });
-
         manager.delay(sample, delay_time);
+
         manager.task(sample, () -> {
             extendoPosition = 2;
         });

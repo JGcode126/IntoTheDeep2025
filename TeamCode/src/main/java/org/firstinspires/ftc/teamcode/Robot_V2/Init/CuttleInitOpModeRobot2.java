@@ -297,7 +297,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
                 new TaskManager(queue, ptpController,ptpOtosController, ptpFusionController), hang, sweeper);
 
         battery = new Battery(batteryVoltage, optimalVoltage);
-
+        /*
         //error handling for finding sign color
         //comment out if causes errors
         //if errors try lazy way
@@ -319,6 +319,8 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
 
         telemetry.addData("IN Color", inColor);
         telemetry.addData("OUT Color", outColor);
+
+         */
 
         configureOtos();
     }
