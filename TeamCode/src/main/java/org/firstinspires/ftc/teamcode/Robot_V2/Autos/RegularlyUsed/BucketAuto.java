@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSweep;
 public class BucketAuto extends AutoSequence {
     private ElapsedTime timer;
     TaskManager manager;
+    boolean doSeperateLineup = false;
 
 
     public BucketAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, v2CuttleIntake intake, v2CuttleOutake outake,
@@ -81,7 +82,6 @@ public class BucketAuto extends AutoSequence {
 
     public void messUpMiddleRed(int x, int y, double r, int x2, int y2, double r2, v2CuttleIntake.Color colorIN, v2CuttleIntake.Color colorOUT){
         TaskList mess = new TaskList();
-
 
         manager.waypointTask(mess, new Pose(x, y, Math.toRadians(r)),0.9,0.2,75,false);
 
@@ -140,27 +140,42 @@ public class BucketAuto extends AutoSequence {
         mess.addTask(new CustomTask(() -> {
             intake.in();
             extendoPosition = 1.5;
-            boolean quit = false;
             //turn = -0.12
             //145
 
             if (intake.getColor() == BLUE) {
                 intake.out();
-                mess.kill();
-                quit = true;
+                doSeperateLineup = true;
             }
 
-            return intake.getColor() == YELLOW || intake.getColor() == RED || quit;
+            return intake.getColor() == YELLOW || intake.getColor() == RED || doSeperateLineup;
         }));
 
-        /*
+        mess.addTask(new CustomTask(() -> {
+            if (doSeperateLineup){
+                
+                return false;
+            } else {
+                return true;
+            }
+
+        }));
+
+
         manager.delay(mess, 200);
         manager.task(mess, () -> {
             intake.clawClose();
         });
         manager.delay(mess, 200);
 
+        manager.task(mess, () -> {
+            intake.clawClose();
+            intake.off();
+            intake.armUp();
+        });
+        queue.addTask(mess);
 
+        /*
         //whats an atomic boolean lmao
         //i detect the work of chatgpt here
         AtomicBoolean in = new AtomicBoolean(false);
@@ -202,15 +217,9 @@ public class BucketAuto extends AutoSequence {
             return intake.getColor() == YELLOW || intake.getColor() == colorIN || quit;
         }));
 
-        manager.task(mess, () -> {
-            intake.clawClose();
-            intake.off();
-            intake.armUp();
-        });
-
          */
 
-        queue.addTask(mess);
+
 
     }
 
