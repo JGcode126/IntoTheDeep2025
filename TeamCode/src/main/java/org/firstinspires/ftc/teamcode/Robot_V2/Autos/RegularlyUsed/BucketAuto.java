@@ -22,6 +22,8 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSweep;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class BucketAuto extends AutoSequence {
     private ElapsedTime timer;
     TaskManager manager;
@@ -67,13 +69,19 @@ public class BucketAuto extends AutoSequence {
         scoreSample2(scoreX, scoreY, scoreR, time);
     }
 
-    public void middle(int x, int y, double r,int x2, int y2, double r2, int scoreX, int scoreY, double scoreR, double r3, int endX, int endY) {
-        messUpMiddle(x, y, r, x2, y2, r2);
+    public void scoringBucketsLast(int inX, int inY, double inR, double extPos, int scoreX, int scoreY, double scoreR, int time){
+        intakeSample2(inX,inY,inR,extPos);
+        teleOp.bucketTransfer(scoreX, scoreY, scoreR);
+        scoreSampleForLast(scoreX, scoreY, scoreR, time);
+    }
+
+    public void middle(int x, int y, double r,int x2, int y2, double r2, int scoreX, int scoreY, double scoreR, double r3, int endX, int endY, v2CuttleIntake.Color in, v2CuttleIntake.Color out) {
+        messUpMiddle(x, y, r, x2, y2, r2, in, out);
         teleOp.bucketTransfer(scoreX, scoreY, scoreR);
         scoreSample(scoreX, scoreY, scoreR, r3, endX, endY);
     }
 
-    public void messUpMiddle(int x, int y, double r,int x2, int y2, double r2){
+    public void messUpMiddle(int x, int y, double r,int x2, int y2, double r2, v2CuttleIntake.Color colorIN, v2CuttleIntake.Color colorOUT){
         TaskList mess = new TaskList();
 
         manager.waypointTask(mess, new Pose(x, y, Math.toRadians(r)),0.9,0.5,100,false);
@@ -100,24 +108,54 @@ public class BucketAuto extends AutoSequence {
             timer.reset();
         });
 
-       //manager.waypointTask(mess, new Pose(x2, y2, Math.toRadians(r2)),0.9,0.5,100,false);
 
-        mess.addTask(new CustomTask(() -> {
-            boolean quit = false;
-            extendoPosition = 0;
+        manager.task(mess, () -> {
             intake.in();
             intake.clawOpen();
             intake.intakeDown();
 
-            if (timer.seconds() > 5) {quit = true;}
-            if(intake.getColor() == BLUE || intake.getColor() == RED){
-                double inTime = timer.seconds();
-                while(inTime+1 < timer.seconds()){
-                    intake.out();
-                }
-                intake.turntableRight();
+        });
+
+        manager.delay(mess, 400);
+
+
+        AtomicBoolean in = new AtomicBoolean(false);
+
+        mess.addTask(new CustomTask(() -> {
+            boolean quit = false;
+            in.set(false);
+
+            if(intake.getColor() == colorOUT){
+                intake.out();
+                extendoPosition = 0;
             }
-            return intake.getColor() == YELLOW || quit;
+            if (timer.seconds() > 5) {quit = true;}
+            if(intake.getColor() == YELLOW){in.set(true);}
+
+            extendoPosition = 2;
+
+            return intake.getColor() == YELLOW || intake.getColor() == colorIN || quit;
+        }));
+
+        mess.addTask(new CustomTask(() -> {
+            boolean quit = false;
+
+            if(in.get() == false){
+                if(intake.getColor() == colorOUT){
+                    intake.out();
+                    extendoPosition = 0;
+                }
+                intake.out();
+                extendoPosition = 0;
+            }
+
+            else{quit = true;}
+
+            if (timer.seconds() > 5) {quit = true;}
+
+            extendoPosition = 2;
+
+            return intake.getColor() == YELLOW || intake.getColor() == colorIN || quit;
         }));
 
         manager.task(mess, () -> {
@@ -159,6 +197,44 @@ public class BucketAuto extends AutoSequence {
         queue.addTask(scoringSample);
     }
 
+    public void scoreSampleForLast(double x, double y, double r1, int time) {
+        TaskList scoringSample = new TaskList();
+
+        manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.8,0.1,10,false);
+
+        manager.task(scoringSample, () -> {
+            outake.scorePosMid();
+        });
+
+        manager.task(scoringSample, () -> {
+            dt.drive(-0.2,0, 0);
+        });
+
+
+        manager.delay(scoringSample, time);
+
+        manager.task(scoringSample, () -> {
+            dt.drive(0,0,0);
+        });
+
+        manager.delay(scoringSample, 200);
+
+        manager.task(scoringSample, () -> {
+            outake.openClaw();
+            //intake.intakeDown();
+            intake.clawOpen();
+            intake.in();
+        });
+
+        manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.6,0.1,20,false);
+
+        manager.task(scoringSample, () -> {
+            liftPosition = 0;
+        });
+
+        queue.addTask(scoringSample);
+    }
+
     public void scoreSample2(double x, double y, double r1, int time) {
         TaskList scoringSample = new TaskList();
 
@@ -169,7 +245,7 @@ public class BucketAuto extends AutoSequence {
         });
 
         manager.task(scoringSample, () -> {
-            dt.drive(0.5,0, 0);
+            dt.drive(-0.2,0, 0);
         });
 
 
@@ -179,8 +255,13 @@ public class BucketAuto extends AutoSequence {
             dt.drive(0,0,0);
         });
 
+        manager.delay(scoringSample, 200);
+
         manager.task(scoringSample, () -> {
             outake.openClaw();
+            intake.intakeDown();
+            intake.clawOpen();
+            intake.in();
         });
 
         manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.6,0.1,20,false);
@@ -188,6 +269,9 @@ public class BucketAuto extends AutoSequence {
         manager.task(scoringSample, () -> {
             liftPosition = 0;
             outake.readyPos();
+            intake.intakeDown();
+            intake.clawOpen();
+            intake.in();
         });
 
         queue.addTask(scoringSample);
@@ -239,6 +323,8 @@ public class BucketAuto extends AutoSequence {
             intake.in();
             extendoPosition = 0;
             liftPosition = 0;
+            intake.intakeDown();
+            intake.clawOpen();
         });
 
         manager.waypointTask(sample, new Pose(x, y, Math.toRadians(deg)),0.9,0.1,10,false);
@@ -246,9 +332,8 @@ public class BucketAuto extends AutoSequence {
         sample.addTask(new CustomTask(() -> {
             boolean quit = false;
             extendoPosition = extPos;
-            intake.in();
-            intake.clawOpen();
-            intake.intakeDown();
+            //intake.in();
+            //intake.intakeDown();
 
             if (timer.seconds() > 2.5) {quit = true;}
 
@@ -278,7 +363,7 @@ public class BucketAuto extends AutoSequence {
         });
 
         manager.task(scoringSample, () -> {
-            dt.drive(0.5,0.5, 0);
+            dt.drive(-0.2,-0.2, 0);
         });
 
         manager.delay(scoringSample, time);

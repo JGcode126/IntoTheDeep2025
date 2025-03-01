@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode.Robot_V2.Init;
 
 
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.BLUESIGN;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.REDSIGN;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -112,6 +117,9 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
     private final double MAX_ACCELERATION = 2.6; // Adjust (ticks/sec^2)
     private ElapsedTime timer = new ElapsedTime();
     boolean resetTimer = true;
+
+    public v2CuttleIntake.Color inColor;
+    public v2CuttleIntake.Color outColor;
 
     @Override
     public void onInit()
@@ -288,10 +296,30 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
                 new TaskManager(queue, ptpController,ptpOtosController, ptpFusionController), hang, sweeper);
 
-
-
-
         battery = new Battery(batteryVoltage, optimalVoltage);
+
+        //error handling for finding sign color
+        //comment out if causes errors
+        //if errors try lazy way
+        try {
+            v2CuttleIntake.SignColor signColor = intake.getSignColor();
+
+            if (signColor == BLUESIGN) {
+                inColor = RED;
+                outColor = BLUE;
+            } else if (signColor == REDSIGN) {
+                inColor = BLUE;
+                outColor = RED;
+            }
+
+            telemetry.addData("Sign Color", signColor);
+        } catch (Exception e) {
+            telemetry.addLine("Error retrieving sign color: " + e.getMessage());
+        }
+
+        telemetry.addData("IN Color", inColor);
+        telemetry.addData("OUT Color", outColor);
+
         configureOtos();
     }
     @Override

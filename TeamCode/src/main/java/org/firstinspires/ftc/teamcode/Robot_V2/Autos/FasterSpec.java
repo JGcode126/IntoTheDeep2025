@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @Autonomous(name = "specimen_5+1", group = "Example")
 @Config
-
+@Disabled
 public class FasterSpec extends CuttleInitOpModeRobot2 {
     public int loopCounter = 0;
 

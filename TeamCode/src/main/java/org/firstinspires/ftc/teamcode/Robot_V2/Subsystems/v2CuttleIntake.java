@@ -157,7 +157,7 @@ public class v2CuttleIntake {
         return color;
     }
 
-    public SignColor getSignColor(){
+    /*public SignColor getSignColor(){
         SignColor signColor = null;
 
         if(signFinder.red() > signFinder.blue() && signFinder.getDistance(DistanceUnit.CM) < 2.5){
@@ -169,14 +169,30 @@ public class v2CuttleIntake {
         else if(signFinder.getDistance(DistanceUnit.CM) > 2.5){
             signColor = NEUTRALSIGN;
         }
-        /*
-        else{
-            color = null;
-        }
 
-         */
+//        else{
+//            color = null;
+//        }
+
         return signColor;
+    }*/
+
+    public SignColor getSignColor() {
+        try {
+            if (signFinder.red() > signFinder.blue() && signFinder.getDistance(DistanceUnit.CM) < 2.5) {
+                return REDSIGN;
+            } else if (signFinder.blue() > signFinder.red() && signFinder.getDistance(DistanceUnit.CM) < 2.5) {
+                return BLUESIGN;
+            } else {
+                return NEUTRALSIGN;
+            }
+        } catch (NullPointerException e) {
+            // If signFinder is null, default to NEUTRALSIGN and print an error
+            System.out.println("Error: signFinder is null! Returning NEUTRALSIGN.");
+            return NEUTRALSIGN;
+        }
     }
+
 
     public void intakeMachineColor(boolean down, double looking, boolean up, double reject, double turn, Color inColor, Color rejectColor){
         switch (intakeState){

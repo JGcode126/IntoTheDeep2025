@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.Robot_V2.Autos.RegularlyUsed;
 
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.BLUESIGN;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.REDSIGN;
+
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
