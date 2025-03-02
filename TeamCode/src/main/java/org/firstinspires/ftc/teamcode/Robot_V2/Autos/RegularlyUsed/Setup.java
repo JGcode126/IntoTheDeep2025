@@ -101,7 +101,9 @@ public class Setup extends CuttleInitOpModeRobot2 {
         telemetry.addData("pin0", intake.pin0.getState());
         telemetry.addData("pin1", intake.pin1.getState());
 
-        telemetry.addData("Intake Color", intake.getColor());//print out intake color
+        //telemetry.addData("out Color", intake.getSignColor());
+
+        //telemetry.addData("Intake Color", intake.getColor());//print out intake color
 
         //print out oto values
         telemetry.addData("Cuttle X:", currentPos.getX());

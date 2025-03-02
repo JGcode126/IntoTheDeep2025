@@ -34,7 +34,7 @@ public class specimen_bucket extends CuttleInitOpModeRobot2 {
         bucket.scoringBuckets(-600, -350, 140, 3,-300, -500, 50, 90, -300, -500);
         //bucket.messUpMiddle(-1300, 0, 0, -1300, 500, 0);
 
-        bucket.park(-1200, 0, 180);
+        //bucket.park(-1200, 0, 180);
     }
 
     public void mainLoop() {

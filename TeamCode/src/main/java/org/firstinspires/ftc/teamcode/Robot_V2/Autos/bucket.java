@@ -30,14 +30,30 @@ public class bucket extends CuttleInitOpModeRobot2 {
     private ElapsedTime spitTime = new ElapsedTime();
     public void onInit() {
         super.onInit();
+        bucketAuto = true;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         setup.initRobot();
 
+        /*try {
+            v2CuttleIntake.SignColor signColor = intake.getSignColor();
 
+            if (signColor == BLUESIGN) {
+                in = RED;
+                out = BLUE;
+            } else if (signColor == REDSIGN) {
+                in = BLUE;
+                out = RED;
+            }
 
-        out = outColor;
-        in = inColor;
+            telemetry.addData("Sign Color", signColor);
+        } catch (Exception e) {
+            telemetry.addLine("Error retrieving sign color: " + e.getMessage());
+        }
+
+        telemetry.addData("IN Color", inColor);
+        telemetry.addData("OUT Color", outColor);
+        telemetry.update();*/
     }
 
     public void main(){
@@ -46,25 +62,26 @@ public class bucket extends CuttleInitOpModeRobot2 {
         liftPosController.setHome();
         extendoPosController.setHome();
 
-        bucket.scoreFirstSample2(-280, -440,50, -370, -270,90,200);
+        bucket.scoreFirstSample2(-280, -460,60, 200);
 
-        bucket.scoringBuckets2(-420, -270, 90, 5,-300, -470, 50, 200);
-        bucket.scoringBuckets2(-420, -515, 90, 5,-300, -470, 50, 200);
-        bucket.scoringBucketsLast(-850, -300, 160, 1,-270, -370, 50, 200);
+        bucket.scoringBuckets2(-350, -280, 90, 6,-300, -470, 50, 200, 0);
+        bucket.scoringBuckets2(-420, -515, 90, 5,-300, -470, 50, 200, 0);
+        bucket.scoringBucketsLast(-920, -250, 170, 2,-320, -350, 50, 200);
 
-        bucket.middle(-1300, 0, 0, -1400, 500, 0,-300, -380, 50, 180, -1500, 0, out, in);
+        bucket.middle2(-1300, 0, 0, -1400, 500, 0,-300, -400, 50, out, in);
 
-        bucket.park(-1400, 350, 180);
+        bucket.park(-1500, 0, 180,-1400, 350, 180);
     }
 
     public void mainLoop() {
         super.mainLoop();
 
-        if (intake.getColor() == BLUE && totalAutoTime.seconds() > 17){
+        /*if (intake.getColor() == BLUE && totalAutoTime.seconds() > 17){
             if (failSafeTimer.seconds() > 0.5) {
                 queue.pause();
                 spitTime.reset();
                 Task currentTask = queue.getTask();
+
                 currentTask.kill();
                 queue.getTasks().addFirst(currentTask);
                 queue.getTasks().addFirst(new CustomTask(() -> {
@@ -73,18 +90,20 @@ public class bucket extends CuttleInitOpModeRobot2 {
                     extendoPosition = 1.8;
                     return true;
                 }));
+
                 queue.getTasks().addFirst(new DelayTask(2000));
                 queue.getTasks().addFirst(new CustomTask(() -> {
                     intake.out();
                     extendoPosition = 0.5;
                     return intake.getColor() != BLUE && spitTime.seconds() >= 5;
                 }));
+
                 queue.unpause();
                 failSafeTimer.reset();
             }
         }else{
             failSafeTimer.reset();
-        }
+        }*/
         setup.telemetryData();
     }
 }
