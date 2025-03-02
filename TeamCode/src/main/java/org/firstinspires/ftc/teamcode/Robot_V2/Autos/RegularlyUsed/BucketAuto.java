@@ -186,26 +186,31 @@ public class BucketAuto extends AutoSequence {
                 intake.out();
                 extendoPosition = 0;
                 count += 1;
-
-                //doSeperateLineup = true;
             }
 
-            if(timer.seconds() >= 2  && count >= 10){
-                intake.in();
+            if(timer.seconds() >= 2  && intake.getColor() == null){
 
-                intake.turntableCustom(0.35);
-                extendoPosition = 2;
+                if(timer.seconds() >= 2.5){
+                    intake.in();
+                    intake.turntableCustom(0.35);
+                    extendoPosition = 2;
+                }
+
+                else{
+                    extendoPosition = 0;
+                }
             }
 
-            else if(timer.seconds() >= 4  && count >= 10){
-                intake.in();
-                //timer.reset();
-                intake.turntableRight();
-                extendoPosition = 2;
-            }
+            if(timer.seconds() >= 4  && intake.getColor() == null){
+                if(timer.seconds() >= 4.5) {
+                    intake.in();
+                    intake.turntableRight();
+                    extendoPosition = 2;
+                }
 
-            if(timer.seconds() >= 2){
-                extendoPosition = 0;
+                else{
+                    extendoPosition = 0;
+                }
             }
 
             if(failsafeTimer.seconds() == 6){
@@ -214,6 +219,7 @@ public class BucketAuto extends AutoSequence {
 
             return intake.getColor() == YELLOW || intake.getColor() == colorIN;
         }));
+        
         manager.task(mess, () -> {
             intake.in();
         });
