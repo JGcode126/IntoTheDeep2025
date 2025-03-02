@@ -52,7 +52,7 @@ public class bucket extends CuttleInitOpModeRobot2 {
         bucket.scoringBuckets2(-420, -515, 90, 5,-300, -470, 50, 200);
         bucket.scoringBucketsLast(-850, -300, 160, 1,-270, -370, 50, 200);
 
-        bucket.middle(-1300, 0, 0, -1400, 500, 0,-280, -350, 50, 180, -1500, 0, out, in);
+        bucket.middle(-1300, 0, 0, -1400, 500, 0,-300, -380, 50, 180, -1500, 0, out, in);
 
         bucket.park(-1400, 350, 180);
     }
