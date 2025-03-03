@@ -64,7 +64,7 @@ public class bucket extends CuttleInitOpModeRobot2 {
 
         bucket.scoreFirstSample2(-280, -460,60, 200);
 
-        bucket.scoringBuckets2(-350, -280, 90, 6,-300, -470, 50, 200, 0);
+        bucket.scoringBuckets2(-350, -280, 90, 5,-300, -470, 50, 200, 0);
         bucket.scoringBuckets2(-420, -515, 90, 5,-300, -470, 50, 200, 0);
         bucket.scoringBucketsLast(-920, -250, 170, 2,-320, -350, 50, 200);
 

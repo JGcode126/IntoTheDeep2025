@@ -106,6 +106,13 @@ public class v2CuttleOutake {
         wristCenter();
     }
 
+    public void specimenFrontReadyPosNEW_CLAW(){
+        closeClaw();
+        driveRight.setPosition(0.80);
+        driveLeft.setPosition(1-0.8);
+        wristCenter();
+    }
+
 
 
     public void closeClaw(){

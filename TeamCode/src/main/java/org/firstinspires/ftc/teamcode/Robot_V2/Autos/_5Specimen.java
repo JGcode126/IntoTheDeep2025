@@ -20,6 +20,8 @@ public class _5Specimen extends CuttleInitOpModeRobot2 {
         setup.test = false;
         setup.side = "right";
         setup.color = "blue";
+
+        bucketAuto = false;
     }
 
     public void main(){
@@ -47,20 +49,21 @@ public class _5Specimen extends CuttleInitOpModeRobot2 {
         specimen.sampleSweep(4.8, 970,870,-60,750,0.35,0.3);
 
         specimen.scoreSetup();
+
         specimen.intakeOffWall(900,400,0, 1000,50,0,0.4);
-        specimen.score(-50,600,0,-50,950,0,0.8,0.5);//-30
+        specimen.score(20,600,0,0.8);//-30
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
-        specimen.score(-120,600,0,-100,950,0,0.8,0.5);//-90
+        specimen.score(-60,600,0,0.8);//-90
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
-        specimen.score(-170,600,0,-150,950,0,0.8,0.5);//-140
+        specimen.score(-120,600,0,0.8);//-140
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
-        specimen.score(-230,600,0,-200,950,0,0.8,0.5);//-230
+        specimen.score(-200,600,0,0.8);//-230
 
         specimen.specimenPark(1);
         //specimen.extendoPark();
