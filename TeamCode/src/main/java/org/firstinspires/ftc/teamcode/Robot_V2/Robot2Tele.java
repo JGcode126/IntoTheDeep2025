@@ -111,7 +111,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
                     lastJoystickInput = (joystickFilter * rawJoystickInput) + ((1 - joystickFilter) * lastJoystickInput);
                     finalExtendoPos += lastJoystickInput * 1.5;  // Smoother adjustments
 
-                    finalExtendoPos = Math.max(0, Math.min(finalExtendoPos, 5.15));  // Limit range
+                    finalExtendoPos = Math.max(0, Math.min(finalExtendoPos, 5.065));  // Limit range
                 }
             }
             if (!gamepad1.b) {
@@ -197,7 +197,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         if (gamepad2.share){
             hang.hangHeight();
             outake.setScoreState(BUCKET_BAR);
-            finalExtendoPos = 5;
+            finalExtendoPos = 4;
         }
         
 
@@ -266,6 +266,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         TaskList transfer = new TaskList();
         intake.setIntakeState(UP);
         lift.setLiftState(IN);
+        transfer.addTask(new DelayTask(200));
         transfer.addTask(new CustomTask(()->{
             counter += 1;
             intake.armUp();

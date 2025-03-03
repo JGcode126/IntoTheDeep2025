@@ -128,8 +128,8 @@ public class v2CuttleIntake {
     }
     //close claw pos 0.957
     public void intakePos(double turntableAngle){
-        leftServo.setPosition(0.025);
-        rightServo.setPosition(1-0.025);
+        leftServo.setPosition(0.015);
+        rightServo.setPosition(1-0.015);
         turntable.setPosition(turntableAngle);
         clawServo.setPosition(clawInit);
     }
