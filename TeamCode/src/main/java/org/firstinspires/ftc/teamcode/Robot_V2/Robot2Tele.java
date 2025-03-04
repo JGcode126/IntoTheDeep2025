@@ -130,7 +130,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
                     specimenDropOffSequence();
                 }
             } else{
-                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left, gamepad1.dpad_down, gamepad1.dpad_up, gamepad1.share);
+                outake.outakeMachine(gamepad2.a, false, false, false, gamepad2.dpad_down, gamepad2.dpad_right, gamepad2.dpad_left, gamepad1.dpad_down, gamepad1.dpad_up, gamepad1.share, gamepad1.x);
             }
         }
 

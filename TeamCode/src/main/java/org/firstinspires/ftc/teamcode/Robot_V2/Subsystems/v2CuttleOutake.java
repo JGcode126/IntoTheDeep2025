@@ -166,7 +166,7 @@ public class v2CuttleOutake {
 
 
 
-    public void outakeMachine(boolean ready, boolean place, boolean grip, boolean holding, boolean bucket_bar, boolean barLeft, boolean barRight, boolean back, boolean backTransfer, boolean altReady){
+    public void outakeMachine(boolean ready, boolean place, boolean grip, boolean holding, boolean bucket_bar, boolean barLeft, boolean barRight, boolean back, boolean backTransfer, boolean altReady, boolean x){
         //buttona: right trigger 2, buttonb: left trigger 2, buttonc: x 1, buttond: o 1, buttone: triangle 1
         switch (outakeState){
             case READY:
@@ -208,9 +208,10 @@ public class v2CuttleOutake {
                 }
                 if (readyCounter > 5) {
                     skipStep = false;
-                    outakeState = READY;
+                    outakeState = BACKINTAKE;
                     readyCounter = 0;
                 }
+                if (back) {outakeState = BACKINTAKE;}
                 if(grip){outakeState = GRIPPED;}
                 if(barLeft){outakeState = BARLEFT;}
                 if(barRight){outakeState = BARRIGHT;}
@@ -251,7 +252,7 @@ public class v2CuttleOutake {
                     outakeState = FRONTSCORE;
                     readyCounter = 0;
                 }
-                if(ready){
+                if(x){
                     openClaw();
                     outakeState = READY;
                 }
