@@ -111,7 +111,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
                     lastJoystickInput = (joystickFilter * rawJoystickInput) + ((1 - joystickFilter) * lastJoystickInput);
                     finalExtendoPos += lastJoystickInput * 1.5;  // Smoother adjustments
 
-                    finalExtendoPos = Math.max(0, Math.min(finalExtendoPos, 5.065));  // Limit range
+                    finalExtendoPos = Math.max(0, Math.min(finalExtendoPos, 4.5));  // Limit range
                 }
             }
             if (!gamepad1.b) {

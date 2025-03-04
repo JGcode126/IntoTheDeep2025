@@ -39,19 +39,19 @@ public class _5Specimen extends CuttleInitOpModeRobot2 {
         specimen.sampleSweep(4.5, 970,870,-60,920,0.35,0.3);*/
 
         //900,900,950
-        specimen.sweepSetup(510,600,-30);
-        specimen.sampleSweep(4.9, 500,600,-30,770,0.35,0.3);
+        specimen.sweepSetup(520,610,-30);
+        specimen.sampleSweep(4.5, 510,610,-30,850,0.35,0.3);
 
-        specimen.sweepSetup(770,670,-40);
-        specimen.sampleSweep(5.2, 770,670,-40,730,0.35,0.3);
+        specimen.sweepSetup(785,695,-40);
+        specimen.sampleSweep(4.5, 785,695,-40,850,0.35,0.3);
 
-        specimen.sweepSetup(975,870,-60);
-        specimen.sampleSweep(4.8, 970,870,-60,750,0.35,0.3);
+        specimen.sweepSetup(985,880,-60);
+        specimen.sampleSweep(4.5, 985,880,-60,900,0.35,0.3);
 
         specimen.scoreSetup();
 
         specimen.intakeOffWall(900,400,0, 1000,50,0,0.4);
-        specimen.score(20,600,0,0.8);//-30
+        specimen.score(0,600,0,0.8);//-30
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
@@ -63,7 +63,7 @@ public class _5Specimen extends CuttleInitOpModeRobot2 {
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
-        specimen.score(-200,600,0,0.8);//-230
+        specimen.score(-180,600,0,0.8);//-230
 
         specimen.specimenPark(1);
         //specimen.extendoPark();

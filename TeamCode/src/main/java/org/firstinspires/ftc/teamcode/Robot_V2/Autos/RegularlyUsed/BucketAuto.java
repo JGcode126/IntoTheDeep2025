@@ -160,6 +160,21 @@ public class BucketAuto extends AutoSequence {
         manager.delay(mess, 300);
 
         manager.task(mess, () -> {
+            extendoPosition = 0;
+            intake.armUp();
+            outake.readyPos();
+            sweeper.broomOut();
+        });
+
+        manager.delay(mess, 300);
+
+        manager.task(mess, () -> {
+            sweeper.broomIn();
+        });
+
+        manager.delay(mess, 300);
+
+        manager.task(mess, () -> {
             timer.reset();
         });
 
@@ -349,7 +364,7 @@ public class BucketAuto extends AutoSequence {
             dt.drive(0,0,0);
         });
 
-        manager.delay(scoringSample, 200);
+        manager.delay(scoringSample, 50);
 
         manager.task(scoringSample, () -> {
             outake.openClaw();
