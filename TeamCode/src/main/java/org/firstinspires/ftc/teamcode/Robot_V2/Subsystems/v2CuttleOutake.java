@@ -117,7 +117,7 @@ public class v2CuttleOutake {
 
     public void closeClaw(){
         //old fat claws -> 0.38
-        claw.setPosition(0.42);
+        claw.setPosition(0.38);
     }
     public void closeClawBakSpec(){
         claw.setPosition(0.35);
@@ -267,6 +267,8 @@ public class v2CuttleOutake {
                     readyCounter = 0;
                     outakeState = BUCKET_BAR;
                 }
+                if(barLeft){outakeState = BARLEFT;}
+                if(barRight){outakeState = BARRIGHT;}
                 break;
         }
     }
