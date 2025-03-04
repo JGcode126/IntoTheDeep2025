@@ -117,7 +117,7 @@ public class v2CuttleOutake {
 
     public void closeClaw(){
         //old fat claws -> 0.38
-        claw.setPosition(0.5);
+        claw.setPosition(0.42);
     }
     public void closeClawBakSpec(){
         claw.setPosition(0.35);
