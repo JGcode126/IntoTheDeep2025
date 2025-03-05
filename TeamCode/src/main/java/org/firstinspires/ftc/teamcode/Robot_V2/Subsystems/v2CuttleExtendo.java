@@ -50,8 +50,8 @@ public class v2CuttleExtendo {
             //extraPower = 0.01;
         }
         if (position <= 0){
-            NewPosition = 0;
-            extraPower = -0.09;
+            NewPosition = -0.2;
+            //extraPower = -0.09;
         }
 
         controller.setPID(p, i, d);

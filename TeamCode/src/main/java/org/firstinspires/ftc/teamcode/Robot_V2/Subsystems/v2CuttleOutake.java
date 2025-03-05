@@ -208,7 +208,7 @@ public class v2CuttleOutake {
                 }
                 if (readyCounter > 5) {
                     skipStep = false;
-                    outakeState = BACKINTAKE;
+                    outakeState = READY;
                     readyCounter = 0;
                 }
                 if (back) {outakeState = BACKINTAKE;}
