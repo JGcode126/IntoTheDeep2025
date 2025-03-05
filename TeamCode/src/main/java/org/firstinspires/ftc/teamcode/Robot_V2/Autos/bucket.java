@@ -12,9 +12,13 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.DelayTask;
+import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.queue.Task;
+import com.roboctopi.cuttlefish.queue.TaskList;
+import com.roboctopi.cuttlefish.utils.Pose;
 
 import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
@@ -45,11 +49,11 @@ public class bucket extends CuttleInitOpModeRobot2 {
         liftPosController.setHome();
         extendoPosController.setHome();
 
-        bucket.scoreFirstSample2(-280, -460,60, 200);
+        //bucket.scoreFirstSample2(-280, -460,60, 200);
 
-        bucket.scoringBuckets2(-350, -260, 90, 5,-300, -470, 50, 250, 0);
-        bucket.scoringBuckets2(-420, -515, 90, 5,-300, -470, 50, 250, 0);
-        bucket.scoringBucketsLast(-920, -250, 170, 2,-320, -350, 50, 300);
+        //bucket.scoringBuckets2(-350, -260, 90, 5,-300, -470, 50, 250, 0);
+        //bucket.scoringBuckets2(-420, -515, 90, 5,-300, -470, 50, 250, 0);
+        //bucket.scoringBucketsLast(-920, -250, 170, 2,-320, -330, 50, 300);
 
         bucket.middle2(-1300, 0, 0, -1400, 500, 0,-350, -420, 50, RED, BLUE);
 
@@ -58,6 +62,34 @@ public class bucket extends CuttleInitOpModeRobot2 {
 
     public void mainLoop() {
         super.mainLoop();
+
+        if(totalAutoTime.seconds() >= 20){
+            queue.clear();
+            //bucket.park(-1500, 0, 180,-1400, 350, 180);
+
+            queue.addTask(new PointTask(new Waypoint(new Pose(-1500, 0, Math.toRadians(180)), 0.9,0.5,100, false), ptpController));
+
+            queue.addTask(new CustomTask(() -> {
+                intake.turntableMiddle();
+                //outake.readyPos();
+                //hang.parkHeight();
+                intake.armUp();
+                extendoPosition = 0;
+                liftPosition = 0;
+                outake.parkPos();
+
+                return true;
+            }));
+
+            queue.addTask(new PointTask(new Waypoint(new Pose(-1400, 350, Math.toRadians(180)), 0.9,0.5,100, false), ptpController));
+
+            queue.addTask(new CustomTask(() -> {
+                dt.drive(-0.2,0,0);
+                return true;
+            }));
+
+            queue.addTask(new DelayTask(60000));
+        }
 
         loopCounter += 1;
 

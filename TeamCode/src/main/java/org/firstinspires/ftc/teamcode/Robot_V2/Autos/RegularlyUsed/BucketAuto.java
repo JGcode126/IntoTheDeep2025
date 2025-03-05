@@ -7,8 +7,11 @@ import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.MotorPositionController;
 import com.roboctopi.cuttlefish.controller.PTPController;
+import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.localizer.ThreeEncoderLocalizer;
 import com.roboctopi.cuttlefish.queue.CustomTask;
+import com.roboctopi.cuttlefish.queue.DelayTask;
+import com.roboctopi.cuttlefish.queue.PointTask;
 import com.roboctopi.cuttlefish.queue.TaskList;
 import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Pose;
@@ -28,7 +31,8 @@ public class BucketAuto extends AutoSequence {
     private ElapsedTime newTimer;
     TaskManager manager;
     int count = 0;
-    boolean doSeperateLineup = false;
+
+    boolean park = true;
 
 
     public BucketAuto(ThreeEncoderLocalizer otos, ThreeEncoderLocalizer encoderLocalizer, v2CuttleIntake intake, v2CuttleOutake outake,
@@ -188,7 +192,7 @@ public class BucketAuto extends AutoSequence {
         manager.task(mess, () -> {
             timer.reset();
             intake.in();
-            extendoPosition = 2;
+            extendoPosition = 3;
             count = 0;
             failsafeTimer.reset();
         });
@@ -200,41 +204,80 @@ public class BucketAuto extends AutoSequence {
             if (intake.getColor() == colorOUT) {
                 intake.out();
                 extendoPosition = 0;
-                count += 1;
             }
 
-            if(timer.seconds() >= 2  && intake.getColor() == null){
+            else if(timer.seconds() >= 2  && timer.seconds() < 4  && intake.getColor() == null){
 
                 if(timer.seconds() >= 2.5){
                     intake.in();
                     intake.turntableCustom(0.35);
-                    extendoPosition = 2;
+                    extendoPosition = 3;
                 }
 
                 else{
+                    intake.turntableCustom(0.35);
                     extendoPosition = 0;
+                    intake.out();
                 }
             }
 
-            if(timer.seconds() >= 4  && intake.getColor() == null){
-                if(timer.seconds() >= 4.5) {
+            else if(timer.seconds() >= 4  && timer.seconds() < 6 && intake.getColor() == null){
+                if(timer.seconds() >= 4.5){
                     intake.in();
                     intake.turntableRight();
-                    extendoPosition = 2;
+                    extendoPosition = 3;
                 }
 
                 else{
+                    intake.turntableRight();
                     extendoPosition = 0;
+                    intake.out();
                 }
             }
 
-            if(failsafeTimer.seconds() == 6){
-                return true;
+            if(failsafeTimer.seconds() >= 6){
+                if(timer.seconds() <= 7.5){
+                    intake.out();
+                    intake.turntableMiddle();
+                    extendoPosition = 0;
+                }
+
+                else if(timer.seconds() >= 7.5 && timer.seconds() < 8){
+                    intake.off();
+                    intake.armUp();
+                }
+
+                else {
+                    queue.clear();
+                    queue.addTask(new PointTask(new Waypoint(new Pose(-1500, 0, Math.toRadians(180)), 0.9,0.5,100, false), ptpController));
+
+                    queue.addTask(new CustomTask(() -> {
+                        intake.turntableMiddle();
+                        //outake.readyPos();
+                        //hang.parkHeight();
+                        intake.armUp();
+                        extendoPosition = 0;
+                        liftPosition = 0;
+                        outake.parkPos();
+
+                        return true;
+                    }));
+
+                    queue.addTask(new PointTask(new Waypoint(new Pose(-1400, 350, Math.toRadians(180)), 0.9,0.5,100, false), ptpController));
+
+                    queue.addTask(new CustomTask(() -> {
+                        dt.drive(-0.2,0,0);
+                        return true;
+                    }));
+
+                    queue.addTask(new DelayTask(60000));
+                    return true;
+                }
             }
 
             return intake.getColor() == YELLOW || intake.getColor() == colorIN;
         }));
-        
+
         manager.task(mess, () -> {
             intake.in();
         });
