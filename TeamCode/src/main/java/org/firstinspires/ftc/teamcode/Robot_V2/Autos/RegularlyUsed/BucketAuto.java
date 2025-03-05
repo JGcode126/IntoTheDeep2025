@@ -112,7 +112,7 @@ public class BucketAuto extends AutoSequence {
     }
 
     public void middle2(int x, int y, double r,int x2, int y2, double r2, int scoreX, int scoreY, double scoreR, v2CuttleIntake.Color in, v2CuttleIntake.Color out) {
-        messUpMiddleRed(x, y, r, x2, y2, r2, RED, BLUE);
+        messUpMiddleRed(x, y, r, x2, y2, r2, in, out);
         teleOp.bucketTransfer(scoreX, scoreY, scoreR);
         scoreSampleForLast(scoreX, scoreY, scoreR,200);
     }
@@ -159,7 +159,7 @@ public class BucketAuto extends AutoSequence {
 
         manager.delay(mess, 300);
 
-        manager.task(mess, () -> {
+       /* manager.task(mess, () -> {
             extendoPosition = 0;
             intake.armUp();
             outake.readyPos();
@@ -172,7 +172,7 @@ public class BucketAuto extends AutoSequence {
             sweeper.broomIn();
         });
 
-        manager.delay(mess, 300);
+        manager.delay(mess, 300);*/
 
         manager.task(mess, () -> {
             timer.reset();

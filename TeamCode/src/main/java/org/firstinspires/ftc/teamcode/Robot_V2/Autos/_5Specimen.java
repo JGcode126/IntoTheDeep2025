@@ -46,7 +46,7 @@ public class _5Specimen extends CuttleInitOpModeRobot2 {
         specimen.sampleSweep(4.5, 785,695,-40,850,0.35,0.3);
 
         specimen.sweepSetup(985,880,-60);
-        specimen.sampleSweep(4.5, 985,880,-60,900,0.35,0.3);
+        specimen.sampleSweep(4.6, 985,880,-60,900,0.35,0.3);
 
         specimen.scoreSetup();
 
