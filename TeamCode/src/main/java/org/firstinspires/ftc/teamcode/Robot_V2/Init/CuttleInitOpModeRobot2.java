@@ -22,6 +22,7 @@ import com.roboctopi.cuttlefish.queue.TaskQueue;
 import com.roboctopi.cuttlefish.utils.Direction;
 import com.roboctopi.cuttlefish.utils.PID;
 import com.roboctopi.cuttlefish.utils.Pose;
+import com.roboctopi.cuttlefishftcbridge.devices.CuttleDigital;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleEncoder;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleMotor;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
@@ -76,6 +77,9 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
     public CuttleMotor leftbackSlides;
     public CuttleMotor rightBackSlides;
     public CuttleMotor extendoMotor;
+    public CuttleDigital digi1;
+    public CuttleDigital digi2;
+
 
     // Declare the mecanum controller
     public MecanumController chassis;
@@ -189,6 +193,8 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
         CuttleServo intakeClaw = ctrlHub.getServo(2);
         CuttleServo intakeTurntable = ctrlHub.getServo(4);
         CuttleServo light = expHub.getServo(4);
+        digi1 = ctrlHub.getDigital(0);
+        digi2 = ctrlHub.getDigital(1);
 
         //gamepadEx
         toolOp = new GamepadEx(gamepad1);
@@ -275,7 +281,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
         queue = new TaskQueue();
         dt = new v2CuttleDT(leftBackMotor,leftFrontMotor, rightBackMotor, rightFrontMotor, expHub, ctrlHub);
         extendo = new v2CuttleExtendo(extendoMotor, extendoEncoder, extendoPosController, ctrlHub);
-        intake = new v2CuttleIntake(intakeClaw, intakeTurntable, hardwareMap, light,color);
+        intake = new v2CuttleIntake(intakeClaw, intakeTurntable, hardwareMap, light,color, digi1, digi2);
         lift = new v2CuttleSlides(leftbackSlides, rightBackSlides, liftEncoder, liftPosController,ctrlHub);
         outake = new v2CuttleOutake(outtakeClawServo, hardwareMap);
         hang = new v2CuttleHang(hangL,hangR, hardwareMap);

@@ -13,7 +13,7 @@ public class ColorSensorConfig extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ColorRangefinder crf =
-                new ColorRangefinder(hardwareMap.get(RevColorSensorV3.class, "color"));
+                new ColorRangefinder(hardwareMap.get(RevColorSensorV3.class, "intakecolor"));
 
         /*
         Using this example configuration, you can detect all three sample colors based on which pin is reading true:
@@ -22,11 +22,11 @@ public class ColorSensorConfig extends LinearOpMode {
         only pin1 --> red
         neither   --> no object
          */
-        crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 180 / 360.0 * 255, 250 / 360.0 * 255); // blue
+        crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 170 / 360.0 * 255, 250 / 360.0 * 255); // blue
         crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 55 / 360.0 * 255, 100 / 360.0 * 255); // yellow
         crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 25); // 20mm or closer requirement
 
-        crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 140 / 360.0 * 255, 210 / 360.0 * 255); // inverted red
+        crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 130 / 360.0 * 255, 220 / 360.0 * 255); // inverted red
         crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 235 / 360.0 * 255, 280 / 360.0 * 255); // inverted yellow
         crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 25); // 20mm or closer requirement
         crf.setPin1InvertHue(); // invert hue values

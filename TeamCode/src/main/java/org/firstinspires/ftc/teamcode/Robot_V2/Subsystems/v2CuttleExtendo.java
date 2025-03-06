@@ -49,7 +49,7 @@ public class v2CuttleExtendo {
             NewPosition = 9;
             //extraPower = 0.01;
         }
-        if (position <= 0){
+        if (position <= 0 && position > -0.2){
             NewPosition = -0.2;
             //extraPower = -0.09;
         }

@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.roboctopi.cuttlefishftcbridge.devices.CuttleDigital;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleServo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -27,7 +28,8 @@ public class v2CuttleIntake {
     public CRServo intakeMotor;
     public Servo leftServo, rightServo;
     public ColorRangeSensor signFinder;
-    public DigitalChannel pin0, pin1;
+    //public DigitalChannel pin0, pin1;
+    public CuttleDigital pin0,pin1;
 
     CuttleServo lightbulb;
     public CuttleServo turntable;
@@ -40,7 +42,7 @@ public class v2CuttleIntake {
     public final double turntableInitPos = 0.5;
 
     public String colorLight;
-    public v2CuttleIntake(CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap, CuttleServo light, String color){
+    public v2CuttleIntake(CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap, CuttleServo light, String color, CuttleDigital in1, CuttleDigital in2){
         leftServo = hardwareMap.get(Servo.class, "left intake");
         rightServo = hardwareMap.get(Servo.class, "right intake");
         clawServo = claw;
@@ -48,10 +50,12 @@ public class v2CuttleIntake {
         lightbulb = light;
         colorLight = color;
         intakeMotor = hardwareMap.get(CRServo.class,"intake");
-        pin0 = hardwareMap.get(DigitalChannel.class, "digital0");
-        pin1 = hardwareMap.get(DigitalChannel.class, "digital1");
-        pin0.setMode(DigitalChannel.Mode.INPUT);
-        pin1.setMode(DigitalChannel.Mode.INPUT);
+        //pin0 = hardwareMap.get(DigitalChannel.class, "digital0");
+        //pin1 = hardwareMap.get(DigitalChannel.class, "digital1");
+        pin0 = in1;
+        pin1 = in2;
+        //pin0.setMode(DigitalChannel.Mode.INPUT);
+        //pin1.setMode(DigitalChannel.Mode.INPUT);
         signFinder = hardwareMap.get(ColorRangeSensor.class, "color");
     }
 

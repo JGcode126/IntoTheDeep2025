@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Robot_V2.Tests;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.controller.Waypoint;
 import com.roboctopi.cuttlefish.queue.PointTask;
@@ -14,9 +15,12 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 public class Tester_opmode extends CuttleInitOpModeRobot2 {
     ElapsedTime timer;
     public static double pos = 0;
+    DigitalChannel pin0, pin1;
+
     public void onInit() {
         super.onInit();
         timer = new ElapsedTime();
+
     }
     public void main() {
         super.main();
@@ -26,11 +30,6 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
     }
     public void mainLoop() {
         super.mainLoop();
-
-        //timeHang.hangDown(4);
-        liftPosition = pos;
-
-        System.out.println(dt.leftBackMotor.getCurrent());
 
         telemetry.addData("draw", dt.leftBackMotor.getCurrent());
         telemetry.update();

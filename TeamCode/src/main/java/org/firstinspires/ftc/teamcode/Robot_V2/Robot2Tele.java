@@ -97,8 +97,8 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             //intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.left_stick_x);
             if(gamepad1.b){
                 extendoMotor.setPower(-0.5);
-                rightBackSlides.setPower(0.4);
-                leftbackSlides.setPower(0.4);
+                rightBackSlides.setPower(0.3);
+                leftbackSlides.setPower(0.3);
                 liftPosController.setHome();
                 extendoPosController.setHome();
                 finalExtendoPos = 0;
@@ -209,13 +209,15 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         }
 
         if(toolOp.isDown(GamepadKeys.Button.Y) && toolOp.stateJustChanged(GamepadKeys.Button.Y)){
-            if (inColor == BLUE){
-                inColor = RED;
-                rejectColor = BLUE;
-            }
-            if (inColor == RED){
-                inColor = BLUE;
-                rejectColor = RED;
+            switch (inColor){
+                case BLUE:
+                    inColor = RED;
+                    rejectColor = BLUE;
+                    break;
+                case RED:
+                    inColor = BLUE;
+                    rejectColor = RED;
+                    break;
             }
         }
 
@@ -233,22 +235,6 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
          */
 
 
-        /*
-        if(intake.getColor() == RED){
-            intake.lightRed();
-        }
-        if(intake.getColor() == BLUE){
-            intake.lightBlue();
-        }
-        if(intake.getColor() == YELLOW){
-            intake.lightYellow();
-        }
-
-         */
-        //telemetry.addData("pin0", intake.pin0.getState());
-        //telemetry.addData("pin1", intake.pin1.getState());
-
-        //telemetry.addData(" ", " ");
         telemetry.addData("sweeping?", sweeping);
         telemetry.addData("alliance", inColor);
         telemetry.addData("intake state", intake.intakeState);
@@ -278,7 +264,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             intake.armUp();
             intake.clawServo.setPosition(0.45);
             outake.readyPos();
-            finalExtendoPos = 0;
+            finalExtendoPos = -5;
             finalLiftPos = 0;
             telemetry.addData("tranfer sequence running", true);
             return true;

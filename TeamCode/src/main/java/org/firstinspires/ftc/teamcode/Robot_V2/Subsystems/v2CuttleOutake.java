@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Robot_V2.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BACKINTAKE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARLEFT;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARMIDDLE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BARRIGHT;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BUCKET_BAR;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.FRONTSCORE;
@@ -124,7 +125,7 @@ public class v2CuttleOutake {
     }
 
     public void openClaw(){
-        claw.setPosition(0.1);
+        claw.setPosition(0.14);
     }
 
     public void wristRight(){
@@ -229,6 +230,13 @@ public class v2CuttleOutake {
                 }
                 if(grip){outakeState = GRIPPED;}
                 break;
+            case BARMIDDLE:
+                autoHighRungPos();
+                if(ready){
+                    openClaw();
+                    outakeState = READY;
+                }
+                break;
             case BARLEFT:
                 scorePosLeft();
                 if(ready){
@@ -268,8 +276,8 @@ public class v2CuttleOutake {
                     readyCounter = 0;
                     outakeState = BUCKET_BAR;
                 }
-                if(barLeft){outakeState = BARLEFT;}
-                if(barRight){outakeState = BARRIGHT;}
+                if(barLeft){outakeState = BARMIDDLE;}
+                if(barRight){outakeState = BARMIDDLE;}
                 break;
         }
     }
@@ -278,7 +286,7 @@ public class v2CuttleOutake {
 
 
     public enum OutakeState {
-        READY, PLACED, GRIPPED, BUCKET_BAR, BARRIGHT, BARLEFT, HOLD, BACKINTAKE, FRONTSCORE
+        READY, PLACED, GRIPPED, BUCKET_BAR, BARRIGHT, BARLEFT, HOLD, BACKINTAKE, FRONTSCORE, BARMIDDLE
     }
 
     public void setScoreState(OutakeState state){
