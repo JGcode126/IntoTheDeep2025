@@ -252,7 +252,7 @@ public class v2CuttleOutake {
                     outakeState = FRONTSCORE;
                     readyCounter = 0;
                 }
-                if(x){
+                if(altReady){
                     openClaw();
                     outakeState = READY;
                 }

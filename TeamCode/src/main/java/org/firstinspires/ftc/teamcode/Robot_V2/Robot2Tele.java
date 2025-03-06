@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.LOOKING;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.SECURED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.TRANSFERED;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.IntakeState.UP;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.SignColor.BLUESIGN;
@@ -92,11 +93,11 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         }
 
         if (transfering == false) {
-            //intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
-            intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.left_stick_x);
+            intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.right_stick_x, inColor, rejectColor);
+            //intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.left_stick_x);
             if(gamepad1.b){
                 extendoMotor.setPower(-0.5);
-                rightBackSlides.setPower(-0.4);
+                rightBackSlides.setPower(0.4);
                 leftbackSlides.setPower(0.4);
                 liftPosController.setHome();
                 extendoPosController.setHome();
@@ -175,7 +176,9 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
          */
 
 
-        if (intake.intakeState == TRANSFERED){
+        if (intake.intakeState == TRANSFERED || toolOp.isDown(GamepadKeys.Button.X) && toolOp.stateJustChanged(GamepadKeys.Button.X)){
+            intake.setIntakeState(TRANSFERED);
+            intake.clawClose();
             transfering = true;
         }
 
@@ -205,7 +208,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             encoderLocalizer.getPos().setR(0);
         }
 
-        if(gamepad1.b){
+        if(toolOp.isDown(GamepadKeys.Button.Y) && toolOp.stateJustChanged(GamepadKeys.Button.Y)){
             if (inColor == BLUE){
                 inColor = RED;
                 rejectColor = BLUE;
@@ -219,12 +222,15 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         if (toolOp.isDown(GamepadKeys.Button.A)&& toolOp.stateJustChanged(GamepadKeys.Button.A) && intake.intakeState != LOOKING) {
             housekeeping();
         }
+        /*
         if (toolOp.isDown(GamepadKeys.Button.Y)&& toolOp.stateJustChanged(GamepadKeys.Button.Y) && intake.intakeState != LOOKING) {
             sweeper.broomStraight();
         }
         if (toolOp.isDown(GamepadKeys.Button.X)&& toolOp.stateJustChanged(GamepadKeys.Button.X) && intake.intakeState != LOOKING) {
             sweeper.broomIn();
         }
+
+         */
 
 
         /*

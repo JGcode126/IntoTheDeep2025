@@ -25,6 +25,9 @@ public class v2CuttleSlides {
 
     private PIDController controller;
     public static double p = 1, i = 0.0, d = 0.04;
+    private double alpha = 0.775;
+    private double power = 0;
+    private double filteredPosition = 0.0; // Initial filtered position
 
 
     public v2CuttleSlides(CuttleMotor motorleft, CuttleMotor motorright, CuttleEncoder encoder, MotorPositionController motorpos, CuttleRevHub hub){
@@ -39,23 +42,40 @@ public class v2CuttleSlides {
     public double getPos(){
         return liftPosController.getHomedEncoderPosition();
     }
-    public void setLiftPosition(double position){
-        //7.3 is max
-        double NewPosition = position;
-        double ff = 0.08;
-        if (position >= 10.2){
-            NewPosition = 10.2;
-        }
-        if (position <= 0){
-            NewPosition = -0.01;
-        }
 
+
+    public void setLiftPosition(double targetPosition) {
+        // Clamp the target position within the allowed range
+        double clampedTarget = Math.max(-0.01, Math.min(10.2, targetPosition));
+
+        // Low-pass filtering on the current position
+        double currentPos = getPos();
+        filteredPosition = alpha * currentPos + (1 - alpha) * filteredPosition;
+
+        // Calculate the distance to the target
+        double error = clampedTarget - filteredPosition;
+
+        // PID control using the filtered position
         controller.setPID(p, i, d);
-        double pid = controller.calculate(getPos(), NewPosition);
-        liftMotorRight.setPower((pid + ff) * -1);
-        liftMotorLeft.setPower((pid + ff) * -1);
+        double pid = controller.calculate(filteredPosition, clampedTarget);
 
+        // Feedforward term
+        double ff = 0.08;
+
+        // Calculate base power
+        double power = (pid + ff) * -1;
+
+        // Apply scaling only when the slides are moving down
+        if (error < 0) { // Only when moving down
+            double scalingFactor = Math.max(0.1, Math.min(1.0, Math.abs(error) / 10.0));
+            power *= scalingFactor;
+        }
+
+        // Set the motor power
+        liftMotorRight.setPower(power);
+        liftMotorLeft.setPower(power);
     }
+
 
     public double liftMachine(boolean buttonIN, boolean buttonLOWBUCKET, boolean buttonHIGHBUCKET, boolean buttonLOWSUB, boolean buttonHIGHSUB, boolean upOffset, boolean downOffset){
         switch (currentState){
