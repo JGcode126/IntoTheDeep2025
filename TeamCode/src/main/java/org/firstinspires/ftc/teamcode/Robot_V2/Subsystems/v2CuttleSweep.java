@@ -12,7 +12,7 @@ public class v2CuttleSweep {
     }
 
     public void broomIn(){
-        broom.setPosition(0.15);
+        broom.setPosition(0.13);
     }
 
     public void broomOut(){

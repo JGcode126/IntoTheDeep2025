@@ -63,8 +63,8 @@ public class bucket extends CuttleInitOpModeRobot2 {
         bucket.scoringBuckets2(-420, -525, 90, 5,-300, -470, 50, 250, 0,1.6);
         bucket.scoringBucketsLast(-920, -250, 170, 2,-260, -330, 50, 400,3);
 
-        bucket.middle2(-1300, 0, 0, -1400, 500, 0,-350, -420, 50, RED, BLUE);
-        //bucket.middle2(-1300, 0, 0, -1400, 500, 0,-350, -420, 50, RED, BLUE);
+        bucket.middle2(-1300, 0, 0, -1400, 500, 0,-400, -420, 50, RED, BLUE);
+        bucket.middle3(-1300, 0, 0, -1400, 500, 0,-400, -420, 50, RED, BLUE);
 
         bucket.park(-1500, 0, 180,-1400, 350, 180);
     }
@@ -72,7 +72,7 @@ public class bucket extends CuttleInitOpModeRobot2 {
     public void mainLoop() {
         super.mainLoop();
 
-        if(totalAutoTime.seconds() >= 28){
+        /*if(totalAutoTime.seconds() >= 28){
             queue.clear();
             //bucket.park(-1500, 0, 180,-1400, 350, 180);
 
@@ -98,7 +98,7 @@ public class bucket extends CuttleInitOpModeRobot2 {
             }));
 
             queue.addTask(new DelayTask(60000));
-        }
+        }*/
 
         /*if (intake.getColor() == BLUE && totalAutoTime.seconds() > 17){
             if (failSafeTimer.seconds() > 0.5) {
