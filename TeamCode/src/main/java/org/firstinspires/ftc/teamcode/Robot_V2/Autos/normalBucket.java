@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Robot_V2.Autos;
 
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
+import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -11,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @Autonomous(name = "bucket_4", group = "Example")
 @Config
+@Disabled
 public class normalBucket extends CuttleInitOpModeRobot2 {
     public void onInit() {
         super.onInit();
@@ -28,13 +32,16 @@ public class normalBucket extends CuttleInitOpModeRobot2 {
         liftPosController.setHome();
         extendoPosController.setHome();
 
-        bucket.scoreFirstSample(-280, -440,50, -380, -250,90);
+        liftPosController.setHome();
+        extendoPosController.setHome();
 
-        bucket.scoringBuckets(-420, -250, 90, 5,-300, -450, 50, 90, -300, -500);
-        bucket.scoringBuckets(-420, -500, 90, 5,-300, -450, 50, 160, -600, -300);
-        bucket.scoringBuckets(-850, -300, 160, 1,-300, -350, 50, 180, -1400, 0);
+        bucket.scoreFirstSample2(-280, -460,60, 200);
 
-        bucket.park(-1400, 400, 180);
+        bucket.scoringBuckets2(-350, -260, 90, 5,-300, -470, 50, 250, 0.5,1.6);
+        bucket.scoringBuckets2(-420, -525, 90, 5,-300, -470, 50, 250, 0,1.6);
+        bucket.scoringBucketsLast(-920, -250, 170, 1.5,-260, -330, 50, 400,3);
+
+        bucket.park(-1500, 0, 180,-1400, 350, 180);
     }
 
     public void mainLoop() {

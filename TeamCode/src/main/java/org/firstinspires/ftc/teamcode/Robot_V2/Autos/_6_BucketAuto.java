@@ -24,13 +24,15 @@ import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 
-@Autonomous(name = "bucket_5", group = "Example")
+@Autonomous(name = "bucket_6", group = "Example")
 @Config
-public class bucket extends CuttleInitOpModeRobot2 {
+public class _6_BucketAuto extends CuttleInitOpModeRobot2 {
+    private int loopCounter = 0;
     v2CuttleIntake.Color rejectColor;
     v2CuttleIntake.Color inColor;
+    private ElapsedTime failSafeTimer = new ElapsedTime();
     private ElapsedTime totalAutoTime = new ElapsedTime();
-
+    private ElapsedTime spitTime = new ElapsedTime();
     public void onInit() {
         super.onInit();
         bucketAuto = true;
@@ -49,19 +51,20 @@ public class bucket extends CuttleInitOpModeRobot2 {
             rejectColor = RED;
             inColor = BLUE;
         }
+        loopCounter = 0;
 
         totalAutoTime.reset();
         liftPosController.setHome();
         extendoPosController.setHome();
 
-        bucket.scoreFirstSample2(-280, -460,60, 200);
+        bucket.scoreFirstSample3(-280, -460,60, 200, 1.5);
 
         bucket.scoringBuckets2(-350, -260, 90, 5,-300, -470, 50, 250, 0.5,1.6);
         bucket.scoringBuckets2(-420, -525, 90, 5,-300, -470, 50, 250, 0,1.6);
         bucket.scoringBucketsLast(-920, -250, 170, 1.5,-260, -330, 50, 400,3);
 
-        bucket.middle2(-1350, 0, 0, -1450, 500, 0,-520, -300, 50, RED, BLUE);
-        //bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
+        bucket.middle2(-1350, 0, 0, -1450, 500, 0,-520, -340, 50, RED, BLUE);
+        bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
 
         bucket.park(-1500, 0, 180,-1400, 350, 180);
     }
@@ -69,7 +72,7 @@ public class bucket extends CuttleInitOpModeRobot2 {
     public void mainLoop() {
         super.mainLoop();
 
-        /*if(totalAutoTime.seconds() >= 28 && intake.getColor() == null){
+        if(totalAutoTime.seconds() >= 28 && intake.getColor() == null){
             queue.clear();
             queue.addTask(new CustomTask(() -> {
                 intake.out();
@@ -103,7 +106,7 @@ public class bucket extends CuttleInitOpModeRobot2 {
             }));
 
             queue.addTask(new DelayTask(60000));
-        }*/
+        }
 
         /*if (intake.getColor() == BLUE && totalAutoTime.seconds() > 17){
             if (failSafeTimer.seconds() > 0.5) {
