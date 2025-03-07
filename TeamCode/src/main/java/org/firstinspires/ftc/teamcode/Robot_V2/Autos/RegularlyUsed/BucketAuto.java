@@ -987,7 +987,7 @@ public class BucketAuto extends AutoSequence {
             outake.scorePosMid();
         });
 
-        manager.delay(scoringSample, 200);
+        manager.delay(scoringSample, 400);
 
         manager.task(scoringSample, () -> {
             outake.openClaw();
@@ -1138,7 +1138,7 @@ public class BucketAuto extends AutoSequence {
             outake.scorePosMid();
         });
 
-        manager.delay(scoringSample, 200);
+        manager.delay(scoringSample, 400);
 
         manager.task(scoringSample, () -> {
             outake.openClaw();
