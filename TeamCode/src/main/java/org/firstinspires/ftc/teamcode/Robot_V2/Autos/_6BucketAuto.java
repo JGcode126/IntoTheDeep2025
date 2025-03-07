@@ -45,12 +45,12 @@ public class _6BucketAuto extends CuttleInitOpModeRobot2 {
 
         bucket.scoreFirstSampleFor6(-280, -460,60, 200, 1.5,-350, -260, 90);
 
-        bucket.scoringBucketsFor6(5,-300, -470, 50, 250, 0.5,1.6, -420,-525,90);
-        bucket.scoringBucketsFor6(5,-300, -470, 50, 250, 0,1.6, -920,-250,170);
-        bucket.scoringBucketsLastFor6(1.5,-260, -330, 50, 400,3);
+        bucket.scoringBucketsFor6(5,-300, -490, 50, 0, 0.5,1.6, -420,-525,90);
+        bucket.scoringBucketsFor6(5,-300, -480, 50, 0, 0,1.6, -850,-250,170);
+        bucket.scoringBucketsLastFor6(3,-260, -330, 50, 0,3);
 
-        bucket.middleFor6(-1350, 0, 0, -520, -340, 50, 0.8, RED, BLUE);
-        bucket.middle3For6(-1600, 0, 0, -530, -390, 50, 0.8, RED, BLUE);
+        bucket.middleFor6(-1350, 0, 0, -450, -300, 50, 0.8, RED, BLUE);
+        bucket.middle3For6(-1500, 0, 0, -530, -390, 50, 0.8, RED, BLUE);
 
         bucket.parkFor6(-1500, 0, 180,-1400, 350, 180);
     }
