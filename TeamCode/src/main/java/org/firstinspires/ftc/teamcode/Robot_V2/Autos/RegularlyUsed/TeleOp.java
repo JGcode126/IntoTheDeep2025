@@ -156,6 +156,100 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         manager.forkTask(transfer,scoring);
     }
 
+    public void bucketTransferFor6(int x, int y, double r){
+        TaskList scoring = new TaskList();
+
+        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.8,0.6,150,false);
+
+        TaskList transfer = new TaskList();
+
+        manager.task(transfer, () -> {
+            intake.setIntakeState(UP);
+            lift.setLiftState(IN);
+        });
+
+        manager.task(transfer, () ->{
+            intake.armUp();
+            intake.clawServo.setPosition(0.45);
+            outake.readyPos();
+            extendoPosition = -5;
+            liftPosition = 0;
+        });
+
+        //changed from 600
+        manager.delay(transfer, 400);
+
+        manager.task(transfer, () ->{outake.transferPos();});
+
+        manager.delay(transfer,200);
+
+        manager.task(transfer, () ->{
+            outake.grippedPos();
+            intake.initPos();
+            intake.setIntakeState(UP);
+        });
+
+        manager.delay(transfer,200);
+
+        manager.task(transfer, ()->{
+            extendoPosition = 1;
+        });
+
+        manager.task(transfer, () ->{
+            extendoPosition = 0;
+            liftPosition = highBucketPos;
+        });
+
+        manager.forkTask(transfer,scoring);
+    }
+
+    public void bucketTransferFor6(int x, int y, double r, double speed){
+        TaskList scoring = new TaskList();
+
+        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),speed,0.6,150,false);
+
+        TaskList transfer = new TaskList();
+
+        manager.task(transfer, () -> {
+            intake.setIntakeState(UP);
+            lift.setLiftState(IN);
+        });
+
+        manager.task(transfer, () ->{
+            intake.armUp();
+            intake.clawServo.setPosition(0.45);
+            outake.readyPos();
+            extendoPosition = -5;
+            liftPosition = 0;
+        });
+
+        //changed from 600
+        manager.delay(transfer, 400);
+
+        manager.task(transfer, () ->{outake.transferPos();});
+
+        manager.delay(transfer,200);
+
+        manager.task(transfer, () ->{
+            outake.grippedPos();
+            intake.initPos();
+            intake.setIntakeState(UP);
+        });
+
+        manager.delay(transfer,200);
+
+        manager.task(transfer, ()->{
+            extendoPosition = 1;
+        });
+
+        manager.task(transfer, () ->{
+            extendoPosition = 0;
+            liftPosition = highBucketPos;
+        });
+
+        manager.forkTask(transfer,scoring);
+    }
+
     public void bucketTransfer(int x, int y, double r, double speed){
         TaskList scoring = new TaskList();
 

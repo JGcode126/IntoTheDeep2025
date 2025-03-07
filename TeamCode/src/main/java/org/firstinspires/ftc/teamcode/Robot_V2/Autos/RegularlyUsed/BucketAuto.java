@@ -69,6 +69,30 @@ public class BucketAuto extends AutoSequence {
         queue.addTask(park);
     }
 
+    public void parkFor6(int x2, int y2, double r2, int x, int y, double r){
+        TaskList park = new TaskList();
+
+        manager.waypointTask(park, new Pose(x2, y2, Math.toRadians(r2)),1,0.5,100,false);
+
+        manager.task(park, () -> {
+            intake.turntableMiddle();
+            //outake.readyPos();
+            //hang.parkHeight();
+            intake.armUp();
+            extendoPosition = 0;
+            liftPosition = 0;
+            outake.parkPos();
+        });
+
+        manager.waypointTask(park, new Pose(x, y, Math.toRadians(r)),1,0.5,100,false);
+
+        manager.task(park, () -> {
+            dt.drive(-0.5,0,0);
+        });
+
+        queue.addTask(park);
+    }
+
     public void park(int x, int y, double r){
         TaskList park = new TaskList();
 
@@ -103,10 +127,22 @@ public class BucketAuto extends AutoSequence {
          scoreSample2(scoreX, scoreY, scoreR, time, extLast);
     }
 
+    public void scoringBucketsFor6(double extPos, int scoreX, int scoreY, double scoreR, int time, double extLast, double time2, int outX, int outY, double outR){
+        intakeSampleFor6(extPos, time2);
+        teleOp.bucketTransferFor6(scoreX, scoreY, scoreR);
+        scoreSampleFor6(outX, outY, outR, time, extLast);
+    }
+
     public void scoringBucketsLast(int inX, int inY, double inR, double extPos, int scoreX, int scoreY, double scoreR, int time, double time2){
         intakeSampleLast(inX,inY,inR,extPos, time2);
         teleOp.bucketTransfer(scoreX, scoreY, scoreR);
         scoreSampleForLast(scoreX, scoreY, scoreR, time);
+    }
+
+    public void scoringBucketsLastFor6(double extPos, int scoreX, int scoreY, double scoreR, int time, double time2){
+        intakeSampleLastFor6(extPos, time2);
+        teleOp.bucketTransferFor6(scoreX, scoreY, scoreR);
+        scoreSampleForLastFor6(scoreX, scoreY, scoreR, time);
     }
 
     public void middle(int x, int y, double r,int x2, int y2, double r2, int scoreX, int scoreY, double scoreR, double r3, int endX, int endY, v2CuttleIntake.Color in, v2CuttleIntake.Color out) {
@@ -121,10 +157,22 @@ public class BucketAuto extends AutoSequence {
         scoreSampleForLastOther(scoreX, scoreY, scoreR,200);
     }
 
+    public void middle3For6(int x, int y, double r, int scoreX, int scoreY, double scoreR, double speed, v2CuttleIntake.Color in, v2CuttleIntake.Color out) {
+        messUpMiddleRed3For6(x, y, r, in, out);
+        teleOp.bucketTransferFor6(scoreX, scoreY, scoreR, speed);
+        scoreSampleForLastOtherFor6(scoreX, scoreY, scoreR,200);
+    }
+
     public void middle2(int x, int y, double r,int x2, int y2, double r2, int scoreX, int scoreY, double scoreR, v2CuttleIntake.Color in, v2CuttleIntake.Color out) {
         messUpMiddleRed(x, y, r, x2, y2, r2, in, out);
         teleOp.bucketTransfer(scoreX, scoreY, scoreR, 0.6);
         scoreSampleForLastOther(scoreX, scoreY, scoreR,200);
+    }
+
+    public void middleFor6(int x, int y, double r,int scoreX, int scoreY, double scoreR, double speed, v2CuttleIntake.Color in, v2CuttleIntake.Color out) {
+        messUpMiddleRedFor6(x, y, r, in, out);
+        teleOp.bucketTransferFor6(scoreX, scoreY, scoreR, speed);
+        scoreSampleForLastOtherFor6(scoreX, scoreY, scoreR,200);
     }
 
     public void messUpMiddleRed(int x, int y, double r, int x2, int y2, double r2, v2CuttleIntake.Color colorIN, v2CuttleIntake.Color colorOUT){
@@ -331,7 +379,362 @@ public class BucketAuto extends AutoSequence {
         queue.addTask(mess);
     }
 
+    public void messUpMiddleRedFor6(int x, int y, double r, v2CuttleIntake.Color colorIN, v2CuttleIntake.Color colorOUT){
+        TaskList mess = new TaskList();
+
+        manager.waypointTask(mess, new Pose(x, y, Math.toRadians(r)),0.9,0.2,75,false);
+
+        mess.addTask(new CustomTask(() -> {
+            dt.drive(0.7,0,0);
+            return true;
+        }));
+
+        manager.delay(mess, 600);
+
+        mess.addTask(new CustomTask(() -> {
+            dt.drive(0,0,0);
+            return true;
+        }));
+
+        manager.task(mess, () -> {
+            extendoPosition = 0;
+            intake.armUp();
+            outake.readyPos();
+            sweeper.broomOut();
+        });
+
+        manager.delay(mess, 300);
+
+        manager.task(mess, () -> {
+            intake.in();
+            sweeper.broomIn();
+        });
+
+        manager.delay(mess, 300);
+
+        manager.task(mess, () -> {
+            extendoPosition = 0;
+            intake.armUp();
+            outake.readyPos();
+            sweeper.broomOut();
+        });
+
+        manager.delay(mess, 200);
+
+        manager.task(mess, () -> {
+            timer.reset();
+        });
+
+        manager.task(mess, () -> {
+            intake.clawOpen();
+            intake.intakeDown();
+        });
+
+        manager.delay(mess, 200);
+
+        manager.task(mess, () -> {
+            timer.reset();
+            intake.in();
+            extendoPosition = 3;
+            failsafeTimer.reset();
+        });
+
+        mess.addTask(new CustomTask(() -> {
+            if (intake.getColor() == colorOUT) {
+                newTimer.reset();
+                intake.out();
+
+                while (newTimer.seconds() <= 0.5){
+                    intake.out();
+                }
+
+                extendoPosition = 0;
+            }
+
+            else if(timer.seconds() >= 0  && timer.seconds() < 1.5  && intake.getColor() == null){
+
+                if(timer.seconds() >= 0.5){
+                    intake.in();
+                    intake.turntableMiddle();
+                    extendoPosition = 3;
+                }
+
+                else{
+                    intake.turntableMiddle();
+                    extendoPosition = 0;
+                    intake.out();
+                }
+            }
+
+            else if(timer.seconds() >= 1.5  && timer.seconds() < 3  && intake.getColor() == null){
+
+                if(timer.seconds() >= 2){
+                    intake.in();
+                    intake.turntableLeft();
+                    //intake.turntableCustom(0.35);
+                    extendoPosition = 2;
+                }
+
+                else{
+                    intake.turntableLeft();
+                    extendoPosition = 0;
+                    intake.out();
+                }
+            }
+
+            else if(timer.seconds() >= 3  && timer.seconds() < 4.5 && intake.getColor() == null){
+                if(timer.seconds() >= 3.5){
+                    intake.in();
+                    intake.turntableRight();
+                    extendoPosition = 2;
+                }
+
+                else{
+                    intake.turntableRight();
+                    extendoPosition = 0;
+                    intake.out();
+                }
+            }
+
+            if(failsafeTimer.seconds() >= 4.5){
+                if(timer.seconds() <= 5){
+                    intake.out();
+                    intake.turntableMiddle();
+                    extendoPosition = 0;
+                }
+
+                else if(timer.seconds() >= 5 && timer.seconds() < 5.5){
+                    intake.off();
+                    intake.armUp();
+                }
+
+                else {
+                    queue.clear();
+
+                    queue.addTask(new CustomTask(() -> {
+                        sweeper.broomSet(0.4);
+
+                        return true;
+                    }));
+
+                    queue.addTask(new PointTask(new Waypoint(new Pose(-1500, 0, Math.toRadians(180)), 1,0.5,100, false), ptpController));
+
+                    queue.addTask(new CustomTask(() -> {
+                        sweeper.broomIn();
+                        intake.turntableMiddle();
+                        intake.armUp();
+                        extendoPosition = 0;
+                        liftPosition = 0;
+                        outake.parkPos();
+
+                        return true;
+                    }));
+
+                    queue.addTask(new PointTask(new Waypoint(new Pose(-1400, 350, Math.toRadians(180)), 1,0.5,100, false), ptpController));
+
+                    queue.addTask(new CustomTask(() -> {
+                        dt.drive(-0.5,0,0);
+                        return true;
+                    }));
+
+                    queue.addTask(new DelayTask(60000));
+                    return true;
+                }
+            }
+
+            return intake.getColor() == YELLOW || intake.getColor() == colorIN;
+        }));
+
+        manager.task(mess, () -> {
+            intake.in();
+        });
+
+        manager.delay(mess, 200);
+
+        manager.task(mess, () -> {
+            intake.clawClose();
+        });
+
+        //manager.delay(mess, 200);
+
+        manager.task(mess, () -> {
+            intake.off();
+            intake.armUp();
+            sweeper.broomSet(0.4);
+        });
+        queue.addTask(mess);
+    }
+
     public void messUpMiddleRed3(int x, int y, double r, int x2, int y2, double r2, v2CuttleIntake.Color colorIN, v2CuttleIntake.Color colorOUT){
+        TaskList mess = new TaskList();
+
+        manager.waypointTask(mess, new Pose(x, y, Math.toRadians(r)),0.9,0.2,110,false);
+
+        //manager.waypointTask(mess, new Pose(x2, y2, Math.toRadians(r2)),0.9,0.5,100,false);
+        mess.addTask(new CustomTask(() -> {
+            extendoPosition = 0;
+            intake.armUp();
+            outake.readyPos();
+            intake.in();
+            dt.drive(0.7,0,0);
+            return true;
+        }));
+
+        manager.delay(mess, 600);
+
+        mess.addTask(new CustomTask(() -> {
+            dt.drive(0,0,0);
+            return true;
+        }));
+
+        manager.task(mess, () -> {
+            intake.clawOpen();
+            intake.intakeDown();
+        });
+
+        manager.task(mess, () -> {
+            intake.turntableMiddle();
+        });
+
+        manager.delay(mess, 200);
+
+        manager.task(mess, () -> {
+            timer.reset();
+            intake.in();
+            failsafeTimer.reset();
+        });
+
+        mess.addTask(new CustomTask(() -> {
+
+            if (intake.getColor() == colorOUT) {
+                newTimer.reset();
+                intake.out();
+
+                while (newTimer.seconds() <= 0.5){
+                    intake.out();
+                }
+
+                extendoPosition = 0;
+            }
+
+            else if(timer.seconds() >= 0  && timer.seconds() < 1.5  && intake.getColor() == null){
+
+                if(timer.seconds() >= 0.5){
+                    intake.in();
+                    intake.turntableMiddle();
+                    extendoPosition = 4.5;
+                }
+
+                else{
+                    intake.turntableMiddle();
+                    extendoPosition = 0;
+                    intake.out();
+                }
+            }
+
+            else if(timer.seconds() >= 1.5  && timer.seconds() < 3  && intake.getColor() == null){
+
+                if(timer.seconds() >= 2){
+                    intake.in();
+                    intake.turntableRight();
+                    //intake.turntableCustom(0.35);
+                    extendoPosition = 3;
+                }
+
+                else{
+                    intake.turntableMiddle();
+                    extendoPosition = 0;
+                    intake.out();
+                }
+            }
+
+            else if(timer.seconds() >= 3  && timer.seconds() < 4.5 && intake.getColor() == null){
+
+                if(timer.seconds() >= 3.5){
+                    intake.in();
+                    intake.turntableLeft();
+                    extendoPosition = 3;
+                }
+
+                else{
+                    intake.turntableLeft();
+                    extendoPosition = 0;
+                    intake.out();
+                }
+            }
+
+            if(failsafeTimer.seconds() >= 4.5){
+                if(timer.seconds() <= 5){
+                    intake.out();
+                    intake.turntableMiddle();
+                    extendoPosition = 0;
+                }
+
+                else if(timer.seconds() >= 5 && timer.seconds() < 5.5){
+                    intake.off();
+                    intake.armUp();
+                }
+
+                else {
+                    queue.clear();
+
+                    queue.addTask(new CustomTask(() -> {
+                        sweeper.broomSet(0.4);
+
+                        return true;
+                    }));
+
+                    queue.addTask(new PointTask(new Waypoint(new Pose(-1500, 0, Math.toRadians(180)), 1,0.5,100, false), ptpController));
+
+                    queue.addTask(new CustomTask(() -> {
+                        sweeper.broomIn();
+                        intake.turntableMiddle();
+                        //outake.readyPos();
+                        //hang.parkHeight();
+                        intake.armUp();
+                        extendoPosition = 0;
+                        liftPosition = 0;
+                        outake.parkPos();
+
+                        return true;
+                    }));
+
+                    queue.addTask(new PointTask(new Waypoint(new Pose(-1400, 350, Math.toRadians(180)), 1,0.5,100, false), ptpController));
+
+                    queue.addTask(new CustomTask(() -> {
+                        dt.drive(-0.5,0,0);
+                        return true;
+                    }));
+
+                    queue.addTask(new DelayTask(60000));
+                    return true;
+                }
+            }
+
+            return intake.getColor() == YELLOW || intake.getColor() == colorIN;
+        }));
+
+        manager.task(mess, () -> {
+            intake.in();
+        });
+
+        manager.delay(mess, 200);
+
+        manager.task(mess, () -> {
+            intake.clawClose();
+        });
+
+        manager.delay(mess, 200);
+
+        manager.task(mess, () -> {
+            intake.off();
+            intake.armUp();
+        });
+
+        queue.addTask(mess);
+    }
+
+    public void messUpMiddleRed3For6(int x, int y, double r, v2CuttleIntake.Color colorIN, v2CuttleIntake.Color colorOUT){
         TaskList mess = new TaskList();
 
         manager.waypointTask(mess, new Pose(x, y, Math.toRadians(r)),0.9,0.2,110,false);
@@ -574,6 +977,46 @@ public class BucketAuto extends AutoSequence {
         queue.addTask(scoringSample);
     }
 
+    public void scoreSampleForLastFor6(double x, double y, double r1, int time) {
+        TaskList scoringSample = new TaskList();
+
+        manager.delay(scoringSample, 200);
+
+        manager.task(scoringSample, () -> {
+            sweeper.broomIn();
+            outake.scorePosMid();
+        });
+
+        manager.task(scoringSample, () -> {
+            dt.drive(-0.5,0, 0);
+        });
+
+        manager.delay(scoringSample, time);
+
+        manager.task(scoringSample, () -> {
+            dt.drive(0,0,0);
+        });
+
+        manager.task(scoringSample, () -> {
+            outake.openClaw();
+            intake.clawOpen();
+        });
+
+        manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.8,0.1,20,false);
+
+        manager.task(scoringSample, () -> {
+            outake.readyPos();
+        });
+
+        manager.delay(scoringSample, 100);
+
+        manager.task(scoringSample, () -> {
+            liftPosition = 0;
+        });
+
+        queue.addTask(scoringSample);
+    }
+
     public void scoreSampleForLastOther(double x, double y, double r1, int time) {
         TaskList scoringSample = new TaskList();
 
@@ -593,6 +1036,44 @@ public class BucketAuto extends AutoSequence {
         });
 
         //manager.delay(scoringSample, 50);
+
+        manager.task(scoringSample, () -> {
+            outake.openClaw();
+            intake.clawOpen();
+        });
+
+        manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.8,0.1,20,false);
+
+        manager.task(scoringSample, () -> {
+            outake.readyPos();
+        });
+
+        manager.delay(scoringSample, 100);
+
+        manager.task(scoringSample, () -> {
+            liftPosition = 0;
+        });
+
+        queue.addTask(scoringSample);
+    }
+
+    public void scoreSampleForLastOtherFor6(double x, double y, double r1, int time) {
+        TaskList scoringSample = new TaskList();
+
+        manager.task(scoringSample, () -> {
+            sweeper.broomIn();
+            outake.scorePosMid();
+        });
+
+        manager.task(scoringSample, () -> {
+            dt.drive(-0.2,0, 0);
+        });
+
+        manager.delay(scoringSample, time);
+
+        manager.task(scoringSample, () -> {
+            dt.drive(0,0,0);
+        });
 
         manager.task(scoringSample, () -> {
             outake.openClaw();
@@ -654,6 +1135,46 @@ public class BucketAuto extends AutoSequence {
             intake.intakeDown();
             intake.clawOpen();
             intake.in();
+        });
+
+        queue.addTask(scoringSample);
+    }
+
+    public void scoreSampleFor6(double x, double y, double r1, int time, double extLast) {
+        TaskList scoringSample = new TaskList();
+
+        manager.delay(scoringSample, 200);
+
+        manager.task(scoringSample, () -> {
+            outake.scorePosMid();
+        });
+
+        manager.task(scoringSample, () -> {
+            dt.drive(-0.5,0, 0);
+        });
+
+        manager.delay(scoringSample, time);
+
+        manager.task(scoringSample, () -> {
+            dt.drive(0,0,0);
+        });
+
+        manager.task(scoringSample, () -> {
+            extendoPosition = extLast;
+            intake.intakeDown();
+            intake.clawOpen();
+            intake.in();
+        });
+
+        manager.task(scoringSample, () -> {
+            outake.openClaw();
+        });
+
+        manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.8,0.1,20,false);
+
+        manager.task(scoringSample, () -> {
+            liftPosition = 0;
+            outake.readyPos();
         });
 
         queue.addTask(scoringSample);
@@ -738,6 +1259,43 @@ public class BucketAuto extends AutoSequence {
         queue.addTask(sample);
     }
 
+    public void intakeSampleFor6(double extPos, double time) {
+        TaskList sample = new TaskList();
+
+        manager.task(sample, () -> {
+            timer.reset();
+            intake.turntableMiddle();
+            intake.in();
+            liftPosition = 0;
+            intake.intakeDown();
+            intake.clawOpen();
+        });
+
+        sample.addTask(new CustomTask(() -> {
+            boolean quit = false;
+            extendoPosition = extPos;
+
+            if (timer.seconds() > time) {
+                quit = true;
+            }
+
+            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+        }));
+
+        manager.task(sample, () -> {
+            intake.in();
+        });
+
+        manager.delay(sample, 200);
+
+        manager.task(sample, () -> {
+            extendoPosition = 0;
+            intake.clawClose();
+        });
+
+        queue.addTask(sample);
+    }
+
     public void intakeSampleLast(double x, double y, double deg, double extPos, double time) {
         TaskList sample = new TaskList();
 
@@ -774,6 +1332,47 @@ public class BucketAuto extends AutoSequence {
 
         manager.task(sample, () -> {
             extendoPosition = 0;
+            intake.clawClose();
+        });
+
+        queue.addTask(sample);
+    }
+
+    public void intakeSampleLastFor6(double extPos, double time) {
+        TaskList sample = new TaskList();
+
+        manager.task(sample, () -> {
+            timer.reset();
+            intake.turntableMiddle();
+            intake.in();
+            //extendoPosition = 0;
+            liftPosition = 0;
+            intake.intakeDown();
+            intake.clawOpen();
+        });
+
+        //manager.waypointTask(sample, new Pose(x, y, Math.toRadians(deg)),0.9,0.2,10,false);
+
+        sample.addTask(new CustomTask(() -> {
+            boolean quit = false;
+            extendoPosition = extPos;
+            //intake.in();
+            //intake.intakeDown();
+
+            if (timer.seconds() > time) {
+                quit = true;
+            }
+
+            return intake.getColor() == YELLOW || intake.getColor() == RED || intake.getColor() == BLUE || quit;
+        }));
+
+        manager.task(sample, () -> {
+            intake.in();
+        });
+
+        manager.delay(sample, 200);
+
+        manager.task(sample, () -> {
             intake.clawClose();
         });
 
@@ -825,14 +1424,13 @@ public class BucketAuto extends AutoSequence {
         queue.addTask(scoringSample);
     }
 
-    public void scoreFirstSample3(int xPos, int yPos, double r, int time, double ext) {
+    public void scoreFirstSampleFor6(int xPos, int yPos, double r, int time, double ext, int inX, int inY, double inR) {
         TaskList scoringSample = new TaskList();
 
         manager.task(scoringSample, () -> {
             liftPosition = 14;
         });
 
-        //x used to be -980, -1000 still works
         manager.waypointTask(scoringSample, new Pose(xPos, yPos, Math.toRadians(r)),0.8,0.6,20,false);
 
         manager.task(scoringSample, () -> {
@@ -840,7 +1438,7 @@ public class BucketAuto extends AutoSequence {
         });
 
         manager.task(scoringSample, () -> {
-            dt.drive(-0.2,-0.2, 0);
+            dt.drive(-0.5,-0.5, 0);
         });
 
         manager.delay(scoringSample, time);
@@ -860,7 +1458,7 @@ public class BucketAuto extends AutoSequence {
         });
         manager.delay(scoringSample, 100);
 
-        manager.waypointTask(scoringSample, new Pose(xPos, yPos, Math.toRadians(r)),0.8,0.6,20,false);
+        manager.waypointTask(scoringSample, new Pose(inX, inY, Math.toRadians(inR)),0.8,0.6,20,false);
 
         manager.task(scoringSample, () -> {
             outake.readyPos();
