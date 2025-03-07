@@ -258,7 +258,9 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         TaskList transfer = new TaskList();
         intake.setIntakeState(UP);
         lift.setLiftState(IN);
+
         transfer.addTask(new DelayTask(200));
+
         transfer.addTask(new CustomTask(()->{
             counter += 1;
             intake.armUp();
@@ -269,7 +271,9 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             telemetry.addData("tranfer sequence running", true);
             return true;
         }));
+
         transfer.addTask(new DelayTask(600));
+
         transfer.addTask(new CustomTask(()->{
             //finalSlidePos = extendo.extendoMachine(true, false, false);
             outake.transferPos();

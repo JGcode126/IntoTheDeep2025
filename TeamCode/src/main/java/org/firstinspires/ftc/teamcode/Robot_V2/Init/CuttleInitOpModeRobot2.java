@@ -294,7 +294,7 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
         auto = new AutoSequence(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,
                 new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController), new TeleOp(intake, outake,extendo,lift,dt,
-                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController)), hang, sweeper);
+                new TaskManager(queue, ptpController, ptpOtosController, ptpFusionController), sweeper), hang, sweeper);
 
         specimen = new SpecimenAuto(otosLocalizer, encoderLocalizer, intake, outake, telemetry, queue,
                 ptpController, liftPosController, extendoPosController, extendo, lift, dt,

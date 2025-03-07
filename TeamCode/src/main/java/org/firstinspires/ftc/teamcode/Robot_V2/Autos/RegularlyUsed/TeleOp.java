@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleExtendo;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides;
+import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSweep;
 
 public class TeleOp extends CuttleInitOpModeRobot2 {
     public double highChamberPos = 4.9;
@@ -27,9 +28,10 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
     v2CuttleExtendo extendo;
     v2CuttleDT dt;
     TaskManager manager;
+    v2CuttleSweep sweeper;
 
     public TeleOp(v2CuttleIntake intake, v2CuttleOutake outake, v2CuttleExtendo extendo,
-                  v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager) {
+                  v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager, v2CuttleSweep sweeper) {
 
         this.intake = intake;
         this.lift = lift;
@@ -37,7 +39,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         this.extendo = extendo;
         this.dt = dt;
         this.manager = manager;
-
+        this.sweeper = sweeper;
     }
 
     public void teleOptransferSequence(double extraX, int y){
@@ -118,7 +120,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
             intake.armUp();
             intake.clawServo.setPosition(0.45);
             outake.readyPos();
-            extendoPosition = 0;
+            extendoPosition = -5;
             liftPosition = 0;
         });
 
@@ -127,7 +129,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
 
         manager.task(transfer, () ->{outake.transferPos();});
 
-        manager.delay(transfer,400);
+        manager.delay(transfer,200);
 
         manager.task(transfer, () ->{
             outake.grippedPos();
@@ -136,6 +138,13 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         });
 
         manager.delay(transfer,200);
+
+        manager.task(transfer, ()->{
+            //outake.scorePosMid();
+            extendoPosition = 1;
+        });
+
+        //manager.delay(transfer,200);
 
         manager.task(transfer, () ->{
             extendoPosition = 0;

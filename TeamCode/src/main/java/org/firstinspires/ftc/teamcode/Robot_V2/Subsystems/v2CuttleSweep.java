@@ -22,5 +22,10 @@ public class v2CuttleSweep {
         broom.setPosition(0.5);
     }
 
+    public void broomSet(double amount){
+        broom.setPosition(amount);
+    }
+
+
 
 }

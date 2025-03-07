@@ -54,7 +54,7 @@ public class Setup extends CuttleInitOpModeRobot2 {
         this.sweeper = sweeper;
 
         manager = new TaskManager(queue, ptpController);
-        teleOp = new TeleOp(intake,outake, extendo, lift, dt, manager);
+        teleOp = new TeleOp(intake,outake, extendo, lift, dt, manager, sweeper);
     }
 
     //To initialize the robot for start
