@@ -224,7 +224,7 @@ public class BucketAuto extends AutoSequence {
             extendoPosition = 0;
             intake.armUp();
             outake.readyPos();
-            sweeper.broomOut();
+            sweeper.broomStraight();
         });
 
         manager.delay(mess, 300);
@@ -282,14 +282,16 @@ public class BucketAuto extends AutoSequence {
 
                 if(timer.seconds() >= 2){
                     intake.in();
-                    intake.turntableLeft();
+                    intake.turntableRight();
                     //intake.turntableCustom(0.35);
+                    dt.drive(0,-0.28,0);
                     extendoPosition = 2;
                 }
 
                 else{
-                    intake.turntableLeft();
+                    intake.turntableRight();
                     extendoPosition = 0;
+                    dt.drive(0,0,0);
                     intake.out();
                 }
             }
@@ -297,13 +299,15 @@ public class BucketAuto extends AutoSequence {
             else if(timer.seconds() >= 3  && timer.seconds() < 4.5 && intake.getColor() == null){
                 if(timer.seconds() >= 3.5){
                     intake.in();
-                    intake.turntableRight();
+                    intake.turntableLeft();
+                    dt.drive(0,0.28,0);
                     extendoPosition = 2;
                 }
 
                 else{
-                    intake.turntableRight();
+                    intake.turntableLeft();
                     extendoPosition = 0;
+                    dt.drive(0,0,0);
                     intake.out();
                 }
             }
@@ -325,7 +329,7 @@ public class BucketAuto extends AutoSequence {
 
                     queue.addTask(new CustomTask(() -> {
                         sweeper.broomSet(0.4);
-
+                        dt.drive(0,0,0);
                         return true;
                     }));
 
@@ -363,7 +367,7 @@ public class BucketAuto extends AutoSequence {
             intake.in();
         });
 
-        manager.delay(mess, 200);
+        manager.delay(mess, 400);
 
         manager.task(mess, () -> {
             intake.clawClose();
@@ -1210,7 +1214,7 @@ public class BucketAuto extends AutoSequence {
             intake.clawOpen();
         });
 
-        manager.waypointTask(sample, new Pose(x, y, Math.toRadians(deg)),0.9,0.1,10,false);
+        manager.waypointTask(sample, new Pose(x, y, Math.toRadians(deg)),0.9,0.05,10,false);
 
         sample.addTask(new CustomTask(() -> {
             boolean quit = false;
@@ -1232,7 +1236,7 @@ public class BucketAuto extends AutoSequence {
         manager.delay(sample, 200);
 
         manager.task(sample, () -> {
-            extendoPosition = 0;
+            //extendoPosition = -5;
             intake.clawClose();
         });
 
@@ -1308,10 +1312,10 @@ public class BucketAuto extends AutoSequence {
             intake.in();
         });
 
-        manager.delay(sample, 200);
+        manager.delay(sample, 400);
 
         manager.task(sample, () -> {
-            extendoPosition = 0;
+            //extendoPosition = -5;
             intake.clawClose();
         });
 

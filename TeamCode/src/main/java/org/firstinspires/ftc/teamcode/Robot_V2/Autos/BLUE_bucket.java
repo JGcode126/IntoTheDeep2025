@@ -24,11 +24,13 @@ import org.firstinspires.ftc.teamcode.Robot1.Init.CuttleInitOpMode;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 
-@Autonomous(name = "bucket_6", group = "Example")
+@Autonomous(name = "BLUE_bucket_5", group = "Example")
 @Config
-@Disabled
-public class _6BucketAuto extends CuttleInitOpModeRobot2 {
+public class BLUE_bucket extends CuttleInitOpModeRobot2 {
+    v2CuttleIntake.Color rejectColor;
+    v2CuttleIntake.Color inColor;
     private ElapsedTime totalAutoTime = new ElapsedTime();
+
     public void onInit() {
         super.onInit();
         bucketAuto = true;
@@ -39,62 +41,33 @@ public class _6BucketAuto extends CuttleInitOpModeRobot2 {
 
     public void main(){
         super.main();
+        if (intake.getSignColor() == BLUESIGN){
+            rejectColor = BLUE;
+            inColor = RED;
+        }
+        if (intake.getSignColor() == REDSIGN){
+            rejectColor = RED;
+            inColor = BLUE;
+        }
 
         totalAutoTime.reset();
         liftPosController.setHome();
         extendoPosController.setHome();
 
-        bucket.scoreFirstSampleFor6(-280, -460,60, 200, 1.5,-350, -260, 90);
+        bucket.scoreFirstSample2(-280, -460,60, 200);
 
-        bucket.scoringBucketsFor6(5,-320, -490, 50, 0, 0.5,1.6, -420,-525,90);
-        bucket.scoringBucketsFor6(5,-320, -480, 50, 0, 0,1.6, -850,-250,170);
-        bucket.scoringBucketsLastFor6(3,-280, -350, 50, 0,3);
+        bucket.scoringBuckets2(-350, -240, 90, 5,-300, -470, 50, 250, 0.5,2);
+        bucket.scoringBuckets2(-420, -525, 90, 5,-300, -470, 50, 250, 0,2);
+        bucket.scoringBucketsLast(-940, -250, 170, 1.9,-240, -320, 50, 475,3);
 
-        bucket.middleFor6(-1350, 0, 0, -450, -300, 50, 0.8, RED, BLUE);
-        bucket.middle3For6(-1500, 0, 0, -530, -390, 50, 0.8, RED, BLUE);
+        bucket.middle2(-1320, 50, 0, -1450, 500, 0,-520, -300, 50, BLUE, RED);
+        //bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
 
-        bucket.parkFor6(-1500, 0, 180,-1400, 350, 180);
+        bucket.park(-1500, 0, 180,-1400, 350, 180);
     }
 
     public void mainLoop() {
         super.mainLoop();
-
-        /*if(totalAutoTime.seconds() >= 28 && intake.getColor() == null){
-            queue.clear();
-            queue.addTask(new CustomTask(() -> {
-                intake.out();
-                intake.armUp();
-                extendoPosition = 0;
-                liftPosition = 0;
-                return true;
-            }));
-
-            queue.addTask(new DelayTask(200));
-
-            queue.addTask(new PointTask(new Waypoint(new Pose(-1500, 0, Math.toRadians(180)), 0.9,0.5,100, false), ptpController));
-
-            queue.addTask(new CustomTask(() -> {
-                intake.turntableMiddle();
-                //outake.readyPos();
-                //hang.parkHeight();
-                intake.armUp();
-                extendoPosition = 0;
-                liftPosition = 0;
-                outake.parkPos();
-
-                return true;
-            }));
-
-            queue.addTask(new PointTask(new Waypoint(new Pose(-1400, 350, Math.toRadians(180)), 0.9,0.5,100, false), ptpController));
-
-            queue.addTask(new CustomTask(() -> {
-                dt.drive(-0.2,0,0);
-                return true;
-            }));
-
-            queue.addTask(new DelayTask(60000));
-        }*/
-
         setup.telemetryData();
     }
 }

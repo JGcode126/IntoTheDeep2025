@@ -67,14 +67,14 @@ public class v2CuttleExtendo {
             NewPosition = 9;
             //extraPower = 0.01;
         }
-        if (position <= 0){
-            NewPosition = 0;
-            extraPower = -0.09;
+        if (position <= 0 && position > -0.2){
+            NewPosition = -0.2;
+            //extraPower = -0.09;
         }
 
         controller.setPID(p, i, d);
         double pid = controller.calculate(getPos(), NewPosition);
-        extendoMotor.setPower((pid + extraPower)*0.2);
+        extendoMotor.setPower((pid + extraPower)*0.15);
     }
     public void setSlidePositionColor(double position){
         //7.3 is max

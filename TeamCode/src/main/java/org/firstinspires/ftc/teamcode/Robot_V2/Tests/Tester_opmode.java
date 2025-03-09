@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robot_V2.Tests;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @TeleOp
 @Config
+@Disabled
 public class Tester_opmode extends CuttleInitOpModeRobot2 {
     ElapsedTime timer;
     public static double pos = 0;
