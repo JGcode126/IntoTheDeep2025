@@ -51,11 +51,11 @@ public class _5Specimen extends CuttleInitOpModeRobot2 {
         specimen.scoreSetup();
 
         specimen.intakeOffWall(900,400,0, 1000,50,0,0.4);
-        specimen.score(0,600,0,0.8);//-30
+        specimen.score(10,600,0,0.8);//-30
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
-        specimen.score(-60,600,0,0.8);//-90
+        specimen.score(-50,600,0,0.8);//-90
 
         specimen.scoreSetup();
         specimen.intakeOffWall(900,400,0, 650,70,0,0.4);
