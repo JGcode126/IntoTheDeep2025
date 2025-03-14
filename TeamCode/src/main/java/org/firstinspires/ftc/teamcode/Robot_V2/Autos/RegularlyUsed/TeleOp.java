@@ -196,7 +196,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         manager.delay(transfer,200);
 
         manager.task(transfer, ()->{
-            //outake.scorePosMid();
+            outake.scorePosMid();
             extendoPosition = 1;
         });
 
@@ -204,6 +204,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
 
         manager.task(transfer, () ->{
             extendoPosition = 0;
+            outake.straightPos();
             liftPosition = highBucketPos;
         });
 
