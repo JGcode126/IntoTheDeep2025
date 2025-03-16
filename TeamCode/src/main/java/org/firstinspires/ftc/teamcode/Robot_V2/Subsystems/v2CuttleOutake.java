@@ -75,6 +75,7 @@ public class v2CuttleOutake {
     public void straightPos(){
         driveRight.setPosition(0.5);
         driveLeft.setPosition(1-0.5);
+        wristDown();
         //openClaw();
     }
 

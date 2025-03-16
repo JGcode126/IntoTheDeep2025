@@ -1509,6 +1509,7 @@ public class BucketAuto extends AutoSequence {
 
         manager.task(scoringSample, () -> {
             liftPosition = 14;
+            outake.straightPos();
         });
 
         //x used to be -980, -1000 still works
