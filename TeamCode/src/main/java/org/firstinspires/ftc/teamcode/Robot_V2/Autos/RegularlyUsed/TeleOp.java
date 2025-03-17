@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleOutake.OutakeState.BUCKET_BAR;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSlides.LiftState.IN;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.roboctopi.cuttlefish.queue.CustomTask;
 import com.roboctopi.cuttlefish.queue.DelayTask;
 import com.roboctopi.cuttlefish.queue.TaskList;
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleSweep;
 
 public class TeleOp extends CuttleInitOpModeRobot2 {
     public double highChamberPos = 4.9;
-    public double highBucketPos = 14;
+    public double highBucketPos = 10;
 
     v2CuttleIntake intake;
     v2CuttleSlides lift;
@@ -29,6 +30,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
     v2CuttleDT dt;
     TaskManager manager;
     v2CuttleSweep sweeper;
+    ElapsedTime time = new ElapsedTime();
 
     public TeleOp(v2CuttleIntake intake, v2CuttleOutake outake, v2CuttleExtendo extendo,
                   v2CuttleSlides lift, v2CuttleDT dt, TaskManager manager, v2CuttleSweep sweeper) {
@@ -40,6 +42,24 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         this.dt = dt;
         this.manager = manager;
         this.sweeper = sweeper;
+    }
+
+    public void waitForSlides(double height){
+        TaskList slides = new TaskList();
+        slides.addTask(new CustomTask(() -> {
+            time.reset();
+            return true;
+        }));
+
+            slides.addTask(new CustomTask(() -> {
+            liftPosition = height;
+            if (lift.getPos() >= height - 1 || time.seconds() > 1.5){
+                return true;
+            }
+            return false;
+        }));
+
+        manager.addTask(slides);
     }
 
     public void teleOptransferSequence(double extraX, int y){
@@ -151,6 +171,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         manager.task(transfer, () ->{
             extendoPosition = 0;
             liftPosition = highBucketPos;
+            outake.straightPos();
         });
 
         //manager.delay(transfer, 200);
@@ -205,12 +226,13 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
         manager.task(transfer, () ->{
             extendoPosition = 0;
             outake.straightPos();
-            liftPosition = highBucketPos;
         });
 
         //manager.delay(transfer, 200);
 
         manager.forkTask(transfer,scoring);
+
+        waitForSlides(highBucketPos);
     }
 
     public void bucketTransferFor6(int x, int y, double r){

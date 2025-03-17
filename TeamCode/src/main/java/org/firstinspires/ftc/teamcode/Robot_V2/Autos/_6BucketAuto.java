@@ -40,17 +40,19 @@ public class _6BucketAuto extends CuttleInitOpModeRobot2 {
             inColor = BLUE;
         }
 
+
         totalAutoTime.reset();
         liftPosController.setHome();
         extendoPosController.setHome();
 
-        bucket.scoreFirstSample6(-280, -460,60, 200, -370, -240, 90);
+        //bucket.slides(5);
+        bucket.scoreFirstSample6(-280, -460,60, 200, -400, -240, 90);
 
-        bucket.scoringBuckets6(-440, -525, 90,5,-300, -470, 50, 250, 0.5,2);
-        bucket.scoringBuckets6(-940, -250, 170, 5,-300, -470, 50, 250, 0,2);
-        //bucket.scoringBucketsLast(-940, -250, 170, 2.3,-240, -320, 50, 475,3);
+        bucket.scoringBuckets6(-460, -545, 90,5,-300, -470, 50, 600, 0.5,2);
+        bucket.scoringBuckets6(-940, -250, 170, 5,-300, -470, 40, 300, 0,2);
+        bucket.scoringBucketsLast(-940, -250, 170, 2.3,-240, -320, 50, 475,3);
 
-        //bucket.middle2(-1320, 50, 0, -1450, 500, 0,-520, -300, 50, RED, BLUE);
+        bucket.middle2(-1320, 50, 0, -1450, 500, 0,-520, -300, 50, RED, BLUE);
         //bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
 
         //bucket.park(-1500, 0, 180,-1400, 350, 180);
