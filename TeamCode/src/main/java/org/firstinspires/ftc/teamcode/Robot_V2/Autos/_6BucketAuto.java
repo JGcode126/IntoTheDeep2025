@@ -46,14 +46,14 @@ public class _6BucketAuto extends CuttleInitOpModeRobot2 {
         extendoPosController.setHome();
 
         //bucket.slides(5);
-        bucket.scoreFirstSample6(-280, -460,60, 200, -400, -240, 90);
+        bucket.scoreFirstSample6(-280, -460,60, 200, -460, -240, 90);
 
-        bucket.scoringBuckets6(-460, -545, 90,5,-300, -470, 50, 600, 0.5,2);
-        bucket.scoringBuckets6(-940, -250, 170, 5,-300, -470, 40, 300, 0,2);
-        bucket.scoringBucketsLast(-940, -250, 170, 2.3,-240, -320, 50, 475,3);
+        bucket.scoringBuckets6(-460, -560, 90,5,-280, -450, 50, 600, 0,2);
+        bucket.scoringBuckets6(-550, -450, 90, 5,-280, -450, 50, 200, 0,2);
+        bucket.scoringBucketsLast2point0(-550, -450, 90, 2.5,-240, -320, 50, 475,3);
 
         bucket.middle2(-1320, 50, 0, -1450, 500, 0,-520, -300, 50, RED, BLUE);
-        //bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
+        bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
 
         //bucket.park(-1500, 0, 180,-1400, 350, 180);
     }
