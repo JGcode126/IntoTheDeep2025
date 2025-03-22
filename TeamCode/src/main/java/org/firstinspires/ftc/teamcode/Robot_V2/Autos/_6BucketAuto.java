@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 
-@Autonomous(name = "6", group = "Example")
+@Autonomous(name = "6 Bucket", group = "Example")
 @Config
 public class _6BucketAuto extends CuttleInitOpModeRobot2 {
     v2CuttleIntake.Color rejectColor;
@@ -49,11 +49,12 @@ public class _6BucketAuto extends CuttleInitOpModeRobot2 {
         bucket.scoreFirstSample6(-280, -460,60, 200, -460, -240, 90);
 
         bucket.scoringBuckets6(-460, -560, 90,5,-280, -450, 50, 600, 0,2);
-        bucket.scoringBuckets6(-550, -450, 90, 5,-280, -450, 50, 200, 0,2);
-        bucket.scoringBucketsLast2point0(-550, -450, 90, 2.5,-240, -320, 50, 475,3);
+        bucket.scoringBuckets6Pt2(-550, -450, 90, 3,-280, -450, 50, 200, 0,2);
+        bucket.scoringBucketsLast2point0(-550, -450, 90, 2.5,-350, -380, 50, 300,3);
 
         bucket.middle2(-1320, 50, 0, -1450, 500, 0,-520, -300, 50, RED, BLUE);
-        bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
+        bucket.middle3(-1400, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
+
 
         //bucket.park(-1500, 0, 180,-1400, 350, 180);
     }
