@@ -157,9 +157,8 @@ public class BucketAuto extends AutoSequence {
         scoreSampleForLast(scoreX, scoreY, scoreR, time);
     }
 
-    public void scoringBucketsLast2point0(int inX, int inY, double inR, double extPos, int scoreX, int scoreY, double scoreR, int time, double time2){
-        intakeSampleLast2point0(inX,inY,inR,extPos, time2);
-
+    public void scoringBucketsLast2point0(double extPos, int scoreX, int scoreY, double scoreR, int time, double time2){
+        intakeSampleLast2point0(extPos, time2);
         teleOp.bucketTransfer(scoreX, scoreY, scoreR);
         scoreSampleForLast(scoreX, scoreY, scoreR, time);
     }
@@ -1569,7 +1568,7 @@ public class BucketAuto extends AutoSequence {
         queue.addTask(sample);
     }
 
-    public void intakeSampleLast2point0(double x, double y, double deg, double extPos, double time) {
+    public void intakeSampleLast2point0(double extPos, double time) {
         TaskList sample = new TaskList();
 
         manager.task(sample, () -> {
