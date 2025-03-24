@@ -50,7 +50,7 @@ public class RED_bucket_5 extends CuttleInitOpModeRobot2 {
         bucket.scoringBuckets2(-420, -525, 90, 5,-300, -470, 50, 250, 0,2);
         bucket.scoringBucketsLast(-940, -250, 170, 2.3,-240, -320, 50, 475,3);
 
-        bucket.middle2(-1320, 50, 0, -1450, 500, 0,-520, -300, 50, RED, BLUE);
+        bucket.middle2(-1320, 50, 0, -1450, 500, 0, RED, BLUE);
         //bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
 
         bucket.park(-1500, 0, 180,-1400, 350, 180);

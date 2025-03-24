@@ -131,9 +131,7 @@ public class v2CuttleOutake {
         claw.setPosition(0.35);
     }
 
-    public void openClaw(){
-        claw.setPosition(0.14);
-    }
+    public void openClaw(){claw.setPosition(0.14);}
 
     public void wristRight(){
         wrist.setPosition(0.95);
