@@ -132,6 +132,10 @@ public class BucketAuto extends AutoSequence {
         intakeSample6(extPos, time2);
         //if(intake.getColor() == null){queue.clear();}
         teleOp.bucketTransfer6(scoreX, scoreY, scoreR);
+        queue.addTask(new CustomTask(() -> {
+            extendoPosition = extLast;
+            return true;
+        }));
         scoreSample6(time, extLast, inX, inY, inR);
     }
     public void scoringBuckets6Pt2(int inX, int inY, double inR, double extPos, int scoreX, int scoreY, double scoreR, int time, double extLast, double time2){
