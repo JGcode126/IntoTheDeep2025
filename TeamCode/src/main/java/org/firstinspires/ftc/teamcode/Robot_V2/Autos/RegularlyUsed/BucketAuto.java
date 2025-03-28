@@ -299,7 +299,7 @@ public class BucketAuto extends AutoSequence {
                     intake.in();
                     intake.turntableRight();
                     //intake.turntableCustom(0.35);
-                    dt.drive(0,-0.28,0);
+                    dt.drive(0,-0.30,0);
                     extendoPosition = 2;
                 }
 
@@ -315,7 +315,7 @@ public class BucketAuto extends AutoSequence {
                 if(timer.seconds() >= 3.5){
                     intake.in();
                     intake.turntableLeft();
-                    dt.drive(0,0.28,0);
+                    dt.drive(0,0.3,0);
                     extendoPosition = 2;
                 }
 
@@ -382,7 +382,7 @@ public class BucketAuto extends AutoSequence {
             intake.in();
         });
 
-        manager.delay(mess, 250);
+        manager.delay(mess, 400);
 
         manager.task(mess, () -> {
             intake.clawClose();
@@ -750,7 +750,7 @@ public class BucketAuto extends AutoSequence {
             intake.in();
         });
 
-        manager.delay(mess, 200);
+        manager.delay(mess, 300);
 
         manager.task(mess, () -> {
             intake.clawClose();
@@ -1413,7 +1413,7 @@ public class BucketAuto extends AutoSequence {
         });
 
         manager.task(sample, () -> {
-            dt.drive(0.225,-0.30,0);
+            dt.drive(0.3,-0.30,0);
         });
 
         sample.addTask(new CustomTask(() -> {
