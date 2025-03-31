@@ -1202,22 +1202,24 @@ public class BucketAuto extends AutoSequence {
 
         queue.addTask(scoringSample);
 
-//        TaskList pos = new TaskList();
-//
-//        manager.waypointTask(pos, new Pose(x2, y2, Math.toRadians(r2)),0.6,0.1,20,false);
-//
-//        TaskList slideControl = new TaskList();
-//
-//        manager.task(scoringSample, () -> {
-//            outake.readyPos();
-//            intake.intakeDown();
-//        });
-//
-//        manager.task(scoringSample, () -> {
-//            liftPosition = 0;
-//        });
-//
-//        manager.forkTask(pos, slideControl);
+        TaskList pos = new TaskList();
+
+
+        TaskList slideControl = new TaskList();
+
+        manager.task(scoringSample, () -> {
+            outake.readyPos();
+            intake.intakeDown();
+        });
+
+        manager.task(scoringSample, () -> {
+            liftPosition = 0;
+        });
+
+        manager.waypointTask(pos, new Pose(x2, y2, Math.toRadians(r2)),0.5,0.1,20,false);
+
+
+        manager.forkTask(pos, slideControl);
     }
 
     public void scoreSampleForSecondEnd(int time, double extLast, double x2, double y2, double r2) {
@@ -1526,6 +1528,7 @@ public class BucketAuto extends AutoSequence {
     public void intakeSampleLast2point0(double extPos, double time) {
         TaskList sample = new TaskList();
 
+        manager.delay(sample, 500);
         manager.task(sample, () -> {
             timer.reset();
             intake.in();
