@@ -130,7 +130,6 @@ public class BucketAuto extends AutoSequence {
 
     public void scoringBuckets6(int inX, int inY, double inR, double extPos, int scoreX, int scoreY, double scoreR, int time, double extLast, double time2){
         intakeSample6(extPos, time2);
-        //if(intake.getColor() == null){queue.clear();}
         teleOp.bucketTransfer6(scoreX, scoreY, scoreR);
         scoreSample6(time, extLast, inX, inY, inR);
     }
@@ -1203,22 +1202,22 @@ public class BucketAuto extends AutoSequence {
 
         queue.addTask(scoringSample);
 
-        TaskList pos = new TaskList();
-
-        manager.waypointTask(pos, new Pose(x2, y2, Math.toRadians(r2)),0.6,0.1,20,false);
-
-        TaskList slideControl = new TaskList();
-
-        manager.task(scoringSample, () -> {
-            outake.readyPos();
-            intake.intakeDown();
-        });
-
-        manager.task(scoringSample, () -> {
-            liftPosition = 0;
-        });
-
-        manager.forkTask(pos, slideControl);
+//        TaskList pos = new TaskList();
+//
+//        manager.waypointTask(pos, new Pose(x2, y2, Math.toRadians(r2)),0.6,0.1,20,false);
+//
+//        TaskList slideControl = new TaskList();
+//
+//        manager.task(scoringSample, () -> {
+//            outake.readyPos();
+//            intake.intakeDown();
+//        });
+//
+//        manager.task(scoringSample, () -> {
+//            liftPosition = 0;
+//        });
+//
+//        manager.forkTask(pos, slideControl);
     }
 
     public void scoreSampleForSecondEnd(int time, double extLast, double x2, double y2, double r2) {
@@ -1412,12 +1411,14 @@ public class BucketAuto extends AutoSequence {
             timer.reset();
         });
 
-        manager.task(sample, () -> {
+        /*manager.task(sample, () -> {
             dt.drive(0.3,-0.30,0);
-        });
+        });*/
 
         sample.addTask(new CustomTask(() -> {
             boolean quit = false;
+            dt.drive(0.3,-0.30,0);
+
             extendoPosition = extPos;
 
             if (timer.seconds() > time) {
