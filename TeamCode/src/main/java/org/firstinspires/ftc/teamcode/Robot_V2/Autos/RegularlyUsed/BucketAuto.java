@@ -158,7 +158,7 @@ public class BucketAuto extends AutoSequence {
 
     public void scoringBucketsLast2point0(double extPos, int scoreX, int scoreY, double scoreR, int time, double time2){
         intakeSampleLast2point0(extPos, time2);
-        teleOp.bucketTransfer(scoreX, scoreY, scoreR);
+        teleOp.bucketTransfer6(scoreX, scoreY, scoreR);
         scoreSampleForLast(scoreX, scoreY, scoreR, time);
     }
 
@@ -969,8 +969,6 @@ public class BucketAuto extends AutoSequence {
     public void scoreSampleForLast(double x, double y, double r1, int time) {
         TaskList scoringSample = new TaskList();
 
-        manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.8,0.2,20,false);
-
         manager.task(scoringSample, () -> {
             sweeper.broomIn();
             outake.scorePosMid();
@@ -992,6 +990,8 @@ public class BucketAuto extends AutoSequence {
         });
 
         manager.delay(scoringSample, 100);
+
+        manager.waypointTask(scoringSample, new Pose(x, y, Math.toRadians(r1)),0.6,0.2,20,false);
 
         queue.addTask(scoringSample);
     }
@@ -1216,7 +1216,7 @@ public class BucketAuto extends AutoSequence {
             liftPosition = 0;
         });
 
-        manager.waypointTask(pos, new Pose(x2, y2, Math.toRadians(r2)),0.5,0.1,20,false);
+        manager.waypointTask(pos, new Pose(x2, y2, Math.toRadians(r2)),0.2,0.1,20,false);
 
 
         manager.forkTask(pos, slideControl);
@@ -1700,16 +1700,11 @@ public class BucketAuto extends AutoSequence {
             dt.drive(0,0,0);
         });
 
-        //manager.delay(scoringSample, 200);
-
         manager.task(scoringSample, () -> {
             outake.openClaw();
             intake.clawOpen();
             intake.intakeDown();
-            //intake.in();
         });
-
-
 
         manager.addTask(scoringSample);
 
@@ -1724,7 +1719,6 @@ public class BucketAuto extends AutoSequence {
             liftPosition = 0;
             intake.turntableCustom(0.6);
             intake.in();
-            //intake.intakeDown();
             intake.clawOpen();
         });
 
