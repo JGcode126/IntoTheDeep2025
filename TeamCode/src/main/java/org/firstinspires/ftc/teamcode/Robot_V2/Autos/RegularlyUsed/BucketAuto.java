@@ -1198,12 +1198,9 @@ public class BucketAuto extends AutoSequence {
 
         manager.delay(scoringSample, 200);
 
-        //manager.delay(scoringSample, 200);
-
         queue.addTask(scoringSample);
 
         TaskList pos = new TaskList();
-
 
         TaskList slideControl = new TaskList();
 
@@ -1216,7 +1213,7 @@ public class BucketAuto extends AutoSequence {
             liftPosition = 0;
         });
 
-        manager.waypointTask(pos, new Pose(x2, y2, Math.toRadians(r2)),0.2,0.1,20,false);
+        manager.waypointTask(pos, new Pose(x2, y2, Math.PI/2),0.2,0.1,20,false);
 
 
         manager.forkTask(pos, slideControl);
@@ -1680,7 +1677,7 @@ public class BucketAuto extends AutoSequence {
 
         TaskList driveTo = new TaskList();
 
-        manager.waypointTask(driveTo, new Pose(xPos, yPos, Math.toRadians(r)),0.8,0.6,20,false);
+        manager.waypointTask(driveTo, new Pose(xPos, yPos, Math.toRadians(r)),0.8,0.3,20,false);
 
         manager.forkTask(driveTo, slides);
 
