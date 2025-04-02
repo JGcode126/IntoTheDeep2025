@@ -96,6 +96,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             intake.intakeMachineColor(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.left_stick_x, inColor, rejectColor);
             //intake.intakeMachine(gamepad2.dpad_down, gamepad2.right_trigger, gamepad2.dpad_up, gamepad2.left_trigger, gamepad2.left_stick_x);
             if(gamepad1.b){
+                gamepad1.rumble(100);
                 extendoMotor.setPower(-0.5);
                 rightBackSlides.setPower(0.3);
                 leftbackSlides.setPower(0.3);
@@ -211,10 +212,12 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         if(toolOp.isDown(GamepadKeys.Button.Y) && toolOp.stateJustChanged(GamepadKeys.Button.Y)){
             switch (inColor){
                 case BLUE:
+                    gamepad1.rumble(800);
                     inColor = RED;
                     rejectColor = BLUE;
                     break;
                 case RED:
+                    gamepad1.rumble(200);
                     inColor = BLUE;
                     rejectColor = RED;
                     break;
@@ -266,7 +269,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             intake.armUp();
             intake.clawServo.setPosition(0.45);
             outake.readyPos();
-            finalExtendoPos = -5;
+            finalExtendoPos = -1;
             finalLiftPos = 0;
             telemetry.addData("tranfer sequence running", true);
             return true;

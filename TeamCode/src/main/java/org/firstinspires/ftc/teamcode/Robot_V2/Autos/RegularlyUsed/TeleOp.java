@@ -182,7 +182,7 @@ public class TeleOp extends CuttleInitOpModeRobot2 {
     public void bucketTransfer6(int x, int y, double r){
         TaskList scoring = new TaskList();
 
-        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.8,0.6,150,false);
+        manager.waypointTask(scoring, new Pose(x, y, Math.toRadians(r)),0.4,0.2,40,false);
 
         TaskList transfer = new TaskList();
 

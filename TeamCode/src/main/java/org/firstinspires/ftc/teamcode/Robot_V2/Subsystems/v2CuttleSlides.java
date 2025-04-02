@@ -66,9 +66,8 @@ public class v2CuttleSlides {
         double power = (pid + ff) * -1;
 
         // Apply scaling only when the slides are moving down
-        if (error < 0) { // Only when moving down
-            double scalingFactor = Math.max(0.1, Math.min(1.0, Math.abs(error) / 10.0));
-            power *= scalingFactor;
+        if (power > 0) { // Only when moving down
+            power = power * 0.04;
         }
 
         // Set the motor power
@@ -95,7 +94,7 @@ public class v2CuttleSlides {
                 if(buttonHIGHSUB){currentState = HIGHSUB;}
                 break;
             case HIGH_BUCKET:
-                liftPosition = 10; //good
+                liftPosition = 10.2; //good
                 if(buttonIN){currentState = IN;}
                 if(buttonLOWBUCKET){currentState = LOW_BUCKET;}
                 if(buttonLOWSUB){currentState = LOWSUB;}
