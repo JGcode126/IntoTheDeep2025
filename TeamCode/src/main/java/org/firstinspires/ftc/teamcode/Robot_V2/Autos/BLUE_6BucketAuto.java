@@ -14,9 +14,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 
-@Autonomous(name = "RED_bucket_5", group = "Example")
+@Autonomous(name = "BLUE_6bucket", group = "Example")
 @Config
-public class RED_bucket_5 extends CuttleInitOpModeRobot2 {
+public class BLUE_6BucketAuto extends CuttleInitOpModeRobot2 {
     v2CuttleIntake.Color rejectColor;
     v2CuttleIntake.Color inColor;
     private ElapsedTime totalAutoTime = new ElapsedTime();
@@ -24,6 +24,8 @@ public class RED_bucket_5 extends CuttleInitOpModeRobot2 {
     public void onInit() {
         super.onInit();
         bucketAuto = true;
+        specimenAuto = false;
+
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         setup.initRobot();
@@ -40,20 +42,19 @@ public class RED_bucket_5 extends CuttleInitOpModeRobot2 {
             inColor = BLUE;
         }
 
+
         totalAutoTime.reset();
         liftPosController.setHome();
         extendoPosController.setHome();
 
-        bucket.scoreFirstSample2(-280, -460,60, 200);
+        bucket.scoreFirstSample6(-280, -440,60, 200, -280, -420, 60);
 
-        bucket.scoringBuckets2(-350, -240, 90, 5,-300, -470, 50, 250, 0.5,2);
-        bucket.scoringBuckets2(-420, -525, 90, 5,-300, -470, 50, 250, 0,2);
-        bucket.scoringBucketsLast(-940, -250, 170, 2.3,-240, -320, 50, 475,3);
+        bucket.scoringBuckets6(-460, -500, 90,5,-310, -490, 50, 600, 1.5,0.5);
+        bucket.scoringBuckets6Pt2(-600, -450, 90, 3,-280, -450, 50, 00, 0,1);
+        bucket.scoringBucketsLast2point0(2,-320, -430, 50, 1.5, -1200, -100,0);
 
-        bucket.middle2(-1320, 50, 0, -1450, 500, 0, RED, BLUE);
-        //bucket.middle3(-1600, 0, 0, -1600, 500, 0,-530, -390, 50, RED, BLUE);
-
-        bucket.park(-1500, 0, 180,-1400, 350, 180);
+        bucket.middle2(-1600, 50, 0, -620, -240, 50, BLUE, RED);
+        bucket.middle3(-1600, 0, 0, -680, -410, 50, BLUE, RED);
     }
 
     public void mainLoop() {

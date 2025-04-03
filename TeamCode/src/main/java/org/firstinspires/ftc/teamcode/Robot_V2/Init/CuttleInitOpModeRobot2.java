@@ -53,8 +53,8 @@ import org.firstinspires.ftc.teamcode.Testing.SparkFunOTOS;
 @Config
 public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
     // Declare the rev hubs. If you only have one hub connected you can delete one of these
-
     public boolean bucketAuto = false;
+    public boolean specimenAuto = false;
     public CuttleRevHub ctrlHub;
     public CuttleRevHub expHub;
     public GamepadEx toolOp;
@@ -355,15 +355,13 @@ public abstract class CuttleInitOpModeRobot2 extends GamepadOpMode{
         fusionLocalizer.setPos(new Pose(fusionLocation[0], fusionLocation[1], fusionLocation[2]));
 
         //setSlidePosition(liftPosition);
-        lift.setLiftPosition(liftPosition);
+        //lift.setLiftPosition(liftPosition);
 
-        if (bucketAuto){
-            extendo.setSlidePositionSlower(extendoPosition);
-        }
+        if (bucketAuto){extendo.setSlidePositionSlower(extendoPosition);}
+        else{extendo.setSlidePosition(extendoPosition);}
 
-        else{
-            extendo.setSlidePosition(extendoPosition);
-        }
+        if (specimenAuto){lift.setLiftPositionFaster(liftPosition);}
+        else{lift.setLiftPosition(liftPosition);}
 /*
         if (intake.intakeState != LOOKING && !gamepad1.share) {
             extendo.setSlidePosition(extendoPosition);

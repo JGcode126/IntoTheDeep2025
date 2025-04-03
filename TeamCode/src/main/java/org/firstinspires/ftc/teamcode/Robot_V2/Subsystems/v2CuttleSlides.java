@@ -75,6 +75,38 @@ public class v2CuttleSlides {
         liftMotorLeft.setPower(power);
     }
 
+    public void setLiftPositionFaster(double targetPosition) {
+        // Clamp the target position within the allowed range
+        double clampedTarget = Math.max(-0.01, Math.min(10.2, targetPosition));
+
+        // Low-pass filtering on the current position
+        double currentPos = getPos();
+        filteredPosition = alpha * currentPos + (1 - alpha) * filteredPosition;
+
+        // Calculate the distance to the target
+        double error = clampedTarget - filteredPosition;
+
+        // PID control using the filtered position
+        controller.setPID(p, i, d);
+        double pid = controller.calculate(filteredPosition, clampedTarget);
+
+        // Feedforward term
+        double ff = 0.08;
+
+        // Calculate base power
+        double power = (pid + ff) * -1;
+
+        // Apply scaling only when the slides are moving down
+        if (error < 0) { // Only when moving down
+            double scalingFactor = Math.max(0.1, Math.min(1.0, Math.abs(error) / 10.0));
+            power *= scalingFactor;
+        }
+
+        // Set the motor power
+        liftMotorRight.setPower(power);
+        liftMotorLeft.setPower(power);
+    }
+
 
     public double liftMachine(boolean buttonIN, boolean buttonLOWBUCKET, boolean buttonHIGHBUCKET, boolean buttonLOWSUB, boolean buttonHIGHSUB, boolean upOffset, boolean downOffset){
         switch (currentState){

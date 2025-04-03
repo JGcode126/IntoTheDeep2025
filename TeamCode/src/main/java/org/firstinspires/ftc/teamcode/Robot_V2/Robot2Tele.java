@@ -62,6 +62,9 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         //intake.initPos();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hangTimer = new ElapsedTime();
+
+        bucketAuto = false;
+        specimenAuto = false;
     }
     public void main() {
         super.main();

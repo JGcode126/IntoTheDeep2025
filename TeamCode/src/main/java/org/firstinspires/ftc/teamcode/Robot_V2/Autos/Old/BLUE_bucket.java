@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Robot_V2.Autos;
+package org.firstinspires.ftc.teamcode.Robot_V2.Autos.Old;
 
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.BLUE;
 import static org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake.Color.RED;
@@ -26,6 +26,7 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Subsystems.v2CuttleIntake;
 
 @Autonomous(name = "BLUE_bucket_5", group = "Example")
 @Config
+@Disabled
 public class BLUE_bucket extends CuttleInitOpModeRobot2 {
     v2CuttleIntake.Color rejectColor;
     v2CuttleIntake.Color inColor;
