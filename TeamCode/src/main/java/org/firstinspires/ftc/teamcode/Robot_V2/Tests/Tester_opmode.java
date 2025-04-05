@@ -13,11 +13,10 @@ import org.firstinspires.ftc.teamcode.Robot_V2.Init.CuttleInitOpModeRobot2;
 
 @TeleOp
 @Config
-@Disabled
+//@Disabled
 public class Tester_opmode extends CuttleInitOpModeRobot2 {
     ElapsedTime timer;
     public static double pos = 0;
-    DigitalChannel pin0, pin1;
 
     public void onInit() {
         super.onInit();
@@ -28,11 +27,10 @@ public class Tester_opmode extends CuttleInitOpModeRobot2 {
         super.main();
         timer.reset();
 
-
     }
     public void mainLoop() {
         super.mainLoop();
-
+        liftPosition = pos;
         telemetry.addData("draw", dt.leftBackMotor.getCurrent());
         telemetry.update();
     }

@@ -122,7 +122,7 @@ public class SpecimenAuto extends AutoSequence {
         manager.task(scoring, ()->{outake.closeClaw();});
 
         manager.task(scoring, () -> {
-            liftPosition = 2.9;
+            liftPosition = 3;
         });
 
         queue.addTask(scoring);
@@ -535,7 +535,7 @@ public class SpecimenAuto extends AutoSequence {
         manager.task(setup, ()->{
             extendoPosition = 0;
             intake.armUp();
-            liftPosition = 2.8;
+            liftPosition = 3;
             outake.backIntakePos();
             outake.openClaw();
         });

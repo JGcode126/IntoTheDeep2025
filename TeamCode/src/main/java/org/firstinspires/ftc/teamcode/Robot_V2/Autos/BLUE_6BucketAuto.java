@@ -33,15 +33,6 @@ public class BLUE_6BucketAuto extends CuttleInitOpModeRobot2 {
 
     public void main(){
         super.main();
-        if (intake.getSignColor() == BLUESIGN){
-            rejectColor = BLUE;
-            inColor = RED;
-        }
-        if (intake.getSignColor() == REDSIGN){
-            rejectColor = RED;
-            inColor = BLUE;
-        }
-
 
         totalAutoTime.reset();
         liftPosController.setHome();
@@ -124,6 +115,7 @@ public class BLUE_6BucketAuto extends CuttleInitOpModeRobot2 {
         }else{
             failSafeTimer.reset();
         }*/
+        telemetry.addData("Incolor", inColor);
         setup.telemetryData();
     }
 }

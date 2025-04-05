@@ -38,8 +38,8 @@ public class v2CuttleIntake {
 
     double clawInit = 1, clawGrab = 0.55, triggerTrigger = 0.1;
 
-    double turntablePos = 0.5;
-    public final double turntableInitPos = 0.5;
+    double turntablePos = 0.475;
+    public final double turntableInitPos = 0.475;
 
     public String colorLight;
     public v2CuttleIntake(CuttleServo claw, CuttleServo tt, HardwareMap hardwareMap, CuttleServo light, String color, CuttleDigital in1, CuttleDigital in2){
@@ -83,13 +83,13 @@ public class v2CuttleIntake {
         intakePos(0.5);
     }
     public void turntableRight(){
-        intakePos(0.7);
+        intakePos(turntableInitPos+0.2);
     }
     public void turntableCustom(double amount){
         intakePos(amount);
     }
     public void turntableLeft(){
-        intakePos(0.2);
+        intakePos(turntableInitPos-0.3);
     }
     public void turntableMiddle(){
         intakePos(turntableInitPos);

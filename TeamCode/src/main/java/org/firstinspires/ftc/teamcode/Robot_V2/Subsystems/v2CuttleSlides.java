@@ -24,7 +24,7 @@ public class v2CuttleSlides {
     double liftPosition, positionOffset = 0, positionOffset2 = 0;
 
     private PIDController controller;
-    public static double p = 1, i = 0.0, d = 0.04;
+    public static double p = 0.4, i = 0.0, d = 0;
     private double alpha = 0.775;
     private double power = 0;
     private double filteredPosition = 0.0; // Initial filtered position
@@ -44,7 +44,40 @@ public class v2CuttleSlides {
     }
 
 
-    public void setLiftPosition(double targetPosition) {
+    public void setLiftPosition(double position) {
+
+        double NewPosition = position;
+        double ff = 0.16;
+        if (position >= 10.2){
+            NewPosition = 10.2;
+        }
+        if (position <= 0){
+            NewPosition = -0.01;
+        }
+
+        controller.setPID(p, i, d);
+        double pid = controller.calculate(getPos(), NewPosition);
+        double pidDirection = pid;
+        if (-pidDirection > 0){
+            ff = ff * -1;
+        }
+
+        double power = (pid + ff) * -1;
+
+        if (power > 0) { // Only when moving down
+            power = power * 0.04;
+        }
+
+        if (getPos() < 0.1 && power > -0.3){
+            power = 0.05;
+        }
+
+        liftMotorRight.setPower(power);
+        liftMotorLeft.setPower(power);
+
+
+
+        /*
         // Clamp the target position within the allowed range
         double clampedTarget = Math.max(-0.01, Math.min(10.2, targetPosition));
 
@@ -73,9 +106,36 @@ public class v2CuttleSlides {
         // Set the motor power
         liftMotorRight.setPower(power);
         liftMotorLeft.setPower(power);
+
+         */
     }
 
-    public void setLiftPositionFaster(double targetPosition) {
+    public void setLiftPositionFaster(double position) {
+        double NewPosition = position;
+        double ff = 0.16;
+        if (position >= 10.2){
+            NewPosition = 10.2;
+        }
+        if (position <= 0){
+            NewPosition = -0.01;
+        }
+
+        controller.setPID(p, i, d);
+        double pid = controller.calculate(getPos(), NewPosition);
+        double pidDirection = pid;
+        if (-pidDirection > 0){
+            ff = ff * -1;
+        }
+
+        double power = (pid + ff) * -1;
+
+        if (getPos() < 0.1 && power > -0.3){
+            power = 0.05;
+        }
+
+        liftMotorRight.setPower(power);
+        liftMotorLeft.setPower(power);
+        /*
         // Clamp the target position within the allowed range
         double clampedTarget = Math.max(-0.01, Math.min(10.2, targetPosition));
 
@@ -105,6 +165,8 @@ public class v2CuttleSlides {
         // Set the motor power
         liftMotorRight.setPower(power);
         liftMotorLeft.setPower(power);
+
+         */
     }
 
 
@@ -152,7 +214,7 @@ public class v2CuttleSlides {
                 break;
             case BACKINTAKEPOS:
                 //2
-                liftPosition = 2.8 + positionOffset;
+                liftPosition = 2.95 + positionOffset;
                 if(upOffset){positionOffset += 0.05;}
                 if(downOffset){positionOffset -= 0.05;}
                 if(buttonIN){currentState = IN;}

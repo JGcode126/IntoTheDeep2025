@@ -24,7 +24,9 @@ public class v2CuttleExtendo {
     private PIDController controller;
     private final double ticks_in_degree = 384.5/360.0;
     private static final double JOYSTICK_SCALE = 1;  // Adjust as needed make higher for less sensitive
-    public static double p = 1.7, i = 0, d = 0.04;
+    public static double p = 0.5, i = 0, d = 0.0;
+    //public static double p = 1.7, i = 0, d = 0.04;
+
     public static double p2 = 0.4, i2 = 0, d2 = 0;
     //0.9, 0.05
 
@@ -74,7 +76,9 @@ public class v2CuttleExtendo {
 
         controller.setPID(p, i, d);
         double pid = controller.calculate(getPos(), NewPosition);
-        extendoMotor.setPower((pid + extraPower)*0.15);
+        //extendoMotor.setPower((pid + extraPower)*0.15);
+        extendoMotor.setPower((pid + extraPower));
+
     }
     public void setSlidePositionColor(double position){
         //7.3 is max
