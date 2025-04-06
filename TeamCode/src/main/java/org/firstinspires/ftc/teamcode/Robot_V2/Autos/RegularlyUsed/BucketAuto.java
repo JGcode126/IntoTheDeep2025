@@ -1516,7 +1516,7 @@ public class BucketAuto extends AutoSequence {
         manager.task(sample, () -> {
             timer.reset();
             intake.in();
-            liftPosition = 0;
+            liftPosition = -1;
             intake.clawOpen();
         });
 
