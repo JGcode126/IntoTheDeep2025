@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboctopi.cuttlefish.utils.Pose;
 
-import org.firstinspires.ftc.teamcode.IntoTheDeep.Init.CuttleInitOpMode;
+import org.firstinspires.ftc.teamcode.IntoTheDeep.Cuttlefish.Init.CuttleInitOpMode;
 
 
 @TeleOp

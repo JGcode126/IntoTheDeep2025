@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
-public class Teleop extends LinearOpMode {
+public class Limelight extends LinearOpMode {
 
     private Limelight3A limelight;
 
