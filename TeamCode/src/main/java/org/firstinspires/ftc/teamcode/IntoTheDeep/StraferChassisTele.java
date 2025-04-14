@@ -43,7 +43,7 @@ public class StraferChassisTele extends LinearOpMode {
             motor1.setPower(frontLeftPower/2);
             motor3.setPower(backLeftPower/2);
             motor2.setPower(frontRightPower/2);
-            motor4.setPower(backRightPower/2);
+            motor4.setPower(backRightPower/2 );
         }
     }
 }

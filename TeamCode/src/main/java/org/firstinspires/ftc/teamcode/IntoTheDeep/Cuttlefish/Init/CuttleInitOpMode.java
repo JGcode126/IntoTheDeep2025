@@ -79,10 +79,10 @@ public abstract class CuttleInitOpMode extends GamepadOpMode {
         Get the chassis motors
         Make sure to replace the ports and hubs of each motor with the corresponding ports and hubs on your robot
          */
-        leftFrontMotor  = ctrlHub.getMotor(2);
-        leftBackMotor   = ctrlHub.getMotor(3);
-        rightFrontMotor = ctrlHub.getMotor(0);
-        rightBackMotor  = ctrlHub.getMotor(1);
+        leftFrontMotor  = ctrlHub.getMotor(3);
+        leftBackMotor   = ctrlHub.getMotor(2);
+        rightFrontMotor = ctrlHub.getMotor(1);
+        rightBackMotor  = ctrlHub.getMotor(0);
 
         leftFrontMotor.setDirection(Direction.REVERSE);
         leftBackMotor.setDirection(Direction.REVERSE);
