@@ -13,6 +13,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.localization.PoseUpdater;
+import com.pedropathing.localization.constants.PinpointConstants;
 import com.pedropathing.util.Constants;
 import com.pedropathing.util.DashboardPoseTracker;
 import com.pedropathing.util.Drawing;
@@ -99,9 +100,9 @@ public class LocalizationTest extends OpMode {
         poseUpdater.update();
         dashboardPoseTracker.update();
 
-        double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-        double x = gamepad1.left_stick_x; // this is strafing
-        double rx = gamepad1.right_stick_x;
+        double y = -gamepad1.right_stick_y; // Remember, this is reversed!
+        double x = gamepad1.right_stick_x; // this is strafing
+        double rx = gamepad1.left_stick_x;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
@@ -121,6 +122,7 @@ public class LocalizationTest extends OpMode {
         telemetryA.addData("y", poseUpdater.getPose().getY());
         telemetryA.addData("heading", poseUpdater.getPose().getHeading());
         telemetryA.addData("total heading", poseUpdater.getTotalHeading());
+        telemetryA.addData("constants", PinpointConstants.forwardY);
         telemetryA.update();
 
         Drawing.drawPoseHistory(dashboardPoseTracker, "#4CAF50");
