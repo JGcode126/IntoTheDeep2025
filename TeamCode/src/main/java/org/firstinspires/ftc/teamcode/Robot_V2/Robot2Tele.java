@@ -74,6 +74,10 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
         //encoderLocalizer.getPos().setR(Math.PI/2);
         encoderLocalizer.reset();
         outake.readyPos();
+
+        rejectColor = BLUE;
+        inColor = RED;
+
         if (intake.getSignColor() == BLUESIGN){
             rejectColor = BLUE;
             inColor = RED;
@@ -82,6 +86,10 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
             rejectColor = RED;
             inColor = BLUE;
         }
+
+
+        //inColor = BLUE;
+        //rejectColor = RED;
         //hangTimer.reset();
         hang.teleHeight();
         sweeper.broomIn();
@@ -242,6 +250,7 @@ public class Robot2Tele extends CuttleInitOpModeRobot2{
 
 
         telemetry.addData("sweeping?", sweeping);
+        telemetry.addData("Color", intake.getColor());
         telemetry.addData("alliance", inColor);
         telemetry.addData("intake state", intake.intakeState);
         telemetry.addData("outtake state", outake.outakeState);

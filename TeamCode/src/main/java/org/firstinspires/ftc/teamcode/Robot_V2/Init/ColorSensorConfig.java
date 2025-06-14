@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchSimple;
 
 
 @TeleOp
-@Disabled
 public class ColorSensorConfig extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,6 +21,8 @@ public class ColorSensorConfig extends LinearOpMode {
         only pin1 --> red
         neither   --> no object
          */
+
+
         crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 170 / 360.0 * 255, 250 / 360.0 * 255); // blue
         crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 55 / 360.0 * 255, 100 / 360.0 * 255); // yellow
         crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 25); // 20mm or closer requirement
